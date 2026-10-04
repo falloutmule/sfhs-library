@@ -1,0 +1,30 @@
+{
+  "name": "sfhs-library",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-first library and preservation tool for browser software.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "build:check": "node tools/build.mjs --check",
+    "dev": "node tools/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "catalog": "node tools/update-catalog.mjs",
+    "corpus:acquire": "node tools/acquire-corpus.mjs",
+    "test:corpus": "node tests/corpus.mjs"
+  },
+  "dependencies": {
+    "acorn": "8.17.0",
+    "es-module-lexer": "2.3.1",
+    "fflate": "0.8.3",
+    "parse5": "8.0.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.1",
+    "playwright": "1.61.1"
+  }
+}

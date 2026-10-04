@@ -1,0 +1,12 @@
+{
+  "id": "./",
+  "name": "SFHS Library",
+  "short_name": "SFHS Library",
+  "description": "Your software. Your collection. Yours to keep.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#121412",
+  "theme_color": "#121412",
+  "icons": [{ "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

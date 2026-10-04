@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#171915">
+  <meta name="description" content="A personal library for browser software. Discover, keep, launch, and back up compatible HTML apps and games on your own device.">
+  <title>SFHS Library — Software worth keeping</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23d3ef85'/%3E%3Cpath d='M17 17h11v30H17zm15 0h7v30h-7zm10 1 7-1 4 30-7 1z' fill='%23171915'/%3E%3C/svg%3E">
+  <style><!--APP_CSS--></style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 4h5v16H4zM12 4h3v16h-3zM18 5l3-.5 2 15-3 .5z"/></symbol>
+    <symbol id="i-discover" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m16 8-2.5 5.5L8 16l2.5-5.5Z"/></symbol>
+    <symbol id="i-backup" viewBox="0 0 24 24"><path d="M4 8v12h16V8M3 4h18v4H3zM9 12h6M12 16v-4"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 16v5h16v-5"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4M9 15l-2 2a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0M13 9l2-2a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 3 8 3v5c0 5-8 10-8 10S4 16 4 11V6Z"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V4h6l3 3h9v13H3Z"/></symbol>
+    <symbol id="i-device" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#library" aria-label="SFHS Library home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg></span>
+        <span class="brand-name">SFHS<span>LIBRARY</span></span>
+      </a>
+      <div class="sidebar-label">YOUR SPACE</div>
+      <nav class="primary-nav" aria-label="Library navigation">
+        <button type="button" class="nav-item" data-view="library" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg><span>Library</span><span class="nav-dot" aria-hidden="true"></span></button>
+        <button type="button" class="nav-item" data-view="discover"><svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg><span>Discover</span></button>
+        <button type="button" class="nav-item" data-view="backups"><svg class="icon" aria-hidden="true"><use href="#i-backup"/></svg><span>Backups</span></button>
+        <button type="button" class="nav-item" data-view="settings"><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg><span>Settings</span></button>
+      </nav>
+
+      <div class="collection-heading"><span class="sidebar-label">COLLECTIONS</span><button type="button" id="add-collection" class="icon-button" aria-label="Create collection" title="Create collection"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></button></div>
+      <div id="collection-list" class="collection-list"><p class="sidebar-hint">A little order for everything you keep.</p></div>
+
+      <div class="sidebar-foot">
+        <div class="local-indicator"><span class="status-dot" aria-hidden="true"></span> Local by design</div>
+        <p>Your software. Your device.<br>No account required.</p>
+        <div class="sidebar-edition">A HOME FOR BROWSER SOFTWARE</div>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <a class="mobile-brand" href="#library" aria-label="SFHS Library home"><span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg></span><span>SFHS <b>Library</b></span></a>
+        <div class="global-search-wrap"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="global-search" type="search" placeholder="Search your library" aria-label="Search your library" autocomplete="off"><kbd class="search-hint" aria-hidden="true">/</kbd></div>
+        <div id="connection-status" class="connection-status"><span class="status-dot" aria-hidden="true"></span><span>On your device</span></div>
+      </header>
+
+      <main id="main-content" tabindex="-1">
+        <section id="view-library" class="view" aria-labelledby="library-heading">
+          <div class="page-heading">
+            <div><p class="eyebrow">KEEP THE GOOD STUFF</p><h1 id="library-heading">Your library<span class="heading-period">.</span></h1><p class="page-description">A home for software worth keeping.</p></div>
+            <div class="heading-actions"><button type="button" id="import-url" class="button button-secondary"><svg class="icon" aria-hidden="true"><use href="#i-link"/></svg>From URL</button><button type="button" id="import-app" class="button button-primary"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Import app</button></div>
+          </div>
+          <input type="file" id="import-file" accept=".html,.htm,.zip,text/html,application/zip" hidden>
+          <div class="library-toolbar">
+            <div id="library-filters" class="filter-tabs" role="group" aria-label="Filter library">
+              <button type="button" class="filter-tab" data-filter="all" aria-pressed="true">All apps <span id="library-count" class="count-pill">0 applications</span></button>
+              <button type="button" class="filter-tab" data-filter="favorites" aria-pressed="false">Favorites</button>
+              <button type="button" class="filter-tab" data-filter="recent" aria-pressed="false">Recent</button>
+              <button type="button" class="filter-tab" data-filter="most-used" aria-pressed="false">Most used</button>
+              <button type="button" class="filter-tab" data-filter="new" aria-pressed="false">Newly added</button>
+            </div>
+            <div class="library-controls"><label class="select-wrap"><span class="sr-only">Category</span><select id="library-category" aria-label="Filter by category"><option value="all">All categories</option></select></label><label class="select-wrap"><span class="sr-only">Sort apps</span><select id="library-sort" aria-label="Sort apps"><option value="newest">Recently added</option><option value="name">Name A–Z</option><option value="recent">Last launched</option><option value="most-used">Most used</option></select></label></div>
+          </div>
+          <div class="library-refinements"><button type="button" id="mobile-collections" class="button button-secondary mobile-collections"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg>Collections</button><details class="advanced-filters"><summary>Refine library <span aria-hidden="true">+</span></summary><div class="advanced-filter-fields"><label class="field"><span>Source</span><select id="library-source"><option value="all">All sources</option><option value="device">Device imports</option><option value="github">GitHub</option><option value="itch">itch.io imports</option><option value="url">Direct URL</option></select></label><label class="field"><span>License</span><select id="library-license"><option value="all">All licenses</option><option value="open">Open licenses</option><option value="source-available">Source available</option><option value="proprietary">Proprietary / freeware</option><option value="unknown">License unknown</option></select></label><label class="field"><span>Runtime</span><select id="library-profile"><option value="all">All profiles</option><option value="native-sfhs">Native SFHS</option><option value="isolated-single-file">Isolated HTML</option><option value="isolated-packaged">Isolated package</option><option value="network-dependent">Network dependent</option></select></label><label class="field"><span>Offline</span><select id="library-offline"><option value="all">All network profiles</option><option value="candidate">Offline candidate</option><option value="network">Uses network</option></select></label></div></details></div><div id="library-grid" class="app-grid">
+            <div class="empty-state library-empty">
+              <div class="empty-art" aria-hidden="true"><div class="artifact-sheet artifact-sheet-back"></div><div class="artifact-sheet artifact-sheet-middle"></div><div class="artifact-sheet artifact-sheet-front"><svg class="artifact-glyph" viewBox="0 0 64 64" fill="none"><path d="m23 22-10 10 10 10M41 22l10 10-10 10M36 16l-8 32" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>YOURS TO KEEP</span><div class="artifact-line"></div><div class="artifact-line short"></div></div><span class="art-orbit orbit-one"></span><span class="art-orbit orbit-two"></span></div>
+              <p class="eyebrow">YOUR COLLECTION STARTS HERE</p><h2>Make room for your favorites.</h2><p>Bring an HTML app or ZIP from your device,<br class="desktop-break"> or discover something new to make your own.</p>
+              <button type="button" class="button button-primary" data-view="discover">Explore Discover<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+              <div class="empty-note"><svg class="icon" aria-hidden="true"><use href="#i-device"/></svg>Installed software stays on this device.</div>
+            </div>
+          </div>
+          <div class="library-footer"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><p>Keep a copy beyond this browser. <button type="button" class="text-button" data-view="backups">Back up your library</button></p><span class="footer-caption">COLLECT. LAUNCH. PRESERVE.</span></div>
+        </section>
+
+        <section id="view-discover" class="view" aria-labelledby="discover-heading" hidden>
+          <div class="page-heading"><div><p class="eyebrow">FIND YOUR NEXT KEEPER</p><h1 id="discover-heading">Discover<span class="heading-period">.</span></h1><p class="page-description">Browser software from independent corners of the web.</p></div><span class="outline-label">OPEN SOFTWARE FIRST</span></div>
+          <div class="discovery-intro"><div class="intro-icon"><svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg></div><div><h2>Explore freely. Install deliberately.</h2><p>Inspect the source, license, and compatibility before keeping a local copy. A source link is only the beginning.</p></div></div>
+          <form id="discover-form" class="discover-form">
+            <label class="field discover-search"><span>Find software</span><span class="input-icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="discover-query" name="q" type="search" placeholder="Try a game, editor, or creative tool" autocomplete="off" required></span></label>
+            <label class="field"><span>Source</span><select id="discover-source" name="source"><option value="all">All sources</option><option value="github">GitHub</option><option value="itch">itch.io · indexed catalog</option></select></label>
+            <button type="submit" class="button button-primary discover-submit">Search<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
+            <label class="checkbox-label"><input id="discover-open" type="checkbox" name="open"><span>Open licenses only</span></label>
+          </form>
+          <div id="discover-status" class="status-panel" role="status"><span class="status-dot" aria-hidden="true"></span>GitHub is searched live. itch.io uses a separately refreshed catalog.</div>
+          <div id="discover-grid" class="app-grid discovery-grid"><div class="empty-state compact-empty"><svg class="empty-icon" aria-hidden="true"><use href="#i-search"/></svg><h2>Good software is out there.</h2><p>Search to see what you can bring into your library.</p></div></div>
+        </section>
+
+        <section id="view-backups" class="view" aria-labelledby="backups-heading" hidden>
+          <div class="page-heading"><div><p class="eyebrow">KEEP YOUR COLLECTION WITH YOU</p><h1 id="backups-heading">Backups<span class="heading-period">.</span></h1><p class="page-description">A portable copy. A way back. Peace of mind.</p></div></div>
+          <div class="backup-hero"><div class="backup-hero-icon"><svg class="icon" aria-hidden="true"><use href="#i-backup"/></svg></div><div><p class="eyebrow">OWN THE COPY, TOO</p><h2>Browser storage isn't a backup.</h2><p>Your library lives on this device. Export it to a file you keep elsewhere, so a cleared browser never means starting over.</p></div></div>
+          <div class="backup-options">
+            <article class="panel backup-card"><span class="step-number">01 / EXPORT</span><div class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></div><h2>Take your library with you.</h2><p>One portable archive with your software, retained versions, collections, metadata, and supported saves.</p><ul class="check-list"><li>Original software and executable copies</li><li>Favorites, collections, and version history</li><li>Save data where the runtime supports it</li></ul><button type="button" id="export-library" class="button button-primary"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Export full library</button></article>
+            <article class="panel backup-card"><span class="step-number">02 / RESTORE</span><div class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg></div><h2>Pick up where you left off.</h2><p>Choose an SFHS Library backup from your files. Review the archive and restore your locally preserved software.</p><div class="restore-note"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg><p>Payload hashes are checked before an archive is restored. Save support stays clearly labeled for each app.</p></div><button type="button" id="restore-library" class="button button-secondary"><svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>Choose backup file</button><input type="file" id="restore-file" accept=".zip,application/zip" hidden></article>
+          </div>
+          <div id="backup-status" class="status-panel" role="status">Exported files are saved through your browser. Keep a copy somewhere you can find again.</div>
+        </section>
+
+        <section id="view-settings" class="view" aria-labelledby="settings-heading" hidden>
+          <div class="page-heading"><div><p class="eyebrow">A LIBRARY ON YOUR TERMS</p><h1 id="settings-heading">Settings<span class="heading-period">.</span></h1><p class="page-description">Understand your storage and keep the launcher close.</p></div></div>
+          <div class="settings-layout">
+            <article class="panel settings-panel"><div class="section-heading"><div class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-device"/></svg></div><div><h2>This device</h2><p class="muted">Software, versions, and supported state are kept locally.</p></div></div><div id="storage-status" class="storage-status" role="status">Checking browser storage…</div><meter id="storage-meter" class="storage-meter" min="0" max="100" value="0" aria-label="Estimated browser storage usage"></meter><div class="settings-row"><div><h3>Persistent storage</h3><p>Ask this browser to protect your library from automatic eviction. Keep exporting backups, even when persistence is granted.</p></div><button type="button" id="persist-storage" class="button button-secondary">Request persistence</button></div></article>
+            <article class="panel settings-panel"><div class="section-heading"><div class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg></div><div><h2>Your launcher</h2><p class="muted">Keep a standalone copy of SFHS Library.</p></div></div><div class="settings-row"><div><h3>Download SFHS Library</h3><p>A single HTML file you can keep. Export your library separately to preserve your installed apps and saves.</p></div><button type="button" id="download-launcher" class="button button-secondary"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Download HTML</button></div><div class="settings-row"><div><h3>Add to your home screen</h3><p>When supported, install the launcher for quick access. Your browser may also offer “Add to Home screen” in its menu.</p></div><button type="button" id="install-launcher" class="button button-secondary" hidden>Install launcher</button></div></article>
+            <article class="panel principles-panel"><p class="eyebrow">SMALL PRINT. CLEAR PROMISES.</p><h2>Your collection belongs to you.</h2><div class="principles-grid"><div><h3>No account</h3><p>No sign-in stands between you and your installed library.</p></div><div><h3>Honest compatibility</h3><p>Every app has its own runtime, network, and save limitations.</p></div><div><h3>Originals preserved</h3><p>Acquired payloads are kept alongside any executable transformation.</p></div><div><h3>A portable way out</h3><p>Export your software and supported state whenever you need them.</p></div></div><div class="build-line"><span>SFHS LIBRARY</span><span id="build-id"><!--BUILD_ID--></span></div></article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Main navigation">
+    <button type="button" class="mobile-nav-item" data-view="library" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg><span>Library</span></button>
+    <button type="button" class="mobile-nav-item" data-view="discover"><svg class="icon" aria-hidden="true"><use href="#i-discover"/></svg><span>Discover</span></button>
+    <button type="button" class="mobile-nav-item" data-view="backups"><svg class="icon" aria-hidden="true"><use href="#i-backup"/></svg><span>Backups</span></button>
+    <button type="button" class="mobile-nav-item" data-view="settings"><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg><span>Settings</span></button>
+  </nav>
+
+  <dialog id="dialog" class="app-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><h2 id="dialog-title"></h2><button type="button" id="dialog-close" class="icon-button" aria-label="Close dialog"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button></div><div id="dialog-body" class="dialog-body"></div><div id="dialog-actions" class="dialog-actions"></div></dialog>
+  <div id="runtime" class="runtime" role="dialog" aria-modal="true" aria-label="Running application" hidden><header class="runtime-toolbar"><div class="runtime-heading"><span class="runtime-dot" aria-hidden="true"></span><div><h2 id="runtime-title">Application</h2><span id="runtime-status" class="muted"></span></div></div><div class="runtime-actions"><button type="button" id="runtime-fullscreen" class="icon-button" aria-label="Enter fullscreen" title="Fullscreen"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button><button type="button" id="runtime-close" class="button button-secondary"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg><span>Close app</span></button></div></header><div id="runtime-container" class="runtime-container"></div></div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script><!--APP_JS--></script>
+</body>
+</html>

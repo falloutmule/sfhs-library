@@ -1,0 +1,7 @@
+{
+  "buildId": "sfhs-library-20261003-r1",
+  "version": "0.1.0",
+  "entry": "src/app.js",
+  "artifact": "index.html",
+  "releaseState": "engineering-candidate"
+}
