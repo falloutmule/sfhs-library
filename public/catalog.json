@@ -1,25 +1,45 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-04T02:20:02.543Z",
+  "updatedAt": "2026-10-05T18:32:43.317Z",
   "description": "Indexed public itch.io HTML5 RSS catalog. Not live search. Project tags do not establish a license. Download from the creator normally, then import compatible HTML/ZIP.",
   "sources": [
     {
       "url": "https://itch.io/games/html5.xml",
-      "refreshedAt": "2026-10-04T02:20:02.543Z",
+      "refreshedAt": "2026-10-05T18:32:43.317Z",
       "count": 36
     },
     {
       "url": "https://itch.io/games/newest/html5.xml",
-      "refreshedAt": "2026-10-04T02:20:02.543Z",
+      "refreshedAt": "2026-10-05T18:32:43.317Z",
       "count": 36
     },
     {
       "url": "https://itch.io/games/html5/tag-open-source.xml",
       "refreshedAt": "2026-10-04T02:20:02.543Z",
-      "count": 36
+      "count": 36,
+      "error": "HTTP 429",
+      "attemptedAt": "2026-10-05T18:32:43.317Z"
     }
   ],
   "items": [
+    {
+      "id": "itch:dalichrome.itch.io/house-rules",
+      "title": "Rulehouse [Free] [Puzzle] [Windows]",
+      "description": "Think you know chess? Forget some of that. Rulehouse is a pawn chess adventure where every stage rewrites the game.",
+      "source": "itch",
+      "sourceUrl": "https://dalichrome.itch.io/house-rules",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://dalichrome.itch.io/house-rules"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-02-20T00:32:06.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
     {
       "id": "itch:try-froggery.itch.io/bite-your-tongue",
       "title": "Bite Your Tongue [Free] [Visual Novel] [Windows] [macOS] [Linux]",
@@ -39,75 +59,21 @@
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
-      "id": "itch:xlaucifer.itch.io/remember",
-      "title": "Remember [Free] [Visual Novel] [Windows] [Android]",
-      "description": "Has acabado en un bosque y no sabes por qué.",
+      "id": "itch:3005jin.itch.io/sweet-instincts",
+      "title": "sweet instincts [Free] [Visual Novel] [Windows] [macOS] [Linux]",
+      "description": "Becoming a woman is hard. Being a vessel for a flesh eating creature might be harder.",
       "source": "itch",
-      "sourceUrl": "https://xlaucifer.itch.io/remember",
+      "sourceUrl": "https://3005jin.itch.io/sweet-instincts",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://xlaucifer.itch.io/remember"
+        "sourceUrl": "https://3005jin.itch.io/sweet-instincts"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-09-01T10:02:05.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:ossuario.itch.io/my-own-sweet-dionaea",
-      "title": "My Own Sweet Dionaea [Free] [Visual Novel] [Windows] [macOS] [Linux]",
-      "description": "Created a plant hybrid and he may want to kiss or eat you.",
-      "source": "itch",
-      "sourceUrl": "https://ossuario.itch.io/my-own-sweet-dionaea",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://ossuario.itch.io/my-own-sweet-dionaea"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-09-22T16:42:41.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:comfortkuma.itch.io/next-station-the-moon",
-      "title": "Next Station: The Moon [DEMO] [Free] [Visual Novel] [Windows] [macOS] [Linux]",
-      "description": "Romance gods of death!!",
-      "source": "itch",
-      "sourceUrl": "https://comfortkuma.itch.io/next-station-the-moon",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://comfortkuma.itch.io/next-station-the-moon"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-09-26T14:11:22.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:linglyum.itch.io/steal-me-softly",
-      "title": "Steal Me Softly [Free] [Visual Novel] [Windows] [Linux]",
-      "description": "A complicated love between a phantom thief and a detective.",
-      "source": "itch",
-      "sourceUrl": "https://linglyum.itch.io/steal-me-softly",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://linglyum.itch.io/steal-me-softly"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-07-17T18:54:51.000Z",
+      "updatedAt": "2026-09-25T21:40:02.000Z",
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
@@ -129,21 +95,129 @@
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
-      "id": "itch:sudachys.itch.io/the-angel-act",
-      "title": "The Angel Act [Free] [Visual Novel] [Windows] [macOS] [Linux]",
-      "description": "Welcome to Fortuna Circus! We all have a role to play...",
+      "id": "itch:ossuario.itch.io/my-own-sweet-dionaea",
+      "title": "My Own Sweet Dionaea [Free] [Visual Novel] [Windows] [macOS] [Linux]",
+      "description": "Created a plant hybrid and he may want to kiss or eat you.",
       "source": "itch",
-      "sourceUrl": "https://sudachys.itch.io/the-angel-act",
+      "sourceUrl": "https://ossuario.itch.io/my-own-sweet-dionaea",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://sudachys.itch.io/the-angel-act"
+        "sourceUrl": "https://ossuario.itch.io/my-own-sweet-dionaea"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2024-07-14T12:56:43.000Z",
+      "updatedAt": "2025-09-22T16:42:41.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:xlaucifer.itch.io/remember",
+      "title": "Remember [Free] [Visual Novel] [Windows] [Android]",
+      "description": "Has acabado en un bosque y no sabes por qué.",
+      "source": "itch",
+      "sourceUrl": "https://xlaucifer.itch.io/remember",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://xlaucifer.itch.io/remember"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-09-01T10:02:05.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:mookichuu.itch.io/overdose",
+      "title": "OVERD0SE [Free] [Visual Novel] [Windows] [macOS]",
+      "description": "Side effects may vary.",
+      "source": "itch",
+      "sourceUrl": "https://mookichuu.itch.io/overdose",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://mookichuu.itch.io/overdose"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-03-07T00:24:48.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:comfortkuma.itch.io/next-station-the-moon",
+      "title": "Next Station: The Moon [DEMO] [Free] [Visual Novel] [Windows] [macOS] [Linux]",
+      "description": "Romance gods of death!!",
+      "source": "itch",
+      "sourceUrl": "https://comfortkuma.itch.io/next-station-the-moon",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://comfortkuma.itch.io/next-station-the-moon"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-09-26T14:11:22.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:oddly-shaped-pixels.itch.io/alpine",
+      "title": "Alpine [Free] [Platformer] [Windows] [macOS]",
+      "description": "",
+      "source": "itch",
+      "sourceUrl": "https://oddly-shaped-pixels.itch.io/alpine",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://oddly-shaped-pixels.itch.io/alpine"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-04-21T00:48:55.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:linglyum.itch.io/steal-me-softly",
+      "title": "Steal Me Softly [Free] [Visual Novel] [Windows] [Linux]",
+      "description": "A complicated love between a phantom thief and a detective.",
+      "source": "itch",
+      "sourceUrl": "https://linglyum.itch.io/steal-me-softly",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://linglyum.itch.io/steal-me-softly"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2025-07-17T18:54:51.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:futotori.itch.io/the-commander-cant-communicate",
+      "title": "The Commander Can't Communicate [Free] [Visual Novel] [Windows] [Linux]",
+      "description": "Soulslike boss seeking eligible singles. The helm stays ON. Any recent murder rumors are false.",
+      "source": "itch",
+      "sourceUrl": "https://futotori.itch.io/the-commander-cant-communicate",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://futotori.itch.io/the-commander-cant-communicate"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-09-25T03:49:46.000Z",
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
@@ -183,219 +257,39 @@
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
-      "id": "itch:cuteshadow.itch.io/tokidoki-tactical-squad",
-      "title": "Tokidoki Tactical Squad [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
-      "description": "A retro yuri visual novel featuring military girls.",
+      "id": "itch:pr1nted.itch.io/open-doctrines",
+      "title": "Open Doctrines [Free] [Strategy] [Windows] [macOS] [Linux] [Android]",
+      "description": "A grand strategy game about running a country: industry, armies, research, politics and neighbours.",
       "source": "itch",
-      "sourceUrl": "https://cuteshadow.itch.io/tokidoki-tactical-squad",
+      "sourceUrl": "https://pr1nted.itch.io/open-doctrines",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://cuteshadow.itch.io/tokidoki-tactical-squad"
+        "sourceUrl": "https://pr1nted.itch.io/open-doctrines"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2025-09-06T06:39:55.000Z",
+      "updatedAt": "2026-07-07T17:05:26.000Z",
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
-      "id": "itch:mors-games.itch.io/sploob",
-      "title": "SPLOOB [Free] [Puzzle] [Windows] [macOS] [Linux]",
-      "description": "Falling squishy blob game.",
+      "id": "itch:sudachys.itch.io/the-angel-act",
+      "title": "The Angel Act [Free] [Visual Novel] [Windows] [macOS] [Linux]",
+      "description": "Welcome to Fortuna Circus! We all have a role to play...",
       "source": "itch",
-      "sourceUrl": "https://mors-games.itch.io/sploob",
+      "sourceUrl": "https://sudachys.itch.io/the-angel-act",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://mors-games.itch.io/sploob"
+        "sourceUrl": "https://sudachys.itch.io/the-angel-act"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-09-28T11:17:58.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:viniflores.itch.io/my-own-hero-party",
-      "title": "My Own Hero Party [Free] [Strategy] [Windows] [macOS] [Linux]",
-      "description": "A party-building casual incremental game clear room-based dungeons, gather gold, and grow your upgrades.",
-      "source": "itch",
-      "sourceUrl": "https://viniflores.itch.io/my-own-hero-party",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://viniflores.itch.io/my-own-hero-party"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-06-15T06:55:50.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:chaostheorygames.itch.io/all-the-birds",
-      "title": "All The Birds [Free] [Simulation] [Windows]",
-      "description": "Build an Australian bird reserve, photograph new species, and hire a crew of eccentric birders to help.",
-      "source": "itch",
-      "sourceUrl": "https://chaostheorygames.itch.io/all-the-birds",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://chaostheorygames.itch.io/all-the-birds"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-08-28T01:16:23.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:sillywunkus.itch.io/core",
-      "title": "Core !1! [Free] [Simulation] [Windows]",
-      "description": "Mine. Upgrade. Go deeper. Smash blocks, find weird treasures and build increasingly ridiculous mining loadouts.",
-      "source": "itch",
-      "sourceUrl": "https://sillywunkus.itch.io/core",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://sillywunkus.itch.io/core"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-08-23T05:50:16.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:k-ramstack.itch.io/leaftaker",
-      "title": "Leaftaker [Free] [Puzzle]",
-      "description": "When Stephen Hester died, his grave was already occupied.",
-      "source": "itch",
-      "sourceUrl": "https://k-ramstack.itch.io/leaftaker",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://k-ramstack.itch.io/leaftaker"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-10-15T08:18:22.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:chaostheorygames.itch.io/stoneheart-archive",
-      "title": "Stoneheart Archive [Free] [Strategy] [Windows]",
-      "description": "Moving-base survival roguelike. Free Web Playable",
-      "source": "itch",
-      "sourceUrl": "https://chaostheorygames.itch.io/stoneheart-archive",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://chaostheorygames.itch.io/stoneheart-archive"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-07-05T22:49:28.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:rainbowcemetery.itch.io/night-watch",
-      "title": "Night Watch [Free] [Action] [Windows] [Linux]",
-      "description": "A ghost batting game",
-      "source": "itch",
-      "sourceUrl": "https://rainbowcemetery.itch.io/night-watch",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://rainbowcemetery.itch.io/night-watch"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2022-11-07T09:26:04.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:chaostheorygames.itch.io/thornhold",
-      "title": "Thornhold [Free] [Strategy]",
-      "description": "Forest-defense autobattler. Free Web Playable",
-      "source": "itch",
-      "sourceUrl": "https://chaostheorygames.itch.io/thornhold",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://chaostheorygames.itch.io/thornhold"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-04-17T06:29:36.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:lyamgtt.itch.io/magical-greenhouse",
-      "title": "Magical Greenhouse [Free] [Simulation]",
-      "description": "Cozy Potion Shop Simulation",
-      "source": "itch",
-      "sourceUrl": "https://lyamgtt.itch.io/magical-greenhouse",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://lyamgtt.itch.io/magical-greenhouse"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-05-16T10:25:51.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:yofiasi.itch.io/barista",
-      "title": "Barista [Free] [Other] [Windows] [Linux]",
-      "description": "🥈 Jam Winner – Cozy barista game accessible to blind players",
-      "source": "itch",
-      "sourceUrl": "https://yofiasi.itch.io/barista",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://yofiasi.itch.io/barista"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-02-20T17:34:54.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:amaty.itch.io/a-mirrors-curse-sfw",
-      "title": "A Mirror's Curse SFW [Free] [Interactive Fiction]",
-      "description": "A SFW Transgender Transformation Game",
-      "source": "itch",
-      "sourceUrl": "https://amaty.itch.io/a-mirrors-curse-sfw",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://amaty.itch.io/a-mirrors-curse-sfw"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-11-19T16:50:27.000Z",
+      "updatedAt": "2024-07-14T12:56:43.000Z",
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
@@ -414,6 +308,24 @@
         "HTML5"
       ],
       "updatedAt": "2019-12-11T00:16:42.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:neesacomplex.itch.io/fear-me-jeff-the-killers-dating-sim",
+      "title": "Fear Me [Jeff the Killer's Dating Sim] [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
+      "description": "Jeff the killer is coming for you.",
+      "source": "itch",
+      "sourceUrl": "https://neesacomplex.itch.io/fear-me-jeff-the-killers-dating-sim",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://neesacomplex.itch.io/fear-me-jeff-the-killers-dating-sim"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2025-05-21T21:09:26.000Z",
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
@@ -450,168 +362,6 @@
         "HTML5"
       ],
       "updatedAt": "2023-05-28T20:42:57.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:snowyrey.itch.io/fnaf-daybreak",
-      "title": "FNaF: DAYBREAK [Free] [Visual Novel]",
-      "description": "We're back in the Pizzaplex. What could POSSIBLY go wrong?",
-      "source": "itch",
-      "sourceUrl": "https://snowyrey.itch.io/fnaf-daybreak",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://snowyrey.itch.io/fnaf-daybreak"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-07-16T22:52:05.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:coolom-games.itch.io/dating-killmulator-2",
-      "title": "Dating Killmulator 2 [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
-      "description": "A comedic dating sim about surviving the complexities of modern love (and serial killers).",
-      "source": "itch",
-      "sourceUrl": "https://coolom-games.itch.io/dating-killmulator-2",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://coolom-games.itch.io/dating-killmulator-2"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-02-15T11:55:18.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:sfour-s4.itch.io/how-to-date-an-entity",
-      "title": "How to Date an Entity (and stay alive) [Free] [Visual Novel] [Windows] [macOS] [Linux]",
-      "description": "",
-      "source": "itch",
-      "sourceUrl": "https://sfour-s4.itch.io/how-to-date-an-entity",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://sfour-s4.itch.io/how-to-date-an-entity"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2024-11-27T17:09:56.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:mookichuu.itch.io/overdose",
-      "title": "OVERD0SE [Free] [Visual Novel] [Windows] [macOS]",
-      "description": "Yandere doctor makes you his.",
-      "source": "itch",
-      "sourceUrl": "https://mookichuu.itch.io/overdose",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://mookichuu.itch.io/overdose"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-03-07T00:24:48.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:digitarium.itch.io/peggys-post",
-      "title": "Peggy's Post [Free] [Simulation] [Windows] [macOS]",
-      "description": "A peaceful package sorting game",
-      "source": "itch",
-      "sourceUrl": "https://digitarium.itch.io/peggys-post",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://digitarium.itch.io/peggys-post"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2023-05-02T01:39:52.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:neesacomplex.itch.io/fear-me-jeff-the-killers-dating-sim",
-      "title": "Fear Me [Jeff the Killer's Dating Sim] [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
-      "description": "Jeff the killer is coming for you.",
-      "source": "itch",
-      "sourceUrl": "https://neesacomplex.itch.io/fear-me-jeff-the-killers-dating-sim",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://neesacomplex.itch.io/fear-me-jeff-the-killers-dating-sim"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2025-05-21T21:09:26.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:graebor.itch.io/sort-the-court",
-      "title": "Sort the Court! [Free] [Simulation] [Windows] [Linux]",
-      "description": "Give your decree in simple yes or no answers, and help the kingdom grow!",
-      "source": "itch",
-      "sourceUrl": "https://graebor.itch.io/sort-the-court",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://graebor.itch.io/sort-the-court"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2015-12-14T19:19:18.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:kodub.itch.io/polytrack",
-      "title": "PolyTrack [Free] [Racing] [Windows] [macOS] [Linux] [Android]",
-      "description": "A high speed low-poly racing game.",
-      "source": "itch",
-      "sourceUrl": "https://kodub.itch.io/polytrack",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://kodub.itch.io/polytrack"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2022-12-10T13:51:37.000Z",
-      "indexedFrom": "https://itch.io/games/html5.xml"
-    },
-    {
-      "id": "itch:umigamestudios.itch.io/highschool-j",
-      "title": "Highschool J [Free] [Visual Novel]",
-      "description": "if god were just a high school student...",
-      "source": "itch",
-      "sourceUrl": "https://umigamestudios.itch.io/highschool-j",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://umigamestudios.itch.io/highschool-j"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-09-24T11:04:35.000Z",
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
@@ -652,6 +402,240 @@
       "indexedFrom": "https://itch.io/games/html5/tag-open-source.xml"
     },
     {
+      "id": "itch:sfour-s4.itch.io/how-to-date-an-entity",
+      "title": "How to Date an Entity (and stay alive) [Free] [Visual Novel] [Windows] [macOS] [Linux]",
+      "description": "",
+      "source": "itch",
+      "sourceUrl": "https://sfour-s4.itch.io/how-to-date-an-entity",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://sfour-s4.itch.io/how-to-date-an-entity"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2024-11-27T17:09:56.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:snowyrey.itch.io/fnaf-daybreak",
+      "title": "FNaF: DAYBREAK [Free] [Visual Novel]",
+      "description": "We're back in the Pizzaplex. What could POSSIBLY go wrong?",
+      "source": "itch",
+      "sourceUrl": "https://snowyrey.itch.io/fnaf-daybreak",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://snowyrey.itch.io/fnaf-daybreak"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-07-16T22:52:05.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:graebor.itch.io/sort-the-court",
+      "title": "Sort the Court! [Free] [Simulation] [Windows] [Linux]",
+      "description": "Give your decree in simple yes or no answers, and help the kingdom grow!",
+      "source": "itch",
+      "sourceUrl": "https://graebor.itch.io/sort-the-court",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://graebor.itch.io/sort-the-court"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2015-12-14T19:19:18.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:coolom-games.itch.io/dating-killmulator-2",
+      "title": "Dating Killmulator 2 [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
+      "description": "A comedic dating sim about surviving the complexities of modern love (and serial killers).",
+      "source": "itch",
+      "sourceUrl": "https://coolom-games.itch.io/dating-killmulator-2",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://coolom-games.itch.io/dating-killmulator-2"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-02-15T11:55:18.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:digitarium.itch.io/peggys-post",
+      "title": "Peggy's Post [Free] [Simulation] [Windows] [macOS]",
+      "description": "A peaceful package sorting game",
+      "source": "itch",
+      "sourceUrl": "https://digitarium.itch.io/peggys-post",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://digitarium.itch.io/peggys-post"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2023-05-02T01:39:52.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:cuteshadow.itch.io/tokidoki-tactical-squad",
+      "title": "Tokidoki Tactical Squad [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
+      "description": "A retro yuri visual novel featuring military girls.",
+      "source": "itch",
+      "sourceUrl": "https://cuteshadow.itch.io/tokidoki-tactical-squad",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://cuteshadow.itch.io/tokidoki-tactical-squad"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2025-09-06T06:39:55.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:mors-games.itch.io/sploob",
+      "title": "SPLOOB [Free] [Puzzle] [Windows] [macOS] [Linux]",
+      "description": "Falling squishy blob game.",
+      "source": "itch",
+      "sourceUrl": "https://mors-games.itch.io/sploob",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://mors-games.itch.io/sploob"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-09-28T11:17:58.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:kodub.itch.io/polytrack",
+      "title": "PolyTrack [Free] [Racing] [Windows] [macOS] [Linux] [Android]",
+      "description": "A high speed low-poly racing game.",
+      "source": "itch",
+      "sourceUrl": "https://kodub.itch.io/polytrack",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://kodub.itch.io/polytrack"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2022-12-10T13:51:37.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:ncase.itch.io/wbwwb",
+      "title": "We Become What We Behold [Free] [Other]",
+      "description": "a game about news cycles, vicious cycles, infinite cycles",
+      "source": "itch",
+      "sourceUrl": "https://ncase.itch.io/wbwwb",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://ncase.itch.io/wbwwb"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2016-10-18T11:26:41.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:yofiasi.itch.io/barista",
+      "title": "Barista [Free] [Other] [Windows] [Linux]",
+      "description": "Cozy barista game played only by audio",
+      "source": "itch",
+      "sourceUrl": "https://yofiasi.itch.io/barista",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://yofiasi.itch.io/barista"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2025-02-20T17:34:54.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:chaostheorygames.itch.io/thornhold",
+      "title": "Thornhold [Free] [Strategy]",
+      "description": "Forest-defense autobattler. Free Web Playable",
+      "source": "itch",
+      "sourceUrl": "https://chaostheorygames.itch.io/thornhold",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://chaostheorygames.itch.io/thornhold"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-04-17T06:29:36.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:jokupelle.itch.io/ages-of-conflict",
+      "title": "Ages of Conflict: World War Simulator [$6.99] [Simulation] [Windows] [Linux]",
+      "description": "Create a massive Free-For-All across multiple maps with Randomization, Statistics and History tracking",
+      "source": "itch",
+      "sourceUrl": "https://jokupelle.itch.io/ages-of-conflict",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://jokupelle.itch.io/ages-of-conflict"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2022-08-16T18:21:30.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:viniflores.itch.io/my-own-hero-party",
+      "title": "My Own Hero Party [Free] [Strategy] [Windows] [macOS] [Linux]",
+      "description": "A party-building casual incremental game clear room-based dungeons, gather gold, and grow your upgrades.",
+      "source": "itch",
+      "sourceUrl": "https://viniflores.itch.io/my-own-hero-party",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://viniflores.itch.io/my-own-hero-party"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-06-15T06:55:50.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
       "id": "itch:ant-san.itch.io/jester",
       "title": "Trapped with Jester [Free] [Visual Novel] [Windows] [macOS] [Linux] [Android]",
       "description": "You wake up in a carriage with an annoying stranger...",
@@ -670,651 +654,669 @@
       "indexedFrom": "https://itch.io/games/html5.xml"
     },
     {
-      "id": "itch:eljonycrazy.itch.io/pepas",
-      "title": "Pepe quiere Pepas [Free] [Platformer]",
+      "id": "itch:sm-pantokrator.itch.io/sinner-maker",
+      "title": "Sinner Maker (demo) [Free] [Windows] [Linux] [Android]",
+      "description": "A mii maker inspired character creator with religious theme",
+      "source": "itch",
+      "sourceUrl": "https://sm-pantokrator.itch.io/sinner-maker",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://sm-pantokrator.itch.io/sinner-maker"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-01-10T23:46:14.000Z",
+      "indexedFrom": "https://itch.io/games/html5.xml"
+    },
+    {
+      "id": "itch:deligny-rd.itch.io/rc-world",
+      "title": "RC WORLD [Free] [Simulation]",
+      "description": "Soft-body car destruction sandbox in your browser: crash, fly, fire missiles, drift.",
+      "source": "itch",
+      "sourceUrl": "https://deligny-rd.itch.io/rc-world",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://deligny-rd.itch.io/rc-world"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T16:31:05.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:substantialo.itch.io/braains-fun",
+      "title": "Braains Fun [Free] [Survival]",
+      "description": "Barricade, hide, and survive an online zombie outbreak.",
+      "source": "itch",
+      "sourceUrl": "https://substantialo.itch.io/braains-fun",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://substantialo.itch.io/braains-fun"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:03:12.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:kwetka.itch.io/daroma-2",
+      "title": "DAROMA 2 [Free]",
+      "description": "Collect gems in a unique physics-based world",
+      "source": "itch",
+      "sourceUrl": "https://kwetka.itch.io/daroma-2",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://kwetka.itch.io/daroma-2"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-08-17T09:36:12.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:purplespiderfriend.itch.io/last-turn",
+      "title": "Last Turn [Free] [Puzzle]",
+      "description": "Monsters have one big turn at the end of your actions. Defeat them quickly!",
+      "source": "itch",
+      "sourceUrl": "https://purplespiderfriend.itch.io/last-turn",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://purplespiderfriend.itch.io/last-turn"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-09-16T00:28:13.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:gemspire.itch.io/gemspire-block-puzzle",
+      "title": "Gemspire: Block Puzzle [Free] [Puzzle]",
+      "description": "The block puzzle where every cleared line becomes a gem.",
+      "source": "itch",
+      "sourceUrl": "https://gemspire.itch.io/gemspire-block-puzzle",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://gemspire.itch.io/gemspire-block-puzzle"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:47:17.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:thextra.itch.io/heart-shooter",
+      "title": "Heart Shooter [Free] [Shooter] [Windows]",
+      "description": "A Gender Swap On-rail Shooting Game",
+      "source": "itch",
+      "sourceUrl": "https://thextra.itch.io/heart-shooter",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://thextra.itch.io/heart-shooter"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-02T06:25:19.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:luiznunes14.itch.io/100-m-com-barreiras",
+      "title": "100 m com barreiras [Free] [Racing]",
+      "description": "Prova de 100 m com barreiras: largue no semáforo e pule no tempo certo. Jogue contra bots, online no PC ou no celular.",
+      "source": "itch",
+      "sourceUrl": "https://luiznunes14.itch.io/100-m-com-barreiras",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://luiznunes14.itch.io/100-m-com-barreiras"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T16:45:54.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:demon9923.itch.io/slimepire-survival",
+      "title": "SlimePire Survival [Free] [Action]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://eljonycrazy.itch.io/pepas",
+      "sourceUrl": "https://demon9923.itch.io/slimepire-survival",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://eljonycrazy.itch.io/pepas"
+        "sourceUrl": "https://demon9923.itch.io/slimepire-survival"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T02:14:39.000Z",
+      "updatedAt": "2026-10-01T19:02:55.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:darkc-dev.itch.io/gatherbound",
-      "title": "Gatherbound [Free] [Survival]",
+      "id": "itch:repartoexpress.itch.io/reparto-express",
+      "title": "Reparto Express [Free] [Action]",
+      "description": "Conduce tu pickup, esquiva el tráfico y encadena entregas. ¿Hasta dónde puedes llegar sin chocar?",
+      "source": "itch",
+      "sourceUrl": "https://repartoexpress.itch.io/reparto-express",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://repartoexpress.itch.io/reparto-express"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-04T13:06:28.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:danilo-bamboo.itch.io/intrusive-sins-twine",
+      "title": "Intrusive Sins [Free] [Other]",
+      "description": "Una corta historia hecha en Twine para un proyecto universitario.",
+      "source": "itch",
+      "sourceUrl": "https://danilo-bamboo.itch.io/intrusive-sins-twine",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://danilo-bamboo.itch.io/intrusive-sins-twine"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:29:45.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:drizzy466.itch.io/laberinto-con-finn",
+      "title": "LaberintoConFinn [Free]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://darkc-dev.itch.io/gatherbound",
+      "sourceUrl": "https://drizzy466.itch.io/laberinto-con-finn",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://darkc-dev.itch.io/gatherbound"
+        "sourceUrl": "https://drizzy466.itch.io/laberinto-con-finn"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:27:08.000Z",
+      "updatedAt": "2026-10-05T04:24:59.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:missile-22.itch.io/cart-drifters",
-      "title": "Cart drifters [Free]",
+      "id": "itch:hokkori.itch.io/grave-slide",
+      "title": "GRAVE SLIDE [Free] [Puzzle]",
+      "description": "A free browser puzzle-action game with sliding movement, enemies, traps, and an endless mode set in Limbo.",
+      "source": "itch",
+      "sourceUrl": "https://hokkori.itch.io/grave-slide",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://hokkori.itch.io/grave-slide"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T16:05:54.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:kyletiley.itch.io/trainspotting",
+      "title": "Trainspotting [Free] [Puzzle]",
+      "description": "​Play people-watching bingo while trains pass through the station",
+      "source": "itch",
+      "sourceUrl": "https://kyletiley.itch.io/trainspotting",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://kyletiley.itch.io/trainspotting"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-04T21:38:43.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:slowlichen.itch.io/breakwater",
+      "title": "Breakwater [Free] [Simulation]",
+      "description": "Hold the wall. Build the frames. Go further out.",
+      "source": "itch",
+      "sourceUrl": "https://slowlichen.itch.io/breakwater",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://slowlichen.itch.io/breakwater"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:33:54.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:sirkania.itch.io/moncloa-island",
+      "title": "El Secreto de Moncloa Island [Free] [Adventure]",
+      "description": "Aventura gráfica clásica de humor negro político: insultos, croquetas y un fantasma que prorroga investiduras.",
+      "source": "itch",
+      "sourceUrl": "https://sirkania.itch.io/moncloa-island",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://sirkania.itch.io/moncloa-island"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:41:04.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:diyankadee.itch.io/a-suitable-match",
+      "title": "A Suitable Match! [Free] [Interactive Fiction] [Windows]",
+      "description": "Bombay. 1975.",
+      "source": "itch",
+      "sourceUrl": "https://diyankadee.itch.io/a-suitable-match",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://diyankadee.itch.io/a-suitable-match"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:20:40.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:esteran.itch.io/grimoire-of-blanks-demo",
+      "title": "Grimoire of Blanks - Demo [Free] [Strategy]",
+      "description": "Fill the blanks in your cards with words and turn the same sentence into traps, area attacks, or reckless combos.",
+      "source": "itch",
+      "sourceUrl": "https://esteran.itch.io/grimoire-of-blanks-demo",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://esteran.itch.io/grimoire-of-blanks-demo"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:39:45.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:doodle-interactive.itch.io/the-goblin-watchers",
+      "title": "The Watchful Goblins [Free] [Puzzle] [Windows]",
+      "description": "Watch, Learn, Imitate",
+      "source": "itch",
+      "sourceUrl": "https://doodle-interactive.itch.io/the-goblin-watchers",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://doodle-interactive.itch.io/the-goblin-watchers"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-02T18:55:10.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:secrecy.itch.io/scaly-sanctuary-demo",
+      "title": "Scaly Sanctuary [Free] [Educational] [Windows]",
+      "description": "Care for a leopard gecko, prepare its habitat, and learn through interactive gameplay.",
+      "source": "itch",
+      "sourceUrl": "https://secrecy.itch.io/scaly-sanctuary-demo",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://secrecy.itch.io/scaly-sanctuary-demo"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T16:59:39.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:dominoclub.itch.io/creature-feature",
+      "title": "Creature Feature or A change has occurred and now nothing will ever be the same again [Free]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://missile-22.itch.io/cart-drifters",
+      "sourceUrl": "https://dominoclub.itch.io/creature-feature",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://missile-22.itch.io/cart-drifters"
+        "sourceUrl": "https://dominoclub.itch.io/creature-feature"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T02:07:04.000Z",
+      "updatedAt": "2026-10-05T17:36:47.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:noirondev.itch.io/forgefront",
-      "title": "Forgefront / 组合前线 [Free] [Strategy]",
-      "description": "Build custom weapons from modular effects, triggers and modifiers. Hold the line against escalating waves.",
+      "id": "itch:zealotza.itch.io/seer",
+      "title": "SEER [Free] [Platformer]",
+      "description": "a platformer with eyes",
       "source": "itch",
-      "sourceUrl": "https://noirondev.itch.io/forgefront",
+      "sourceUrl": "https://zealotza.itch.io/seer",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://noirondev.itch.io/forgefront"
+        "sourceUrl": "https://zealotza.itch.io/seer"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-09-30T08:22:37.000Z",
+      "updatedAt": "2026-10-05T17:11:50.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:goldsquared.itch.io/typokerface",
-      "title": "TYPOKERFACE [Free] [Puzzle]",
-      "description": "Use an on-screen-keyboard to type fast!",
+      "id": "itch:serlai.itch.io/tomorrows-edition",
+      "title": "Tomorrow's Edition [Free] [Adventure]",
+      "description": "A small-town TV fax prints tomorrow's news. And it comes true. Free demo of a comedy point & click.",
       "source": "itch",
-      "sourceUrl": "https://goldsquared.itch.io/typokerface",
+      "sourceUrl": "https://serlai.itch.io/tomorrows-edition",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://goldsquared.itch.io/typokerface"
+        "sourceUrl": "https://serlai.itch.io/tomorrows-edition"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-06-10T08:46:04.000Z",
+      "updatedAt": "2026-10-05T17:14:14.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:zombypop.itch.io/volver-a-campamento-base",
-      "title": "volver a campamento base [Free] [Platformer]",
+      "id": "itch:cheolyee.itch.io/noctiris-rt",
+      "title": "NOCTIRIS - 실시간 턴제 전투 프로토타입 [Free]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://zombypop.itch.io/volver-a-campamento-base",
+      "sourceUrl": "https://cheolyee.itch.io/noctiris-rt",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://zombypop.itch.io/volver-a-campamento-base"
+        "sourceUrl": "https://cheolyee.itch.io/noctiris-rt"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:53:52.000Z",
+      "updatedAt": "2026-10-05T17:07:19.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:nativux.itch.io/qimbayeairforce",
-      "title": "QIMBAYE (Airforce) [Free] [Simulation]",
+      "id": "itch:gisha.itch.io/salvage-in-60-seconds",
+      "title": "Salvage in 60 Seconds [Free] [Simulation]",
+      "description": "Salvage car to get money!",
+      "source": "itch",
+      "sourceUrl": "https://gisha.itch.io/salvage-in-60-seconds",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://gisha.itch.io/salvage-in-60-seconds"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:16:00.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:lighttriadgames.itch.io/breakthepinatas",
+      "title": "Break the Piñatas [Free] [Simulation]",
+      "description": "An incremental game where the goal is to break 1,000 piñatas! Earn candy and buy upgrades, unlock unique skills",
+      "source": "itch",
+      "sourceUrl": "https://lighttriadgames.itch.io/breakthepinatas",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://lighttriadgames.itch.io/breakthepinatas"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-04T11:19:29.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:persa23.itch.io/cuida-de-tu-gato",
+      "title": "Cuida de tu gato [Free] [Survival]",
+      "description": "Cuida de tu gato durante siete noches… si es que es tu gato.",
+      "source": "itch",
+      "sourceUrl": "https://persa23.itch.io/cuida-de-tu-gato",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://persa23.itch.io/cuida-de-tu-gato"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:21:04.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:lawnmowerman725.itch.io/crockers-quest-for-ferries-png",
+      "title": "Crocker's Quest for Ferries .png [Free] [Action] [Windows]",
+      "description": "Can you save the multiverse from Venom?",
+      "source": "itch",
+      "sourceUrl": "https://lawnmowerman725.itch.io/crockers-quest-for-ferries-png",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://lawnmowerman725.itch.io/crockers-quest-for-ferries-png"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-02T20:09:10.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:alittlealaska.itch.io/grocery-dog",
+      "title": "grocery dog [Free]",
+      "description": "a power fantasy",
+      "source": "itch",
+      "sourceUrl": "https://alittlealaska.itch.io/grocery-dog",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://alittlealaska.itch.io/grocery-dog"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-05T17:16:26.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:mickybussey.itch.io/do-not-recommend",
+      "title": "Do Not Recommend [Free] [Interactive Fiction] [Windows]",
+      "description": "Just one more video.",
+      "source": "itch",
+      "sourceUrl": "https://mickybussey.itch.io/do-not-recommend",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://mickybussey.itch.io/do-not-recommend"
+      },
+      "installability": "import",
+      "tags": [
+        "HTML5"
+      ],
+      "updatedAt": "2026-10-04T12:57:52.000Z",
+      "indexedFrom": "https://itch.io/games/newest/html5.xml"
+    },
+    {
+      "id": "itch:joguistudios.itch.io/mario-kart-collection",
+      "title": "Mario Kart Collection [Free]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://nativux.itch.io/qimbayeairforce",
+      "sourceUrl": "https://joguistudios.itch.io/mario-kart-collection",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://nativux.itch.io/qimbayeairforce"
+        "sourceUrl": "https://joguistudios.itch.io/mario-kart-collection"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:45:05.000Z",
+      "updatedAt": "2026-10-05T17:14:04.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:mindgatevideos.itch.io/mindgate-story-adventure",
-      "title": "MindGate Story Adventure [$1.99] [Interactive Fiction]",
-      "description": "44 interactive horror cases. Every choice matters. Every ending remembers.",
+      "id": "itch:mezrazhang.itch.io/warrior-cats-fanfic",
+      "title": "warrior cats fanfic [Free]",
+      "description": "graystripe & silverstream ;)",
       "source": "itch",
-      "sourceUrl": "https://mindgatevideos.itch.io/mindgate-story-adventure",
+      "sourceUrl": "https://mezrazhang.itch.io/warrior-cats-fanfic",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://mindgatevideos.itch.io/mindgate-story-adventure"
+        "sourceUrl": "https://mezrazhang.itch.io/warrior-cats-fanfic"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:23:28.000Z",
+      "updatedAt": "2026-10-05T17:19:39.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:csaf.itch.io/heftstone",
-      "title": "HEFTSTONE [Free]",
-      "description": "A hill farm incremental: hefted flocks, drystone walls, and a fell that answers your stocking.",
+      "id": "itch:dellamano929.itch.io/demonfall",
+      "title": "Demonfall [$1.99] [Role Playing]",
+      "description": "A dark-fantasy turned-based RPG.Battle through 100 levels,forge legendary gear,and face the Demon King",
       "source": "itch",
-      "sourceUrl": "https://csaf.itch.io/heftstone",
+      "sourceUrl": "https://dellamano929.itch.io/demonfall",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://csaf.itch.io/heftstone"
+        "sourceUrl": "https://dellamano929.itch.io/demonfall"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:08:42.000Z",
+      "updatedAt": "2026-10-05T10:58:18.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:jazzswush.itch.io/ninja-frog-jump",
-      "title": "Ninja Frog Jump [Free] [Adventure]",
-      "description": "Pixel Platformer",
+      "id": "itch:kane-forster.itch.io/coffee-watch",
+      "title": "Ogle Bot: The Venus Trap Roastery [Free] [Role Playing]",
+      "description": "You are to obtain information by staring, but don't get caught",
       "source": "itch",
-      "sourceUrl": "https://jazzswush.itch.io/ninja-frog-jump",
+      "sourceUrl": "https://kane-forster.itch.io/coffee-watch",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://jazzswush.itch.io/ninja-frog-jump"
+        "sourceUrl": "https://kane-forster.itch.io/coffee-watch"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:50:05.000Z",
+      "updatedAt": "2026-10-05T07:45:39.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:tomjnet.itch.io/the-room-that-remembers",
-      "title": "The Room That Remembers [Free] [Puzzle]",
-      "description": "A 15-minute puzzle adventure about a house that keeps what was lost. Three rooms, two worlds, one photograph.",
-      "source": "itch",
-      "sourceUrl": "https://tomjnet.itch.io/the-room-that-remembers",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://tomjnet.itch.io/the-room-that-remembers"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-03T22:40:57.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:nrasko.itch.io/lblh",
-      "title": "Lord Barney's Listeria Hysteria [Free] [Puzzle]",
-      "description": "The Frydarian Puzzle Game",
-      "source": "itch",
-      "sourceUrl": "https://nrasko.itch.io/lblh",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://nrasko.itch.io/lblh"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T01:19:58.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:maml8.itch.io/novo-rio",
-      "title": "Novo Rio [Free] [Platformer]",
-      "description": "precision 2D platformer concept made for Games do RIo pocket 2026",
-      "source": "itch",
-      "sourceUrl": "https://maml8.itch.io/novo-rio",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://maml8.itch.io/novo-rio"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T01:06:04.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:gas1129.itch.io/hachiokusyakusama",
-      "title": "八億尺様hachiokusyakusama [Free] [Visual Novel]",
-      "description": "宇宙でけ～～～～～～～～",
-      "source": "itch",
-      "sourceUrl": "https://gas1129.itch.io/hachiokusyakusama",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://gas1129.itch.io/hachiokusyakusama"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-09-30T14:22:39.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:100en.itch.io/mackerel",
-      "title": "Mackerel [Free] [Adventure]",
-      "description": "Why is this mackerel flopping through nature?",
-      "source": "itch",
-      "sourceUrl": "https://100en.itch.io/mackerel",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://100en.itch.io/mackerel"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T01:30:12.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:scratchlover69.itch.io/dragon-run",
-      "title": "dragon flyer [Free]",
+      "id": "itch:rotofil.itch.io/stupid",
+      "title": "stupid [Free]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://scratchlover69.itch.io/dragon-run",
+      "sourceUrl": "https://rotofil.itch.io/stupid",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://scratchlover69.itch.io/dragon-run"
+        "sourceUrl": "https://rotofil.itch.io/stupid"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:29:11.000Z",
+      "updatedAt": "2026-10-05T17:16:40.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:sw-creeperking.itch.io/cardomancer",
-      "title": "Cardomancer [Free] [Simulation]",
-      "description": "Fight card versions of monsters because the real things are scary",
+      "id": "itch:lightofarezou.itch.io/neovoyeurism",
+      "title": "Neovoyeurism [Free] [Interactive Fiction]",
+      "description": "We're always watching",
       "source": "itch",
-      "sourceUrl": "https://sw-creeperking.itch.io/cardomancer",
+      "sourceUrl": "https://lightofarezou.itch.io/neovoyeurism",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://sw-creeperking.itch.io/cardomancer"
+        "sourceUrl": "https://lightofarezou.itch.io/neovoyeurism"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-03T08:37:13.000Z",
+      "updatedAt": "2026-10-05T16:43:59.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
-      "id": "itch:borick.itch.io/deepdig-colony",
-      "title": "Deepdig Colony [Free] [Simulation]",
-      "description": "Dig, build, and keep a small underground colony breathing.",
-      "source": "itch",
-      "sourceUrl": "https://borick.itch.io/deepdig-colony",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://borick.itch.io/deepdig-colony"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-03T23:38:50.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:borick.itch.io/neon-oni",
-      "title": "Neon Oni [Free] [Action]",
-      "description": "Procedural 3D close-quarters combat: punch, kick, roll, and fight through each sector.",
-      "source": "itch",
-      "sourceUrl": "https://borick.itch.io/neon-oni",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://borick.itch.io/neon-oni"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-03T23:39:16.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:vallast.itch.io/meteo",
-      "title": "Really really bad StarFox 64 Meteo [Free] [Shooter]",
+      "id": "itch:incred.itch.io/good-things",
+      "title": "good things come to those who wait [Free] [Interactive Fiction]",
       "description": "",
       "source": "itch",
-      "sourceUrl": "https://vallast.itch.io/meteo",
+      "sourceUrl": "https://incred.itch.io/good-things",
       "license": {
         "spdx": null,
         "kind": "unknown",
-        "sourceUrl": "https://vallast.itch.io/meteo"
+        "sourceUrl": "https://incred.itch.io/good-things"
       },
       "installability": "import",
       "tags": [
         "HTML5"
       ],
-      "updatedAt": "2026-10-04T01:08:40.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:dkerr.itch.io/gilbatrophs-revenge",
-      "title": "Gilbatroph's Revenge [Free] [Adventure]",
-      "description": "",
-      "source": "itch",
-      "sourceUrl": "https://dkerr.itch.io/gilbatrophs-revenge",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://dkerr.itch.io/gilbatrophs-revenge"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-02T18:24:43.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:kronfeld.itch.io/corerunner",
-      "title": "CoreRunner [Free] [Shooter]",
-      "description": "A fast sci-fi survival runner upgrade your abilities, and push your run as far as you can",
-      "source": "itch",
-      "sourceUrl": "https://kronfeld.itch.io/corerunner",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://kronfeld.itch.io/corerunner"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:34:04.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:billyaknguyen.itch.io/noodle-watch-dont-let-her-eat",
-      "title": "NOODLE WATCH — Don't Let Her Eat [Free] [Survival]",
-      "description": "Solve math equations to score, and zap the midnight ramen thief before she reaches the kitchen. Survive!",
-      "source": "itch",
-      "sourceUrl": "https://billyaknguyen.itch.io/noodle-watch-dont-let-her-eat",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://billyaknguyen.itch.io/noodle-watch-dont-let-her-eat"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:36:37.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:freewillwu.itch.io/heatforge",
-      "title": "HEATFORGE — Playtest [Free] [Strategy]",
-      "description": "Build a modular fortress. Turn gunfire into chain lightning. Survive eight escalating waves.",
-      "source": "itch",
-      "sourceUrl": "https://freewillwu.itch.io/heatforge",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://freewillwu.itch.io/heatforge"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:57:57.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:syappon725.itch.io/optimal",
-      "title": "Optimal [Free] [Visual Novel]",
-      "description": "",
-      "source": "itch",
-      "sourceUrl": "https://syappon725.itch.io/optimal",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://syappon725.itch.io/optimal"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-09-20T07:25:28.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:roguecore.itch.io/touchdown-toss",
-      "title": "Touchdown Toss [Free]",
-      "description": "Free flick-pass football arcade game: aim, throw, and stack a 3x combo before the clock runs out.",
-      "source": "itch",
-      "sourceUrl": "https://roguecore.itch.io/touchdown-toss",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://roguecore.itch.io/touchdown-toss"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:55:31.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:rosa-santiago.itch.io/matrix-exit-quiz",
-      "title": "Matrix Exit Quiz [$10.00] [Educational] [Windows] [macOS] [Linux] [Android]",
-      "description": "180 questions on workplace control, culture and a lean launch. From Breaking Free from a Matrix",
-      "source": "itch",
-      "sourceUrl": "https://rosa-santiago.itch.io/matrix-exit-quiz",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://rosa-santiago.itch.io/matrix-exit-quiz"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-03T22:21:33.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:noctispeak.itch.io/capsule-cove",
-      "title": "Capsule Cove [Free] [Simulation]",
-      "description": "Pull capsules, collect chibi figures, and fill your little seaside shop.",
-      "source": "itch",
-      "sourceUrl": "https://noctispeak.itch.io/capsule-cove",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://noctispeak.itch.io/capsule-cove"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:34:31.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:jadensquared2.itch.io/strike-night",
-      "title": "Strike Night [Free] [Sports]",
-      "description": "Soccer Game",
-      "source": "itch",
-      "sourceUrl": "https://jadensquared2.itch.io/strike-night",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://jadensquared2.itch.io/strike-night"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:37:10.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:flamingelk.itch.io/chehel",
-      "title": "Chehel - A Persian Board Game [Free] [Strategy] [Windows] [Linux]",
-      "description": "Persian Hex Strategy",
-      "source": "itch",
-      "sourceUrl": "https://flamingelk.itch.io/chehel",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://flamingelk.itch.io/chehel"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:33:35.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:shrimplicity-games.itch.io/shrimp-colony",
-      "title": "Shrimp Colony [Free] [Simulation]",
-      "description": "A tiny tank full of tiny friends.",
-      "source": "itch",
-      "sourceUrl": "https://shrimplicity-games.itch.io/shrimp-colony",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://shrimplicity-games.itch.io/shrimp-colony"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:29:44.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:roguecore.itch.io/2048",
-      "title": "2048 [Free]",
-      "description": "Play 2048 in your browser — no downloads, no sign-up.",
-      "source": "itch",
-      "sourceUrl": "https://roguecore.itch.io/2048",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://roguecore.itch.io/2048"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-02T15:17:13.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:uncle-dk.itch.io/ropefall-devbuild",
-      "title": "RopeFall_DevBuild [Free]",
-      "description": "",
-      "source": "itch",
-      "sourceUrl": "https://uncle-dk.itch.io/ropefall-devbuild",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://uncle-dk.itch.io/ropefall-devbuild"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:08:14.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:roguecore.itch.io/gloomvault",
-      "title": "Gloomvault [Free]",
-      "description": "A procedurally generated browser dungeon with fog of war, turn-based combat, and increasingly dangerous depths.",
-      "source": "itch",
-      "sourceUrl": "https://roguecore.itch.io/gloomvault",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://roguecore.itch.io/gloomvault"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-02T15:44:19.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:roguecore.itch.io/hangman",
-      "title": "Hangman [Free]",
-      "description": "Play Hangman in your browser with themed word hints, keyboard support, and quick rounds.",
-      "source": "itch",
-      "sourceUrl": "https://roguecore.itch.io/hangman",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://roguecore.itch.io/hangman"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-02T15:51:12.000Z",
-      "indexedFrom": "https://itch.io/games/newest/html5.xml"
-    },
-    {
-      "id": "itch:kibbitz.itch.io/double-booked",
-      "title": "Double Booked [Free] [Puzzle]",
-      "description": "Your calendar is the board, meetings are the blocks. Fill one slot Monday to Friday and it gets cancelled.",
-      "source": "itch",
-      "sourceUrl": "https://kibbitz.itch.io/double-booked",
-      "license": {
-        "spdx": null,
-        "kind": "unknown",
-        "sourceUrl": "https://kibbitz.itch.io/double-booked"
-      },
-      "installability": "import",
-      "tags": [
-        "HTML5"
-      ],
-      "updatedAt": "2026-10-04T00:25:29.000Z",
+      "updatedAt": "2026-10-05T17:16:14.000Z",
       "indexedFrom": "https://itch.io/games/newest/html5.xml"
     },
     {
