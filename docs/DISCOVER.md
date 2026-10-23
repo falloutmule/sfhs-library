@@ -34,6 +34,8 @@ Browse categories use small, explicit term rules over supplied descriptions/topi
 
 ## Cat Paw regression
 
+The default unfiltered Discover view gives a plain explanation of **Play** versus **Install**, and a small curated **Play now** starting point for Cat Paw based on creator metadata checked October 23, 2026. Its website opens separately and is never added to Library by that action. Details still performs normal source inspection and exposes the negative build verdict. The suggestion is hidden during a query, category browsing, itch-only selection, or Open licenses only, so it neither dominates search results nor bypasses the license filter. Empty Library now leads with **Find an app** and retains file import as a secondary choice.
+
 `falloutmule/cat-paw-air-hockey` is described by its repository as “Local two-player cat-paw air hockey for one shared phone.” Its Pages homepage is a separate **Play online** action. Android/two-player metadata yields phone indication and a two-player tag. Its unknown license stays unknown.
 
 The inspected `src/index.html` requires a browser build, so the repository representation receives **Source needs a build**. Its entry path, count, exact refusal reason, and commit are available under Technical details. The project is not summarized as External only. Opening the online version does not create local software or save protection.
@@ -48,6 +50,7 @@ npm.cmd run test:discover:browser
 npm.cmd test
 npm.cmd run test:browser
 npm.cmd run test:corpus
+npm.cmd run test:updates
 ```
 
 The normal Pages workflow already runs `npm test` and `test:browser`; the latter includes the focused Discover browser suite. Existing runtime, archive, save, and standalone checks remain in that path. Discovery UI fixtures supplement live repository inspection and the existing real-app corpus.
@@ -55,6 +58,8 @@ The normal Pages workflow already runs `npm test` and `test:browser`; the latter
 Phone-oriented Chromium evidence covers 412×915, 390px, and 320px portraits plus desktop, long content, source-build/online-only/ready/refused cases, release import, itch, no results, errors, keyboard focus, and touch targets. In the controlled Cat Paw comparison, the result card fell from about 358px to 278px while its description uses 14px text, actions remain at least 44px high, and the first Play action is clear of the bottom navigation. Proofs and screenshots are under ignored `test-results/discover-ux/` with the tested `build-info.json` identity.
 
 **Physical phone acceptance remains outstanding.** On the production Pages URL:
+
+The reported phone screenshots still showed the pre-redesign cached shell. Use `https://falloutmule.github.io/sfhs-library/start.html#discover` to reach the new opening screen without clearing local data. The upgrade browser regression first installs an actual app and saves progress, recreates the original cache-first behavior (including ineffective query changes), then verifies the new route, byte-for-byte retained app records, managed save recovery offline, sibling-cache preservation, and subsequent visible updates. Automated phone-sized checks do not close physical acceptance.
 
 1. Open Discover and search `cat paw air hockey`; the description and Play online action should be understandable immediately.
 2. Open Details. Confirm that online use, source needing a build, unknown license, and unverified phone/offline status remain distinct. Expand Technical details and return without losing your place.

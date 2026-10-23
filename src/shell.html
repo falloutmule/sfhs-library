@@ -61,6 +61,7 @@
         <div id="connection-status" class="connection-status"><span class="status-dot" aria-hidden="true"></span><span>On your device</span></div>
       </header>
 
+      <aside id="launcher-update" class="launcher-update" aria-label="Library update" hidden><div role="status"><strong>A newer Library is ready.</strong><p>Open the latest version. Your installed apps and saves stay here.</p></div><a href="./start.html#discover" class="button button-primary">Open updated Library</a></aside>
       <main id="main-content" tabindex="-1">
         <section id="view-library" class="view" aria-labelledby="library-heading">
           <div class="page-heading">
@@ -91,6 +92,8 @@
 
         <section id="view-discover" class="view" aria-labelledby="discover-heading" hidden>
           <div class="page-heading"><div><p class="eyebrow">FIND YOUR NEXT KEEPER</p><h1 id="discover-heading">Discover<span class="heading-period">.</span></h1><p class="page-description">Find something useful. Play online or keep a local copy.</p></div><span class="outline-label">OPEN SOFTWARE FIRST</span></div>
+          <div id="discover-howto" class="discover-howto"><p><strong>Play</strong> opens an app online.</p><p><strong>Want to keep it?</strong> Open Details → Check install. Compatible apps can then be installed here.</p></div>
+          <div id="discover-starter"></div>
           <form id="discover-form" class="discover-form">
             <label class="field discover-search"><span>Find software</span><span class="input-icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="discover-query" name="q" type="search" placeholder="Try air hockey, a timer, or a drawing tool" autocomplete="off"></span></label>
             <label class="field"><span>Source</span><select id="discover-source" name="source"><option value="all">All sources</option><option value="github">GitHub</option><option value="itch">itch.io · indexed catalog</option></select></label>
@@ -115,6 +118,7 @@
 
         <section id="view-settings" class="view" aria-labelledby="settings-heading" hidden>
           <div class="page-heading"><div><p class="eyebrow">A LIBRARY ON YOUR TERMS</p><h1 id="settings-heading">Settings<span class="heading-period">.</span></h1><p class="page-description">Understand your storage and keep the launcher close.</p></div></div>
+          <div class="launcher-update-check"><button type="button" id="check-launcher-update" class="button button-secondary">Check for Library update</button><p id="launcher-update-status" role="status">Updates keep your installed apps and saves on this device.</p></div>
           <div class="settings-layout">
             <article class="panel settings-panel"><div class="section-heading"><div class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-device"/></svg></div><div><h2>This device</h2><p class="muted">Software, versions, and supported state are kept locally.</p></div></div><div id="storage-status" class="storage-status" role="status">Checking browser storage…</div><meter id="storage-meter" class="storage-meter" min="0" max="100" value="0" aria-label="Estimated browser storage usage"></meter><div class="settings-row"><div><h3>Persistent storage</h3><p>Ask this browser to protect your library from automatic eviction. Keep exporting backups, even when persistence is granted.</p></div><button type="button" id="persist-storage" class="button button-secondary">Request persistence</button></div></article>
             <article class="panel settings-panel"><div class="section-heading"><div class="panel-icon"><svg class="icon" aria-hidden="true"><use href="#i-library"/></svg></div><div><h2>Your launcher</h2><p class="muted">Keep a standalone copy of SFHS Library.</p></div></div><div class="settings-row"><div><h3>Download SFHS Library</h3><p>A single HTML file you can keep. Export your library separately to preserve your installed apps and saves.</p></div><button type="button" id="download-launcher" class="button button-secondary"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Download HTML</button></div><div class="settings-row"><div><h3>Add to your home screen</h3><p>When supported, install the launcher for quick access. Your browser may also offer “Add to Home screen” in its menu.</p></div><button type="button" id="install-launcher" class="button button-secondary" hidden>Install launcher</button></div></article>

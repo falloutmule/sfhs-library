@@ -32,7 +32,7 @@ npm run dev
 
 Open `http://127.0.0.1:4178`. On Windows PowerShell use `npm.cmd` and `npx.cmd` if script policy blocks their `.ps1` wrappers. `PLAYWRIGHT_BROWSERS_PATH` may point to an existing browser installation; the UI test also accepts `SFHS_BROWSER_EXECUTABLE`.
 
-Canonical inputs are `src/`, `src/build-manifest.json`, `public/`, and `tools/`. Root `index.html`, `sw.js`, `catalog.json`, `icon.svg`, and `manifest.webmanifest` are generated. **Never hand-edit the root HTML.** The downloadable HTML bundles its code, styles, parser, ZIP library, and discovery index. `file://` storage behavior varies by browser; HTTPS is the recommended phone installation.
+Canonical inputs are `src/`, `src/build-manifest.json`, `public/`, and `tools/`. Root `index.html`, its identical `start.html` recovery entry, `sw.js`, `catalog.json`, `icon.svg`, and `manifest.webmanifest` are generated. **Never hand-edit the root HTML.** The downloadable HTML bundles its code, styles, parser, ZIP library, and discovery index. `file://` storage behavior varies by browser; HTTPS is the recommended phone installation.
 
 ## Supported boundaries
 
@@ -53,6 +53,8 @@ Original payload and executable hashes are separate. Public source is not automa
 Real application corpus acquisition and results are documented in [COMPATIBILITY-CORPUS.md](docs/COMPATIBILITY-CORPUS.md). Purpose-built fixtures supplement real applications and are not represented as the whole compatibility corpus.
 
 Pages deployment runs checks and publishes `release.json` with the deployed repository commit and HTML SHA-256. The catalog workflow fetches only public itch RSS feeds, reports refresh timestamps, and retains the old catalog on failure. Browser discovery uses no scraping or CORS proxy.
+
+If the phone still shows the original **Inspect / External only** interface, open [the updated Discover entry](https://falloutmule.github.io/sfhs-library/start.html#discover). This distinct path bypasses the original worker's old shell cache; it uses the same local library and does not clear apps or saves. Future online navigations fetch the current shell, with a verified cached shell as the offline fallback. Settings also offers **Check for Library update**; an available release has an explicit **Open updated Library** action. Running tabs are never reloaded automatically.
 
 See [RELEASE-STATUS.md](docs/RELEASE-STATUS.md) for the exact unclosed gates and [PHONE-ACCEPTANCE.md](docs/PHONE-ACCEPTANCE.md) for the physical phone cycle.
 

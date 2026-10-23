@@ -1,6 +1,10 @@
 import { searchDiscovery, inspectGithub, acquireGithub } from './discovery.js';
 import { BROWSE_CATEGORIES, discoveryModel, httpsURL } from './discover-model.js';
 
+// Small curated starting point, from the creator's metadata checked 2026-10-23.
+// This is an external web build, never an installed copy or an offline claim.
+const STARTER = {id:'github:falloutmule/cat-paw-air-hockey',source:'github',repository:'falloutmule/cat-paw-air-hockey',title:'cat-paw-air-hockey',description:'Local two-player cat-paw air hockey for one shared phone.',sourceUrl:'https://github.com/falloutmule/cat-paw-air-hockey',homepage:'https://falloutmule.github.io/cat-paw-air-hockey/',hasPages:true,tags:['air-hockey','android','html5-game','two-player'],license:{kind:'unknown'}};
+
 export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prepareInstall, importFile, getInstalled, launch }) {
   const $ = id => document.getElementById(id);
   let category = 'all', generation = 0, items = [], checked = null, started = false, returnFocus = null, searchFailed = false;
@@ -25,6 +29,7 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     return button(primary.label,()=>checkInstall(item,supplied,updateId),style);
   }
   function renderCards() {
+    renderStarter();
     $('discover-grid').replaceChildren(...items.map(item => {
       const current = model(item);
       const name = el('h3',{class:'discover-title'},current.title);
@@ -38,6 +43,13 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
       return el('article',{class:'app-card discover-card','data-project':item.id},title,el('p',{class:'discover-description'},current.description),signals,capabilities,actions);
     }));
     if(!items.length) $('discover-grid').append(el('div',{class:'discover-empty'},el('h2',{},searchFailed?'Search is unavailable for this source.':'No software matches these filters.'),el('p',{class:'muted'},searchFailed?'See the source error above. Try another source, or retry once the connection or rate limit allows it.':'Try another search or category. Open licenses only excludes projects whose license is unknown.'),button('Clear filters',()=>{category='all';$('discover-query').value='';$('discover-open').checked=false;renderBrowse();return run();},'button button-quiet')));
+  }
+  function renderStarter() {
+    const visible=category==='all' && !$('discover-query').value.trim() && $('discover-source').value!=='itch' && !$('discover-open').checked;
+    $('discover-starter').hidden=!visible;
+    $('discover-howto').hidden=!visible;
+    if(!visible)return;
+    $('discover-starter').replaceChildren(el('article',{class:'starter-card'},el('div',{},el('p',{class:'starter-label'},'TRY A GAME NOW'),el('h2',{},'Cat Paw Air Hockey'),el('p',{},'Two players share one phone.'),el('small',{},'Opens online. This does not add it to your Library.')),el('div',{class:'starter-actions'},external(STARTER.homepage,'Play now','button button-primary'),button('Details',()=>showDetails(STARTER),'button button-quiet'))));
   }
   function renderBrowse() {
     $('discover-browse').replaceChildren(...BROWSE_CATEGORIES.map(item=>{
@@ -134,11 +146,11 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     }catch(error){if(dialogCurrent(revision))renderDetails(item,detail,updateId,`Local installation could not be checked: ${error.message}`);}
   }
   function init(){
-    renderBrowse();
+    renderBrowse();renderStarter();
     $('dialog').addEventListener('close',()=>{
       if($('view-discover').hidden){returnFocus=null;return;}
       renderCards();
-      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));target?.focus();returnFocus=null;}
+      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));(target||($('discover-starter').hidden?null:$('discover-starter').querySelector('button')))?.focus();returnFocus=null;}
     });
   }
   return { run, showDetails, init, start:()=>{if(!started)return run();renderCards();} };

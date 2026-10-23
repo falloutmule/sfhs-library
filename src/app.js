@@ -4,6 +4,7 @@ import { analyzePayload } from './capsule.js';
 import { launchCapsule } from './runtime.js';
 import { inspectGithub } from './discovery.js';
 import { createDiscoverUI } from './discover-view.js';
+import { initLauncherUpdates } from './launcher-updates.js';
 
 const $ = id => document.getElementById(id);
 const now = () => new Date().toISOString();
@@ -125,8 +126,8 @@ function renderLibrary() {
     grid.append(el('div',{class:'empty-state'},el('div',{class:'empty-library-art','aria-hidden':'true'},el('i'),el('i'),el('i'),el('i')),
       el('span',{class:'eyebrow'},apps.length?'Refine your collection':'A home for software worth keeping'),
       el('h2',{},apps.length?'No matches in this shelf.':'Your collection starts here.'),
-      el('p',{class:'muted'},apps.length?'Try another search, category, or collection.':'Bring an HTML app or ZIP from your device. Keep the exact version, launch it locally, and take your library with you.'),
-      el('div',{class:'card-actions'},button(apps.length?'Import application':'Import your first app',()=>{pendingImportSource=null;$('import-file').click();},'button button-primary'),button('Explore software',()=>switchView('discover'),'button button-quiet')),
+      el('p',{class:'muted'},apps.length?'Try another search, category, or collection.':'Find a game or tool in Discover. Play opens it online. Install keeps a compatible copy in this Library.'),
+      el('div',{class:'card-actions'},button('Find an app',()=>switchView('discover'),'button button-primary'),button(apps.length?'Import application':'Import a file',()=>{pendingImportSource=null;$('import-file').click();},'button button-quiet')),
       el('p',{class:'empty-footnote'},'No account. No subscription. Your files stay on this device.')));
   } else visible.forEach((app,index) => {
     const version = active(app);
@@ -341,9 +342,10 @@ async function boot() {
   document.addEventListener('keydown',event=>{if(event.key==='/' && !$('dialog').open && !runtime && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){event.preventDefault();$(view==='discover'?'discover-query':'global-search').focus();}});
   const connection=()=>{$('connection-status').textContent=navigator.onLine?'Online':'Offline';};connection();window.addEventListener('online',connection);window.addEventListener('offline',connection);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)runtime?.flush().catch(()=>{});});
-  await refresh();switchView('library');
-  if('serviceWorker' in navigator && ['https:','http:'].includes(location.protocol))navigator.serviceWorker.register('./sw.js').catch(()=>toast('Offline launcher caching is unavailable in this browser. Keep the standalone download.'));
+  const initialView=()=>['library','discover','backups','settings'].includes(location.hash.slice(1))?location.hash.slice(1):'library';
+  await refresh();switchView(initialView());
+  window.addEventListener('hashchange',()=>switchView(initialView()));
+  initLauncherUpdates(__BUILD_ID__);
   if(location.protocol==='file:')toast('Standalone mode: storage availability depends on this browser. HTTPS installation is recommended for a dependable phone library.');
-  if(['https:','http:'].includes(location.protocol))fetch('./release.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(release=>{if(release?.commit && /^[a-f0-9]{40}$/i.test(release.commit))$('build-id').textContent+=release.buildId===__BUILD_ID__?` · Commit ${release.commit.slice(0,12)}`:` · New server release available (${release.commit.slice(0,12)}); this tab is running the cached build.`;}).catch(()=>{});
 }
 boot().catch(error=>{report(error);$('library-grid').replaceChildren(el('div',{class:'empty-state'},el('h2',{},'Local storage is unavailable.'),el('p',{},'Open the HTTPS launcher in a normal browser tab with storage enabled. Existing backup files remain yours.'),el('p',{class:'muted'},error.message)));});

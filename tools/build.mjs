@@ -33,12 +33,10 @@ const noticeText = notices.join('\n\n' + '='.repeat(72) + '\n\n');
 html = html.replace('</body>', `<script type="application/json" id="third-party-notices">${JSON.stringify(noticeText).replace(/</g,'\\u003c')}</script>\n</body>`);
 html = html.replace('<head>', `<head>\n<meta http-equiv="Content-Security-Policy" content="${csp}">`);
 const artifactHash = createHash('sha256').update(html).digest('hex');
-const sw = `const CACHE='sfhs-${artifactHash.slice(0,16)}';
-const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./catalog.json'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('sfhs-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==location.origin)return;const url=new URL(e.request.url);if(!FILES.some(p=>new URL(p,self.registration.scope).pathname===url.pathname))return;e.respondWith(caches.open(CACHE).then(async c=>{const cached=await c.match(e.request,{ignoreSearch:true});return cached||fetch(e.request)}))});\n`;
-const outputs = new Map([['index.html', html],['sw.js',sw],['build-info.json',JSON.stringify({buildId,sourceHash,artifactSha256:artifactHash},null,2)+'\n'],['THIRD-PARTY-NOTICES.txt',noticeText],['manifest.webmanifest', await readFile('public/manifest.webmanifest')],['icon.svg',await readFile('public/icon.svg')],['catalog.json',await readFile('public/catalog.json')]]);
+const sw = (await readFile('src/launcher-sw.js','utf8')).replaceAll('__ARTIFACT_SHA256__',artifactHash);
+// A distinct path bypasses the original worker's cache-first / and index.html
+// routes. The identical launcher keeps the same origin, database, and app bytes.
+const outputs = new Map([['index.html', html],['start.html',html],['sw.js',sw],['build-info.json',JSON.stringify({buildId,sourceHash,artifactSha256:artifactHash},null,2)+'\n'],['THIRD-PARTY-NOTICES.txt',noticeText],['manifest.webmanifest', await readFile('public/manifest.webmanifest')],['icon.svg',await readFile('public/icon.svg')],['catalog.json',await readFile('public/catalog.json')]]);
 const check = process.argv.includes('--check');
 for (const [name, content] of outputs) {
   if (check) {

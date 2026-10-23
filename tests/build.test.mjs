@@ -3,6 +3,14 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { parse as html } from 'parse5';
 import { parse as javascript } from 'acorn';
+
+test('old-cache recovery entry is the identical generated standalone launcher',async()=>{
+  const [main,start,worker]=await Promise.all(['index.html','start.html','sw.js'].map(name=>readFile(new URL(`../${name}`,import.meta.url),'utf8')));
+  assert.equal(start,main);
+  assert.doesNotThrow(()=>javascript(worker,{ecmaVersion:'latest'}));
+  assert.ok(worker.includes('./start.html'));
+  assert.ok(!worker.includes('__ARTIFACT_SHA256__'));
+});
 test('generated standalone executable remains valid JavaScript after literal source insertion',async()=>{
   const document=html(await readFile(new URL('../index.html',import.meta.url),'utf8'));
   const scripts=[];const external=[];
