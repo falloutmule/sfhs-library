@@ -1,6 +1,6 @@
 export function initLauncherUpdates(buildId) {
-  if(!['https:','http:'].includes(location.protocol))return;
   const $=id=>document.getElementById(id);
+  if(!['https:','http:'].includes(location.protocol)){$('check-launcher-update').closest('.launcher-update-check').hidden=true;return;}
   let checking=false,lastCheck=0;
   async function check(manual=false) {
     if(checking || (!manual && Date.now()-lastCheck<60000))return;
