@@ -1,3 +1,4 @@
+import {selectDiscoverSource,setDiscoverOpen} from './discover-helpers.mjs';
 import { chromium } from 'playwright';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -62,7 +63,7 @@ try {
   frame=await launchCard('Counter Notes');assert.equal(await frame.locator('#count').textContent(),'2');await frame.locator('#increment').click();await closeApp();check('installed application launches and saves with networking disabled');
   const offlineBackup=await backup();await page.locator('#restore-file').setInputFiles(offlineBackup);await page.getByRole('button',{name:'Restore library',exact:true}).click();await page.waitForFunction(()=>!document.getElementById('dialog').open);assert.equal((await dbApps()).length,4);check('backup creation and collision-preserving restore work offline');
   await page.locator('#global-search').fill('');await page.setViewportSize({width:390,height:844});await snap('library-phone.png');assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));check('390px phone viewport has no horizontal overflow');
-  await context.setOffline(false);await page.locator('.mobile-nav [data-view="discover"],.mobile-nav-item[data-view="discover"]').first().click();await page.locator('#discover-source').selectOption('itch');await page.locator('#discover-grid .app-card').first().waitFor();await snap('discover-phone.png');check('built-in itch catalog renders real indexed result cards');
+  await context.setOffline(false);await page.locator('.mobile-nav [data-view="discover"],.mobile-nav-item[data-view="discover"]').first().click();await selectDiscoverSource(page,'itch');await page.locator('#discover-grid .app-card').first().waitFor();await snap('discover-phone.png');check('built-in itch catalog renders real indexed result cards');
   check('no unexpected launcher exceptions',errors.every(x=>/checksum failed/.test(x)));
   const standaloneContext=await browser.newContext({acceptDownloads:true});await standaloneContext.setOffline(true);
   const standalone=await standaloneContext.newPage();await standalone.goto(pathToFileURL(resolve(root,'index.html')).href);

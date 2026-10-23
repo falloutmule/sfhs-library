@@ -1,3 +1,4 @@
+import {selectDiscoverSource,setDiscoverOpen} from './discover-helpers.mjs';
 import { chromium } from 'playwright';
 import { createServer } from 'node:http';
 import { readFile,writeFile,mkdir } from 'node:fs/promises';
@@ -47,12 +48,12 @@ async function database(){return page.evaluate(()=>new Promise((resolve,reject)=
 try{
   if(existsSync(baselinePath)){
     const oldContext=await newContext(),old=await oldContext.newPage();
-    await old.goto(base+'/baseline/');await old.locator('.mobile-nav-item[data-view="discover"]').click();await old.locator('#discover-source').selectOption('github');await old.locator('#discover-query').fill(CAT.full_name);await old.locator('#discover-form button[type="submit"]').click();
+    await old.goto(base+'/baseline/');await old.locator('.mobile-nav-item[data-view="discover"]').click();await selectDiscoverSource(old,'github');await old.locator('#discover-query').fill(CAT.full_name);await old.locator('#discover-form button[type="submit"]').click();
     await old.waitForFunction(()=>document.querySelectorAll('#discover-grid .app-card').length===1);
     proof.baselineCardHeight=(await old.locator('#discover-grid .app-card').boundingBox()).height;
     await old.screenshot({path:resolve(output,'before-phone.png'),fullPage:true});proof.screenshots.push('before-phone.png');await oldContext.close();
   }
-  await page.goto(base);await page.locator('.mobile-nav-item[data-view="discover"]').click();await page.locator('#discover-source').selectOption('github');await search(CAT.full_name);
+  await page.goto(base);await page.locator('.mobile-nav-item[data-view="discover"]').click();await selectDiscoverSource(page,'github');await search(CAT.full_name);
   await card(CAT.full_name).getByRole('heading',{name:'Cat Paw Air Hockey',exact:true}).waitFor();
   assert.match(await card(CAT.full_name).textContent(),/Local two-player cat-paw air hockey for one shared phone/);
   assert.match(await card(CAT.full_name).textContent(),/Phone \/ touch indicated/);assert.match(await card(CAT.full_name).textContent(),/2 players/);
@@ -75,7 +76,7 @@ try{
   await search('browse');await shot('browse-phone.png');
   await page.locator('#discover-query').fill('');await page.getByRole('button',{name:'Phone / Touch',exact:true}).click();await page.waitForFunction(()=>document.getElementById('discover-grid').getAttribute('aria-busy')==='false');
   const phoneCards=await page.locator('#discover-grid article').allTextContents();assert.ok(phoneCards.length>=2&&phoneCards.every(text=>text.includes('Phone / touch indicated')));check('browse chips filter metadata without claiming phone verification');
-  await page.getByRole('button',{name:'All software',exact:true}).click();await page.locator('#discover-open').check();await page.waitForFunction(()=>document.querySelectorAll('#discover-grid article').length===1);assert.ok(await card('owner/ready-game').count());await page.locator('#discover-open').uncheck();
+  await page.getByRole('button',{name:'All software',exact:true}).click();await setDiscoverOpen(page,true);await page.waitForFunction(()=>document.querySelectorAll('#discover-grid article').length===1);assert.ok(await card('owner/ready-game').count());await setDiscoverOpen(page,false);
   await search('browse');check('Open licenses only excludes unknown licenses');
   await card('owner/ready-game').getByRole('button',{name:'Check install',exact:true}).click();await page.locator('#dialog').getByRole('heading',{name:'Ready to install',exact:true}).waitFor();
   assert.equal(await page.locator('.discover-technical').getAttribute('open'),null);await shot('ready-install-phone.png');await page.getByRole('button',{name:'Install application',exact:true}).click();await page.waitForFunction(()=>!document.getElementById('dialog').open);
@@ -83,7 +84,7 @@ try{
   await page.locator('#library-grid').getByRole('button',{name:'Launch',exact:true}).click();const frame=page.frameLocator('#runtime-container iframe');await frame.locator('#add').click();assert.equal(await frame.locator('#score').textContent(),'1');assert.equal(await page.locator('#runtime-container iframe').getAttribute('sandbox'),'allow-scripts');await page.locator('#runtime-close').click();
   check('ready app reaches actual acquisition/analysis/install, preserves exact bytes and hashes, and launches isolated');
   await page.locator('.mobile-nav-item[data-view="discover"]').click();await card('owner/ready-game').getByRole('button',{name:'Launch local app',exact:true}).waitFor();check('returning to Discover refreshes the retained local-version action');await search('browse');await card('owner/unsafe').getByRole('button',{name:'Check install',exact:true}).click();await page.locator('#dialog').getByRole('heading',{name:'Not compatible',exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Install application',exact:true}).count(),0);assert.match(await page.locator('#dialog-body').textContent(),/Offline unknown/);assert.doesNotMatch(await page.locator('#dialog-body').textContent(),/Offline candidate/);
+  assert.equal(await page.getByRole('button',{name:'Install application',exact:true}).count(),0);assert.match(await page.locator('#dialog-body').textContent(),/Offline not verified/);assert.doesNotMatch(await page.locator('#dialog-body').textContent(),/Offline candidate/);
   await shot('not-compatible-phone.png');await page.locator('#dialog-close').click();assert.equal((await database()).length,1);check('unsupported app remains incompatible and uninstalled');
   await card('owner/multiple-builds').getByRole('button',{name:'Check install',exact:true}).click();await page.locator('#dialog').getByRole('heading',{name:'Ready to install',exact:true}).waitFor();await page.getByRole('button',{name:'Cancel',exact:true}).click();
   await card('owner/multiple-builds').getByRole('button',{name:'Details',exact:true}).click();await page.locator('#dialog').getByText('Technical details',{exact:true}).click();await page.getByLabel('Browser package entry',{exact:true}).selectOption('index.html');
@@ -97,13 +98,13 @@ try{
   check('long names/descriptions, touch actions, and bottom navigation fit 320/390/412px plus desktop');
   await page.setViewportSize({width:412,height:915});await search('nothing');await page.getByRole('heading',{name:'No software matches these filters.',exact:true}).waitFor();await shot('no-results-phone.png');
   await search('rate');await page.locator('#discover-errors').getByText(/rate limit reached/).waitFor();await shot('rate-limit-phone.png');check('no-results and rate-limit states stay readable, with real errors prominent');
-  await page.locator('#discover-query').fill('');await page.locator('#discover-source').selectOption('itch');await page.locator('#discover-grid article').first().waitFor();
+  await page.locator('#discover-query').fill('');await selectDiscoverSource(page,'itch');await page.locator('#discover-grid article').first().waitFor();
   assert.match(await page.locator('#discover-status').textContent(),/itch.io.*indexed/);assert.equal(await page.locator('.discover-source-details').getAttribute('open'),null);
   await shot('itch-results-phone.png');await page.locator('#discover-grid article').first().getByRole('button',{name:'Details',exact:true}).click();await page.locator('#dialog').getByRole('heading',{name:'Download then import',exact:true}).waitFor();assert.ok(await page.getByRole('button',{name:'Import a downloaded file',exact:true}).count());await shot('itch-details-phone.png');await page.locator('#dialog-close').click();check('itch results emphasize project information and creator route while retaining indexed-catalog truth');
   await page.waitForFunction(()=>document.activeElement.textContent==='Details');await page.keyboard.press('/');assert.equal(await page.locator('#discover-query').evaluate(node=>node===document.activeElement),true);check('keyboard search shortcut follows Discover');
-  await context.setOffline(true);await page.locator('#discover-open').check();await page.locator('#discover-errors').getByText(/You’re offline/).waitFor();await shot('offline-phone.png');await context.setOffline(false);check('offline state is explicit while the indexed catalog stays usable');
+  await context.setOffline(true);await setDiscoverOpen(page,true);await page.locator('#discover-errors').getByText(/You’re offline/).waitFor();await shot('offline-phone.png');await context.setOffline(false);check('offline state is explicit while the indexed catalog stays usable');
   const unavailableContext=await newContext();await unavailableContext.route('https://api.github.com/repos/falloutmule/cat-paw-air-hockey',route=>route.fulfill({status:503,headers:{'access-control-allow-origin':'*'},body:'{}'}));
-  const unavailable=await unavailableContext.newPage();await unavailable.goto(base);await unavailable.locator('.mobile-nav-item[data-view="discover"]').click();await unavailable.locator('#discover-source').selectOption('github');await unavailable.locator(`[data-project="github:${CAT.full_name}"]`).getByRole('button',{name:'Details',exact:true}).click();await unavailable.locator('#dialog-body').getByRole('alert').waitFor();assert.equal(await unavailable.locator('#dialog').getByRole('link',{name:'Play online (opens in a new tab)',exact:true}).count(),1);await unavailable.screenshot({path:resolve(output,'source-unavailable-phone.png'),fullPage:true});proof.screenshots.push('source-unavailable-phone.png');await unavailableContext.close();check('unavailable source inspection stays prominent without removing a separately listed online version');
+  const unavailable=await unavailableContext.newPage();await unavailable.goto(base);await unavailable.locator('.mobile-nav-item[data-view="discover"]').click();await selectDiscoverSource(unavailable,'github');await unavailable.locator(`[data-project="github:${CAT.full_name}"]`).getByRole('button',{name:'Details',exact:true}).click();await unavailable.locator('#dialog-body').getByRole('alert').waitFor();assert.equal(await unavailable.locator('#dialog').getByRole('link',{name:'Play online (opens in a new tab)',exact:true}).count(),1);await unavailable.screenshot({path:resolve(output,'source-unavailable-phone.png'),fullPage:true});proof.screenshots.push('source-unavailable-phone.png');await unavailableContext.close();check('unavailable source inspection stays prominent without removing a separately listed online version');
   check('no unexpected browser exceptions',proof.pageErrors.length===0);proof.result='PASS';
 }catch(error){proof.result='FAIL';proof.error=error.stack;await shot('failure.png').catch(()=>{});throw error;}
 finally{await writeFile(resolve(output,'proof.json'),JSON.stringify(proof,null,2));console.log(`Proof ${output}`);await browser.close();await new Promise(resolve=>server.close(resolve));}

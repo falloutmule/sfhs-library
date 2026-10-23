@@ -1,13 +1,10 @@
-import { searchDiscovery, inspectGithub, acquireGithub } from './discovery.js';
-import { BROWSE_CATEGORIES, discoveryModel, httpsURL } from './discover-model.js';
-
-// Small curated starting point, from the creator's metadata checked 2026-10-23.
-// This is an external web build, never an installed copy or an offline claim.
-const STARTER = {id:'github:falloutmule/cat-paw-air-hockey',source:'github',repository:'falloutmule/cat-paw-air-hockey',title:'cat-paw-air-hockey',description:'Local two-player cat-paw air hockey for one shared phone.',sourceUrl:'https://github.com/falloutmule/cat-paw-air-hockey',homepage:'https://falloutmule.github.io/cat-paw-air-hockey/',hasPages:true,tags:['air-hockey','android','html5-game','two-player'],license:{kind:'unknown'}};
+import { searchDiscovery, inspectGithub, acquireGithub,rankItems } from './discovery.js';
+import { BROWSE_CATEGORIES, discoveryModel, httpsURL,matchesBrowse } from './discover-model.js';
+import {CHECKED_APPS,CHECKED_AT,checkedPackageDetail} from './checked-catalog.js';
 
 export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prepareInstall, importFile, getInstalled, launch }) {
   const $ = id => document.getElementById(id);
-  let category = 'all', generation = 0, items = [], checked = null, started = false, returnFocus = null, searchFailed = false;
+  let category = 'all',mode='checked', generation = 0, items = [], checked = null, started = false, returnFocus = null, searchFailed = false;
   const details = new Map();
   const rejected = new Map();
   const analysisKey = data => `${data.repository}@${data.commit}:${data.selectedEntry||data.recommendedEntry}`;
@@ -29,41 +26,44 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     return button(primary.label,()=>checkInstall(item,supplied,updateId),style);
   }
   function renderCards() {
-    renderStarter();
     $('discover-grid').replaceChildren(...items.map(item => {
       const current = model(item);
       const name = el('h3',{class:'discover-title'},current.title);
-      const title = el('div',{class:'discover-card-heading'},el('span',{class:'discover-glyph','aria-hidden':'true'},current.signals.glyph),el('div',{},name,el('span',{class:'discover-source'},item.source==='itch'?'itch.io · indexed':`GitHub · ${item.repository?.split('/')[0] || 'public project'}`)));
+      const title = el('div',{class:'discover-card-heading'},el('span',{class:'discover-glyph','aria-hidden':'true'},current.signals.glyph),el('div',{},name));
       const signals = el('ul',{class:'discover-signals','aria-label':'Project information'},...(current.signals.tags.length?current.signals.tags:['Category unknown']).map(tag=>el('li',{},tag)));
-      const localLabel = current.install.state === 'needs-check' ? 'Local install needs checking' : current.install.title;
-      const capabilities = el('ul',{class:'discover-capabilities'},el('li',{},el('span',{'aria-hidden':'true'},current.online?'↗':'○'),current.online?'Online version available':item.source==='itch'?'Visit creator for play / downloads':'Online version unknown'),el('li',{},el('span',{'aria-hidden':'true'},'↓'),localLabel),el('li',{},el('span',{'aria-hidden':'true'},'§'),current.licenseLabel));
+      const localLabel = current.install.state === 'needs-check' ? 'Install not checked' : current.install.title;
+      const capability=current.online?.state==='unavailable'?`Website unavailable · HTTP ${current.online.check.httpStatus}`:current.primary.type==='online'?(['incompatible','source-build','unavailable'].includes(current.install.state)?'Play online · This source can’t install':'Website link checked'):localLabel;
+      const capabilities=el('div',{class:'discover-card-facts'},el('span',{},capability),el('span',{},current.licenseLabel));
       const actions = el('div',{class:'discover-actions'},action(item,current));
       if(current.primary.type!=='details') actions.append(button('Details',()=>showDetails(item),'button button-quiet'));
       else if(item.source==='github') actions.append(external(item.sourceUrl,'Source code'));
       return el('article',{class:'app-card discover-card','data-project':item.id},title,el('p',{class:'discover-description'},current.description),signals,capabilities,actions);
     }));
-    if(!items.length) $('discover-grid').append(el('div',{class:'discover-empty'},el('h2',{},searchFailed?'Search is unavailable for this source.':'No software matches these filters.'),el('p',{class:'muted'},searchFailed?'See the source error above. Try another source, or retry once the connection or rate limit allows it.':'Try another search or category. Open licenses only excludes projects whose license is unknown.'),button('Clear filters',()=>{category='all';$('discover-query').value='';$('discover-open').checked=false;renderBrowse();return run();},'button button-quiet')));
-  }
-  function renderStarter() {
-    const visible=category==='all' && !$('discover-query').value.trim() && $('discover-source').value!=='itch' && !$('discover-open').checked;
-    $('discover-starter').hidden=!visible;
-    $('discover-howto').hidden=!visible;
-    if(!visible)return;
-    $('discover-starter').replaceChildren(el('article',{class:'starter-card'},el('div',{},el('p',{class:'starter-label'},'TRY A GAME NOW'),el('h2',{},'Cat Paw Air Hockey'),el('p',{},'Two players share one phone.'),el('small',{},'Opens online. This does not add it to your Library.')),el('div',{class:'starter-actions'},external(STARTER.homepage,'Play now','button button-primary'),button('Details',()=>showDetails(STARTER),'button button-quiet'))));
+    if(!items.length) $('discover-grid').append(el('div',{class:'discover-empty'},el('h2',{},searchFailed?'Search is unavailable for this source.':mode==='checked'?'No checked apps match.':'No software matches these filters.'),el('p',{class:'muted'},searchFailed?'See the source error above. Try another source, or retry once the connection or rate limit allows it.':mode==='checked'?'The checked shelf is small. You can search more GitHub and itch.io projects; those results still need checking.':'Try another search or category. Open licenses only excludes projects whose license is unknown.'),mode==='checked'?button('Search more projects',()=>setMode('web'),'button button-primary'):null,button('Clear filters',()=>{category='all';$('discover-query').value='';$('discover-open').checked=false;renderBrowse();return run();},'button button-quiet')));
   }
   function renderBrowse() {
-    $('discover-browse').replaceChildren(...BROWSE_CATEGORIES.map(item=>{
+    $('discover-browse').replaceChildren(...BROWSE_CATEGORIES.filter(item=>mode==='web'||['all','games','tools'].includes(item.id)).map(item=>{
       const node=button(item.label,()=>{category=item.id;renderBrowse();return run();},'browse-chip');
       node.setAttribute('aria-pressed',String(category===item.id));
       return node;
     }));
   }
+  function setMode(next){mode=next;category='all';$('discover-find').open=next==='web';$('discover-options').open=next==='checked';renderBrowse();return run();}
+  function browseChecked(){document.getElementById('dialog-close').click();$('discover-query').value='';$('discover-open').checked=false;setMode('checked');window.scrollTo({top:0});}
   async function run() {
     started=true;
     const request=++generation;
     $('discover-status').textContent='Finding software…';$('discover-grid').setAttribute('aria-busy','true');$('discover-errors').replaceChildren();
+    for(const node of $('discover-modes').querySelectorAll('button'))node.setAttribute('aria-pressed',String(node.dataset.mode===mode));
+    $('discover-mode-hint').textContent=mode==='checked'?'Install keeps a copy on this device. Play opens the creator’s website.':'Web results are not checked apps. A homepage alone does not prove a working game or a local install.';
+    $('discover-source-field').hidden=mode==='checked';
+    $('view-discover').dataset.discoverMode=mode;
+    $('discover-query').placeholder=mode==='checked'?'Search checked apps':'Search GitHub and itch.io';
+    $('discover-about').textContent=mode==='checked'?'About checks':'About sources';
     try {
-      const result=await searchDiscovery({query:$('discover-query').value,source:$('discover-source').value,openOnly:$('discover-open').checked,category});
+      const words=$('discover-query').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      const filtered=CHECKED_APPS.filter(item=>matchesBrowse(item,category)&&(!$('discover-open').checked||item.license.kind==='open')&&words.every(word=>`${item.title} ${item.description} ${item.repository} ${item.tags.join(' ')}`.toLowerCase().includes(word)));
+      const result=mode==='checked'?{items:rankItems(filtered,$('discover-query').value),summary:[`${filtered.length} checked apps · ${new Date(CHECKED_AT).toLocaleDateString(undefined,{month:'short',day:'numeric'})}`],status:'Checked apps use pinned source versions, package analysis, and explicit website checks. Files are verified and analyzed again before installation. These checks do not establish physical phone acceptance, complete safety, or blanket save/offline support.',errors:[]}:await searchDiscovery({query:$('discover-query').value,source:$('discover-source').value,openOnly:$('discover-open').checked,category});
       if(request!==generation)return;
       items=result.items;
       $('discover-status').replaceChildren(...(result.summary||[`${items.length} results`]).map(text=>el('span',{},text)));
@@ -84,16 +84,17 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     const data={...item,...detail}, current=model(data), installed=getInstalled(item);
     let selected=null;
     const secondary=[];
-    if(data.source==='github' && (!detail || detail.installable) && current.primary.type!=='check' && current.primary.type!=='install')secondary.push(button(current.install.state==='ready'?'Install':'Check install',()=>checkInstall(item,detail&&{...detail,selectedEntry:selected?.value||detail.recommendedEntry},updateId),'button button-quiet'));
+    if(data.source==='github' && (!detail || detail.installable) && !['incompatible','source-build','unavailable'].includes(current.install.state) && current.primary.type!=='check' && current.primary.type!=='install')secondary.push(button(current.install.state==='ready'?'Install':'Check install',()=>checkInstall(item,detail&&{...detail,selectedEntry:selected?.value||detail.recommendedEntry},updateId),'button button-quiet'));
     const primary=action(item,current,'button button-primary',detail,updateId);
     const body=el('div',{class:'stack discover-detail'},el('p',{class:'discover-detail-description'},current.description),
       el('ul',{class:'discover-signals','aria-label':'Project information'},...current.signals.tags.map(tag=>el('li',{},tag))),
-      el('section',{class:'discover-options'},el('h3',{},'What you can do'),el('div',{class:'discover-actions'},current.primary.type==='details'?null:primary,...secondary,external(item.sourceUrl,item.source==='itch'?'Creator page':'Source code')),
-        current.online?el('p',{class:'muted'},'Online use opens the project’s website in a separate tab. A local copy and save backup are separate checks.'):null),
+      el('section',{class:'discover-options'},el('h3',{},'What you can do'),el('div',{class:'discover-actions'},current.primary.type==='details'?button('Browse checked apps',browseChecked,'button button-primary'):primary,...secondary,current.online?.state==='unverified'&&current.primary.type!=='website'?external(current.online.url,'Visit website (not checked)'):null,external(item.sourceUrl,item.source==='itch'?'Creator page':'Source code')),
+        current.online?.state==='unavailable'?el('p',{class:'discover-error'},`The listed website returned HTTP ${current.online.check.httpStatus} when checked. It is not offered as playable.`):current.online?el('p',{class:'muted'},`${current.online.state==='checked'?'Website responded when checked '+new Date(current.online.check.checkedAt).toLocaleDateString()+'.':'The creator’s website has not been checked.'} Online use opens a separate tab; it does not keep a local copy.`):el('p',{class:'muted'},'No checked online version is listed.')),
       error?el('p',{class:'discover-error',role:'alert'},error):null,
       el('section',{class:'discover-verdict'},el('h3',{},current.install.title),el('p',{},current.install.summary),
         detail?.sourceNeedsBuild?el('p',{class:'muted'},'A live web version can still be used online when listed above.'):null,
-        item.source==='itch'||current.downloads.length?button('Import a downloaded file',()=>importFor(data),'button button-quiet'):null),
+        item.source==='itch'||current.downloads.length?button('Import a downloaded file',()=>importFor(data),'button button-quiet'):null,
+        ['incompatible','source-build','unavailable'].includes(current.install.state)&&current.primary.type!=='details'?button('Browse apps you can install',browseChecked,'button button-quiet'):null),
       el('section',{},el('h3',{},'Local preservation'),el('dl',{class:'discover-facts'},
         el('dt',{},'Local copy'),el('dd',{},installed?'Installed on this device':'Not installed'),
         el('dt',{},'Save backup'),el('dd',{},installed?`${installed.versions.find(v=>v.id===installed.activeVersionId)?.saveSupport||'Unknown'} support · see Library details`:'Not applicable yet'),
@@ -123,7 +124,8 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     if(!item.id)item={...item,id:`github:${item.repository}`};
     if(!$('dialog').open)returnFocus={id:item.id,text:'Details'};
     if(supplied)details.set(item.id,supplied);
-    const cached=supplied||details.get(item.id);
+    const cached=supplied||details.get(item.id)||checkedPackageDetail(item);
+    if(cached)details.set(item.id,cached);
     const revision=renderDetails(item,cached,updateId);
     if(item.source==='itch'||cached)return;
     try {
@@ -134,7 +136,7 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
   async function checkInstall(item, supplied, updateId) {
     if(!$('dialog').open)returnFocus={id:item.id,text:model(item).primary.label};
     const revision=modal('Checking local install',el('div',{class:'stack'},el('p',{},'Checking for a complete browser app and whether SFHS Library can keep it safely.'),el('p',{class:'muted'},'The app is installed only after you review and confirm the result.')),[button('Cancel',()=>document.getElementById('dialog-close').click(),'button button-quiet')]);
-    let detail=supplied||details.get(item.id);
+    let detail=supplied||details.get(item.id)||checkedPackageDetail(item);
     try {
       detail=detail||await inspectGithub(item);details.set(item.id,detail);renderCards();
       if(!dialogCurrent(revision))return;
@@ -142,15 +144,17 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
       const selection=detail.selectedEntry||detail.recommendedEntry;
       const payload=checked?.id===item.id && checked.detail.commit===detail.commit && checked.selection===selection?checked.payload:await acquireGithub(item,detail);
       if(!dialogCurrent(revision))return;
-      await prepareInstall(payload.bytes,payload.filename,payload.source,updateId,false,{discovery:true,name:model(item).title,description:model(item).description,isCurrent:()=>dialogCurrent(revision),onAnalysis:analysis=>{checked={id:item.id,detail,selection,payload,analysis};const key=analysisKey({...detail,selectedEntry:selection});if(analysis.compatible)rejected.delete(key);else rejected.set(key,{compatible:false,offline:analysis.offline,reasons:analysis.reasons});renderCards();}});
+      await prepareInstall(payload.bytes,payload.filename,payload.source,updateId,false,{discovery:true,name:model(item).title,description:model(item).description,category:model(item).signals.categories.includes('games')?'Games':'Utilities',isCurrent:()=>dialogCurrent(revision),onIncompatible:()=>renderDetails(item,detail,updateId),onAnalysis:analysis=>{checked={id:item.id,detail,selection,payload,analysis};const key=analysisKey({...detail,selectedEntry:selection});if(analysis.compatible)rejected.delete(key);else rejected.set(key,{compatible:false,offline:analysis.offline,reasons:analysis.reasons});renderCards();}});
     }catch(error){if(dialogCurrent(revision))renderDetails(item,detail,updateId,`Local installation could not be checked: ${error.message}`);}
   }
   function init(){
-    renderBrowse();renderStarter();
+    renderBrowse();
+    $('discover-options').open=true;
+    for(const node of $('discover-modes').querySelectorAll('button'))node.addEventListener('click',()=>setMode(node.dataset.mode));
     $('dialog').addEventListener('close',()=>{
       if($('view-discover').hidden){returnFocus=null;return;}
       renderCards();
-      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));(target||($('discover-starter').hidden?null:$('discover-starter').querySelector('button')))?.focus();returnFocus=null;}
+      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));target?.focus();returnFocus=null;}
     });
   }
   return { run, showDetails, init, start:()=>{if(!started)return run();renderCards();} };

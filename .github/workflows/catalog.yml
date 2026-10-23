@@ -19,6 +19,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: node tools/update-catalog.mjs
+      - run: node tools/check-discover.mjs --websites-only
       - run: node --test tests/discovery.test.mjs
       - run: npm run build
       - run: npm run build:check
@@ -26,8 +27,8 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/catalog.json catalog.json index.html start.html sw.js build-info.json
+          git add public/catalog.json public/checked-apps.json catalog.json index.html start.html sw.js build-info.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Refresh public itch.io discovery catalog'
+            git commit -m 'Refresh discovery catalog and website checks'
             git push
           fi

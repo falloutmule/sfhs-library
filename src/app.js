@@ -157,12 +157,13 @@ async function prepareInstall(bytes, name, source = {kind:'device',license:{kind
   const result = await analyzePayload({bytes,filename:name,networkAllowed,entryPath:source.entry});
   if(options.isCurrent && !options.isCurrent())return;
   options.onAnalysis?.(result);
+  if(!result.compatible && options.onIncompatible){options.onIncompatible(result);return;}
   const old = updateId ? await store.getApp(updateId) : null;
   if(options.isCurrent && !options.isCurrent())return;
   const nameInput = el('input',{value:old?.name || options.name || result.title || name.replace(/\.(html?|zip)$/i,''),maxlength:160,required:true});
   const versionInput = el('input',{value:source.version?.slice(0,40) || `Version ${(old?.versions.length||0)+1}`,maxlength:100});
   const categoryInput = el('select',{},...['Utilities','Games','Creative','Learning','Development','Uncategorized'].map(x=>el('option',{value:x},x)));
-  categoryInput.value = old?.category || 'Uncategorized';
+  categoryInput.value = old?.category || options.category || 'Uncategorized';
   let body = el('div',{class:'stack'},el('p',{class:'muted'},'The original file and a separate executable capsule will be retained on this device.'),
     el('div',{class:'badge-row'},badge(result.compatible?'Ready to install':'Unsupported',result.compatible?'good':'bad'),badge(label(result.profile)),badge(licenseText(source.license))),
     field('Application name',nameInput),field('Version label',versionInput),field('Category',categoryInput),
@@ -170,7 +171,7 @@ async function prepareInstall(bytes, name, source = {kind:'device',license:{kind
     el('ul',{class:'inspection-notes'},...[...(result.reasons||[]),...(result.warnings||[])].map(x=>el('li',{},x))),
     el('details',{},el('summary',{},'Payload fingerprint'),el('code',{class:'hash'},result.originalHash)));
   if(options.discovery)body=el('div',{class:'stack discover-detail'},el('section',{class:'discover-verdict'},el('h3',{},result.compatible?'Ready to install':'Not compatible'),el('p',{},result.compatible?'This browser package passed the local checks. Its original file and a separate runnable copy will be kept on this device.':'This version needs browser features SFHS Library cannot currently preserve or run safely.')),
-    result.compatible?field('Application name',nameInput):null,result.compatible?field('Version label',versionInput):null,result.compatible?field('Category',categoryInput):null,
+    result.compatible?el('details',{},el('summary',{},'Rename or organize'),el('div',{class:'stack'},field('Application name',nameInput),field('Version label',versionInput),field('Category',categoryInput))):null,
     el('p',{class:'muted'},`${licenseText(source.license)} · ${result.offline==='network'?'Uses network':result.compatible&&result.offline==='candidate'?'Offline candidate; offline use has not been verified':'Offline unknown'}.`),
     el('details',{class:'discover-technical'},el('summary',{},'Technical details'),el('p',{},`${label(result.profile)} · ${result.fileCount||1} files · ${formatSize(bytes.length)}`),el('ul',{},...[...(result.reasons||[]),...(result.warnings||[])].map(reason=>el('li',{},reason))),el('p',{},'Original SHA-256'),el('code',{class:'hash'},result.originalHash)));
   if (!networkAllowed && result.networkOrigins?.length) {
@@ -186,7 +187,7 @@ async function prepareInstall(bytes, name, source = {kind:'device',license:{kind
       source,save:{localStorage:{},bridge:null} };
     const app = old ? await store.mutateApp(old.id,current=>({...current,versions:[...current.versions,{...version,save:structuredClone(active(current).save)}],updatedAt:now()})) : {id:uid(),name:nameInput.value.trim(),description:options.description||'',category:categoryInput.value,collections:[],favorite:false,createdAt:now(),updatedAt:now(),lastLaunchedAt:null,launchCount:0,activeVersionId:version.id,versions:[version],lastBackupAt:null};
     if(!old)await store.putApp(app); closeDialog(); await refresh(); switchView('library');
-    if(old) await launch(app.id,version.id,true); else toast(`${app.name} installed. Original payload retained.`);
+    if(old) await launch(app.id,version.id,true); else toast(`${app.name} added to Library. Tap Launch to start.`);
   },'button button-primary'));
   modal(old?`Update ${old.name}`:options.discovery?`${result.compatible?'Install':'Can’t install'} ${options.name}`:'Inspect before installing',body,actions);
 }

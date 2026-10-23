@@ -1,6 +1,7 @@
 import bundledCatalog from '../public/catalog.json' with { type: 'json' };
 import { zipSync } from 'fflate';
 import { BROWSE_CATEGORIES, matchesBrowse, httpsURL, readmeSummary, onlineVersion } from './discover-model.js';
+import {checkedHomepage} from './checked-catalog.js';
 
 const API = 'https://api.github.com';
 const MAX_FILES = 500;
@@ -91,7 +92,8 @@ async function github(path, { optional = false, ttl = 120000 } = {}) {
 
 function repositoryItem(repo) {
   const repository = repo.full_name;
-  return { id: `github:${repository}`, title: repo.name, description: repo.description || '', source: 'github', sourceUrl: `https://github.com/${repository}`, repository, license: classifyLicense(repo.license, `https://github.com/${repository}`), installability: 'inspect', tags: repo.topics || [], updatedAt: repo.pushed_at || repo.updated_at, stars: repo.stargazers_count || 0, archived: !!repo.archived, homepage: httpsURL(repo.homepage), hasPages: !!repo.has_pages, ...inspectedRepositories.get(repository) };
+  const pagesURL=repo.has_pages&&!httpsURL(repo.homepage)?checkedHomepage(repository):null;
+  return { id: `github:${repository}`, title: repo.name, description: repo.description || '', source: 'github', sourceUrl: `https://github.com/${repository}`, repository, license: classifyLicense(repo.license, `https://github.com/${repository}`), installability: 'inspect', tags: repo.topics || [], updatedAt: repo.pushed_at || repo.updated_at, stars: repo.stargazers_count || 0, archived: !!repo.archived, homepage: httpsURL(repo.homepage), pagesURL,hasPages: !!repo.has_pages, ...inspectedRepositories.get(repository) };
 }
 
 export function rankItems(items, query = '') {
@@ -238,9 +240,9 @@ export async function inspectGithub(item) {
     : recommended ? 'Static entry HTML found. The full package still needs compatibility analysis before it can be installed.'
     : entries.find(entry => entry.reason)?.reason || 'No ready-to-run entry HTML found. This repository may need a build or server; download a browser release and import its HTML/ZIP.';
   const releases = releaseResult.status === 'fulfilled' ? (releaseResult.value || []).map(release => ({ tag: release.tag_name, name: release.name, url: release.html_url, publishedAt: release.published_at, assets: (release.assets || []).map(asset => ({ name: asset.name, url: asset.browser_download_url, size: asset.size })) })) : [];
-  let pagesURL = null;
+  let pagesURL = metadata.has_pages?checkedHomepage(repository):null;
   if (metadata.has_pages && !httpsURL(metadata.homepage)) {
-    try { const pages = await github(`${base}/pages`, { optional:true }); pagesURL = httpsURL(pages?.html_url); }
+    try { const pages = await github(`${base}/pages`, { optional:true }); pagesURL = httpsURL(pages?.html_url)||pagesURL; }
     catch (error) { notes.push(`Pages details: ${error.message}`); }
   }
   const inspected = { inspected:true, installable, installReason, sourceNeedsBuild, releases, pagesURL, license, description:metadata.description || readmeSummary(readme) };
@@ -268,6 +270,7 @@ export async function acquireGithub(item, detail = undefined) {
       catch { throw new DiscoveryError(`Cannot retrieve ${file.path}. The server or browser blocked the download. Download normally, then import.`, 'download'); }
       if (!response.ok) throw new DiscoveryError(`Cannot retrieve ${file.path} (HTTP ${response.status}). No partial installation was created.`, 'download');
       const bytes = await boundedBytes(response, MAX_BYTES);
+      if(file.sha256){const hash=await crypto.subtle.digest('SHA-256',bytes);const actual=[...new Uint8Array(hash)].map(n=>n.toString(16).padStart(2,'0')).join('');if(actual!==file.sha256)throw new DiscoveryError(`The checked file changed: ${file.path}. No partial installation was created.`, 'integrity');}
       received += bytes.length;
       if (received > MAX_BYTES) throw new DiscoveryError('The complete package exceeds 40 MiB.', 'size-limit');
       if (typeof file.size === 'number' && bytes.length !== file.size) throw new DiscoveryError(`The acquired file size does not match GitHub metadata: ${file.path}.`, 'integrity');

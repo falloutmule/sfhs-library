@@ -91,17 +91,16 @@
         </section>
 
         <section id="view-discover" class="view" aria-labelledby="discover-heading" hidden>
-          <div class="page-heading"><div><p class="eyebrow">FIND YOUR NEXT KEEPER</p><h1 id="discover-heading">Discover<span class="heading-period">.</span></h1><p class="page-description">Find something useful. Play online or keep a local copy.</p></div><span class="outline-label">OPEN SOFTWARE FIRST</span></div>
-          <div id="discover-howto" class="discover-howto"><p><strong>Play</strong> opens an app online.</p><p><strong>Want to keep it?</strong> Open Details → Check install. Compatible apps can then be installed here.</p></div>
-          <div id="discover-starter"></div>
-          <form id="discover-form" class="discover-form">
+          <div class="page-heading"><div><h1 id="discover-heading">Discover<span class="heading-period">.</span></h1><p class="page-description">Choose an app to keep or use online.</p></div></div>
+          <div id="discover-modes" class="discover-modes" role="group" aria-label="Where to discover software"><button type="button" data-mode="checked" aria-pressed="true">Checked apps</button><button type="button" data-mode="web" aria-pressed="false">Search the web</button></div>
+          <p id="discover-mode-hint" class="discover-mode-hint">Install keeps a copy on this device. Play opens the creator’s website.</p>
+          <details id="discover-find" class="discover-find"><summary>Search or filter these apps</summary><form id="discover-form" class="discover-form">
             <label class="field discover-search"><span>Find software</span><span class="input-icon"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="discover-query" name="q" type="search" placeholder="Try air hockey, a timer, or a drawing tool" autocomplete="off"></span></label>
-            <label class="field"><span>Source</span><select id="discover-source" name="source"><option value="all">All sources</option><option value="github">GitHub</option><option value="itch">itch.io · indexed catalog</option></select></label>
             <button type="submit" class="button button-primary discover-submit">Search<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-            <label class="checkbox-label"><input id="discover-open" type="checkbox" name="open"><span>Open licenses only</span></label>
+            <details id="discover-options" class="discover-filter-options"><summary>Source and license filters</summary><div class="discover-option-fields"><label id="discover-source-field" class="field" hidden><span>Source</span><select id="discover-source" name="source"><option value="all">All sources</option><option value="github">GitHub</option><option value="itch">itch.io · indexed catalog</option></select></label><label class="checkbox-label"><input id="discover-open" type="checkbox" name="open"><span>Open licenses only</span></label></div></details>
           </form>
           <div id="discover-browse" class="discover-browse" role="group" aria-label="Browse software"></div>
-          <div class="discover-status-row"><div id="discover-status" role="status" aria-live="polite">Choose a category or search.</div><details class="discover-source-details"><summary>About sources</summary><p id="discover-source-info">GitHub is searched live without an account. itch.io is a limited indexed catalog, not a live search of all itch.io. Online websites open separately. Local installation and save protection require their own checks.</p></details></div>
+          </details><div class="discover-status-row"><div id="discover-status" role="status" aria-live="polite">Choose a category or search.</div><details class="discover-source-details"><summary id="discover-about">About checks</summary><p id="discover-source-info">GitHub is searched live without an account. itch.io is a limited indexed catalog, not a live search of all itch.io. Online websites open separately. Local installation and save protection require their own checks.</p></details></div>
           <div id="discover-errors" class="discover-errors" role="alert"></div>
           <div id="discover-grid" class="app-grid discovery-grid"><div class="empty-state compact-empty"><svg class="empty-icon" aria-hidden="true"><use href="#i-search"/></svg><h2>Good software is out there.</h2><p>Search to see what you can bring into your library.</p></div></div>
         </section>

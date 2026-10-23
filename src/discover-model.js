@@ -1,5 +1,6 @@
 // Project identity and usable representations are independent. None of these
 // metadata hints can grant runtime permissions or establish an installation.
+import {checkedRecord,websiteCheck} from './checked-catalog.js';
 export const BROWSE_CATEGORIES = [
   { id: 'all', label: 'All software', query: 'topic:html5-game' },
   { id: 'games', label: 'Games', query: 'topic:html5-game' },
@@ -24,7 +25,7 @@ export function httpsURL(value) {
   catch { return null; }
 }
 export function readableName(title = '') {
-  return String(title).replace(/[-_]+/g, ' ').replace(/\b[a-z]/g, c => c.toUpperCase())
+  return String(title).replace(/[-_]+/g, ' ').replace(/(^|\s)[a-z]/g, c => c.toUpperCase())
     .replace(/\b(Html5?|Sfhs|Cad|Wasm|Api|Ui)\b/g, word => word.toUpperCase());
 }
 export function readmeSummary(readme = '') {
@@ -57,7 +58,18 @@ export function onlineVersion(item) {
   const signals = projectSignals(item);
   const looksLikeApp = signals.categories.length || /\b(browser|web app|application)\b/i.test(`${item.description || ''} ${(item.tags || []).join(' ')}`);
   if (!(item.hasPages || item.has_pages || item.pagesURL || looksLikeApp) || /\/(?:docs|documentation|reference)(?:\/|$)/i.test(parsed.pathname)) return null;
-  return { url, evidence: item.hasPages || item.has_pages || item.pagesURL ? 'GitHub Pages / repository homepage' : 'Repository-declared app homepage' };
+  const check=websiteCheck(url);
+  const fresh=check && Date.now()-Date.parse(check.checkedAt)<7*86400000 && Date.now()>=Date.parse(check.checkedAt)-86400000;
+  const state=fresh?(check.status==='responding'?'checked':check.status==='unavailable'?'unavailable':'unverified'):'unverified';
+  return {url,state,check:fresh?check:null,evidence:item.hasPages||item.has_pages||item.pagesURL?'GitHub Pages / repository homepage':'Repository-declared app homepage'};
+}
+export function explainInstallFailure(reasons=[]){
+  const text=reasons.join(' ');
+  if(/Dynamic code evaluation/.test(text))return 'This app creates JavaScript while it runs. Library blocks that feature in its isolated player.';
+  if(/IndexedDB/.test(text))return 'This app uses a browser database that Library cannot yet preserve and restore safely.';
+  if(/workers? are not supported/i.test(text))return 'This app needs background browser workers that Library’s player does not support.';
+  if(/not found|missing|unresolved/i.test(text))return 'This version is missing files needed to run. A complete browser release is required.';
+  return reasons[0] || 'This version needs browser features Library cannot currently preserve or run safely.';
 }
 export function browserDownloads(item) {
   const repository = item.repository;
@@ -68,6 +80,7 @@ export function browserDownloads(item) {
   ).map(asset => ({ ...asset, tag: release.tag, releaseURL: httpsURL(release.url) }))).slice(0, 12);
 }
 export function discoveryModel(item, { analysis = null, installed = null } = {}) {
+  analysis=analysis || checkedRecord(item)?.analysis || null;
   const signals = projectSignals(item), online = onlineVersion(item), downloads = browserDownloads(item);
   const description = item.description?.trim() || readmeSummary(item.readme) || 'No description provided by the project. Open Details for source information.';
   let install = { state: 'needs-check', title: 'Install not checked', summary: 'Check whether a complete browser app can be kept on this device.' };
@@ -78,7 +91,7 @@ export function discoveryModel(item, { analysis = null, installed = null } = {})
   if (item.inspected && item.installable) install.summary = 'A browser package was found. Check compatibility before installing it.';
   if (analysis) install = analysis.compatible
     ? { state: 'ready', title: 'Ready to install', summary: 'This version passed the local package checks. Install to retain its original file and a runnable copy.' }
-    : { state: 'incompatible', title: 'Not compatible', summary: 'This version needs features SFHS Library cannot currently preserve or run safely.' };
+    : { state: 'incompatible', title: 'Not compatible', summary: explainInstallFailure(analysis.reasons) };
   // A retained local version does not establish that the current upstream
   // source representation can be installed. Keep both facts independently.
   const installedVersion=installed?.versions?.find(version=>version.id===installed.activeVersionId);
@@ -88,13 +101,14 @@ export function discoveryModel(item, { analysis = null, installed = null } = {})
   const offline = { state: offlineState, label: {network:'Uses network',candidate:'Offline candidate',unknown:'Offline not verified'}[offlineState], hint: signals.offlineHint };
   const license = item.license || { kind: 'unknown', spdx: null };
   const licenseLabel = license.spdx ? `${license.spdx}${license.kind === 'open' ? ' · open license' : ''}` : license.kind === 'proprietary' ? 'Proprietary / freeware' : license.kind === 'source-available' ? 'Source available license' : 'License unknown';
-  let primary = online ? { type: 'online', label: signals.categories.includes('games') ? 'Play online' : 'Use online', url: online.url }
+  let primary = online?.state==='checked' ? { type: 'online', label: signals.categories.includes('games') ? 'Play online' : 'Use online', url: online.url }
     : item.source === 'itch' ? { type: 'creator', label: 'View on itch.io', url: httpsURL(item.sourceUrl) }
     : ['source-build','unavailable','incompatible'].includes(install.state) ? downloads.length
       ? { type: 'download', label: 'Download & import', url: downloads[0].url } : { type: 'details', label: 'Details' }
       : { type: install.state === 'ready' ? 'install' : 'check', label: install.state === 'ready' ? 'Install' : 'Check install' };
+  if(online?.state==='unverified' && primary.type==='details')primary={type:'website',label:'Visit website',url:online.url};
   if (installed) primary = { type: 'launch', label: 'Launch local app' };
   return { title: readableName(item.title), description, signals, online, downloads, install, phone, offline, licenseLabel, primary, localCopy:installed?'installed':'not-installed', analysisReasons:analysis?.reasons||[],
-    capabilities: { online: online ? 'yes' : 'unknown', install: install.state === 'ready' ? 'yes' : ['source-build','unavailable','incompatible'].includes(install.state) ? 'no' : 'needs-check',
+    capabilities: { online: online?.state==='checked' ? 'yes' : online?.state==='unavailable'?'no':'unknown', install: install.state === 'ready' ? 'yes' : ['source-build','unavailable','incompatible'].includes(install.state) ? 'no' : 'needs-check',
       downloadImport: downloads.length ? 'yes' : 'unknown', source: item.source === 'github' ? 'yes' : 'unknown', openLicense: license.kind === 'open' ? 'yes' : license.kind === 'unknown' ? 'unknown' : 'no', phone: phone.state, offline: offline.state } };
 }

@@ -2,6 +2,18 @@
 
 Discover answers what a project does and which actions are available. Descriptions come from repository/catalog metadata or a bounded README summary. Missing descriptions are explicitly identified. Compact category glyphs replace decorative monogram artwork in discovery results; installed Library cards retain their existing design.
 
+## Checked apps before untested search
+
+Physical phone feedback rejected the previous UX: a homepage led to a Netlify 404, and an incompatible install ended with only Cancel. Discover now starts with a small checked shelf. Two packages, 2048 and Timekeeper, have pinned source commits and per-file SHA-256 hashes in `public/checked-apps.json`. Clicking Install acquires the original files directly from immutable GitHub raw URLs, checks every hash and existing size/path limit, then performs normal capsule analysis and user confirmation. No app code is bundled into the trusted launcher, hosted as an installed app on Pages, or installed merely because a catalog entry exists. The checked shelf works without a GitHub API lookup; acquisition still requires a connection until the app is installed.
+
+The default phone view shows both install choices and their descriptions without expanding a form. Search and filters are disclosed on demand. Search the web explicitly selects the broader, untested GitHub/itch results and their existing category/filter controls. Card descriptions, touch targets, licensing, and compatibility distinctions remain readable while owner/source mechanics move into Details.
+
+Website evidence is independent. A relevant homepage alone stays unverified and cannot create a Play online action. Explicit HTTP observations are labeled with their check time; a known failure is shown as unavailable. A responding check expires after seven days and falls back to unverified. `tools/check-discover.mjs --websites-only` updates the three bounded URLs through the existing weekly catalog workflow. These checks establish that a website responded, not safety, complete functionality, local preservation, offline operation, source correspondence, or physical phone support.
+
+`falloutmule/pete-hegseths-drunken-space-force` has a checked published Pages route even when GitHub's unauthenticated Pages metadata endpoint is unavailable and the repository has no homepage. Its pinned source still fails the dynamic-code policy. Details states the specific reason and offers Play online and browsing installable apps. A rejected package from web search uses that same detail screen rather than a Cancel-only modal. Runtime restrictions are unchanged. `boona13/mykonos-island-voxels` returned HTTP 404 at the recorded check; it is not advertised with a Play button.
+
+`npm run test:checked` downloads the real pinned files and tests the product's actual install flow with original raw URLs and CORS. It exercises both real apps, saved state, exact originals in a portable backup, and empty-library restoration with networking disabled. A separate fixture changes a source byte without changing its size and verifies refusal before installation. Playwright itself aborts intercepted `/favicon.ico` fetches; only that tampering fixture uses a query on the same immutable favicon URL to avoid a harness artifact. Positive installs have no request interception.
+
 ## Projects and representations
 
 These are separate facts:
@@ -34,7 +46,7 @@ Browse categories use small, explicit term rules over supplied descriptions/topi
 
 ## Cat Paw regression
 
-The default unfiltered Discover view gives a plain explanation of **Play** versus **Install**, and a small curated **Play now** starting point for Cat Paw based on creator metadata checked October 23, 2026. Its website opens separately and is never added to Library by that action. Details still performs normal source inspection and exposes the negative build verdict. The suggestion is hidden during a query, category browsing, itch-only selection, or Open licenses only, so it neither dominates search results nor bypasses the license filter. Empty Library now leads with **Find an app** and retains file import as a secondary choice.
+Cat Paw remains on the checked shelf as an online option. Its website opens separately and is never added to Library by that action. Details still performs normal source inspection and exposes the negative build verdict. Open licenses only excludes it because the license is unknown. Empty Library leads with Find an app and retains file import as a secondary choice.
 
 `falloutmule/cat-paw-air-hockey` is described by its repository as “Local two-player cat-paw air hockey for one shared phone.” Its Pages homepage is a separate **Play online** action. Android/two-player metadata yields phone indication and a two-player tag. Its unknown license stays unknown.
 
@@ -58,6 +70,8 @@ The normal Pages workflow already runs `npm test` and `test:browser`; the latter
 Phone-oriented Chromium evidence covers 412×915, 390px, and 320px portraits plus desktop, long content, source-build/online-only/ready/refused cases, release import, itch, no results, errors, keyboard focus, and touch targets. In the controlled Cat Paw comparison, the result card fell from about 358px to 278px while its description uses 14px text, actions remain at least 44px high, and the first Play action is clear of the bottom navigation. Proofs and screenshots are under ignored `test-results/discover-ux/` with the tested `build-info.json` identity.
 
 **Physical phone acceptance remains outstanding.** On the production Pages URL:
+
+The new revision responds to the user's physical rejection of the previous result list and dead-end failure screen. Automated success is not a physical acceptance verdict. First try installing 2048 or Timekeeper from Checked apps, launching it, and reopening saved state. Then open Pete's Details and the broader web search. The reported dead website must not be presented as playable.
 
 The reported phone screenshots still showed the pre-redesign cached shell. Use `https://falloutmule.github.io/sfhs-library/start.html#discover` to reach the new opening screen without clearing local data. The upgrade browser regression first installs an actual app and saves progress, recreates the original cache-first behavior (including ineffective query changes), then verifies the new route, byte-for-byte retained app records, managed save recovery offline, sibling-cache preservation, and subsequent visible updates. Automated phone-sized checks do not close physical acceptance.
 

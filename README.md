@@ -9,8 +9,8 @@ This is an **engineering candidate**, not a claim that every requirement in [the
 ## Use it
 
 1. Open the HTTPS Pages launcher in Android Chrome, or run it locally using the commands below.
-2. Choose **Import app** for a local HTML/ZIP, or **Discover** to browse games, tools, creative apps, and other categories. Results lead with a description and the available action: **Play online**, **Check install**, or a creator download route.
-3. **Details** separates the project’s live website, source code, local-install checks, phone hints, license, and preservation status. **Check install** acquires a supported package and checks it before confirmation. Installation retains the original bytes and a separate deterministic executable capsule. Online use opens a separate tab and does not install or preserve the site.
+2. Open **Discover → Checked apps**. **Install** on 2048 or Timekeeper downloads a pinned package, verifies every source file, and checks it again before confirmation. After installation, tap **Launch** in Library. **Play online** on a checked website opens a separate browser tab.
+3. **Search the web** expands to GitHub and the indexed itch.io catalog. Those results are untested projects. An unverified homepage is not advertised as playable. **Details** shows what you can do and the specific reason a local install is refused, with alternative actions. Installation keeps original bytes and a separate executable capsule; an external website is not installed or preserved.
 4. Use **Details** for organization, permissions, app backup, exact original export, and retained versions.
 5. Use **Backups → Export library** and keep the downloaded ZIP outside browser storage. Restore works into an empty library and validates every software checksum first.
 
