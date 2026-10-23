@@ -5,10 +5,12 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
   const $ = id => document.getElementById(id);
   let category = 'all', generation = 0, items = [], checked = null, started = false, returnFocus = null, searchFailed = false;
   const details = new Map();
+  const rejected = new Map();
+  const analysisKey = data => `${data.repository}@${data.commit}:${data.selectedEntry||data.recommendedEntry}`;
   const model = item => {
     const data={...item,...details.get(item.id)};
     const matches=checked?.id===item.id && checked.detail.commit===data.commit && checked.selection===(data.selectedEntry||data.recommendedEntry);
-    return discoveryModel(data,{analysis:matches?checked.analysis:null,installed:getInstalled(item)});
+    return discoveryModel(data,{analysis:matches?checked.analysis:rejected.get(analysisKey(data)),installed:getInstalled(item)});
   };
   const external = (url, text, style = 'button button-quiet') => {
     const link = el('a',{href:httpsURL(url),target:'_blank',rel:'noopener noreferrer',referrerpolicy:'no-referrer',class:style},text,el('span',{'aria-hidden':'true'},' ↗'));
@@ -93,7 +95,8 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
       selected=el('select',{'aria-label':'Browser package entry'},...entries.map(entry=>el('option',{value:entry.path,disabled:entry.status!=='candidate'},`${entry.path} · ${entry.fileCount} files · ${entry.status}`)));
       if(detail.selectedEntry||detail.recommendedEntry)selected.value=detail.selectedEntry||detail.recommendedEntry;
       selected.addEventListener('change',()=>{detail.selectedEntry=selected.value;renderDetails(item,detail,updateId);$('dialog-body').querySelector('.discover-technical').open=true;$('dialog-body').querySelector('select[aria-label="Browser package entry"]')?.focus();});
-      technical.append(el('p',{},detail.installReason),el('dl',{class:'discover-facts'},el('dt',{},'Commit'),el('dd',{},el('code',{class:'hash'},detail.commit)),el('dt',{},'Branch'),el('dd',{},detail.branch),el('dt',{},'Releases'),el('dd',{},String(detail.releases?.length||0))),
+      technical.append(...(current.analysisReasons.length?[el('section',{},el('h3',{},'Package analysis'),el('ul',{},...current.analysisReasons.map(reason=>el('li',{},reason))))]:[]),
+        el('p',{},detail.installReason),el('dl',{class:'discover-facts'},el('dt',{},'Commit'),el('dd',{},el('code',{class:'hash'},detail.commit)),el('dt',{},'Branch'),el('dd',{},detail.branch),el('dt',{},'Releases'),el('dd',{},String(detail.releases?.length||0))),
         entries.length?field('Browser package entry',selected):el('p',{},'No static HTML entry found.'),
         el('ul',{},...entries.filter(entry=>entry.reason).map(entry=>el('li',{},`${entry.path}: ${entry.reason}`))),
         el('p',{class:'muted'},'Acquired repository files are pinned to the inspected commit. Original bytes and the executable copy receive separate hashes. A homepage does not establish build correspondence.'),
@@ -127,16 +130,16 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
       const selection=detail.selectedEntry||detail.recommendedEntry;
       const payload=checked?.id===item.id && checked.detail.commit===detail.commit && checked.selection===selection?checked.payload:await acquireGithub(item,detail);
       if(!dialogCurrent(revision))return;
-      await prepareInstall(payload.bytes,payload.filename,payload.source,updateId,false,{discovery:true,name:model(item).title,description:model(item).description,isCurrent:()=>dialogCurrent(revision),onAnalysis:analysis=>{checked={id:item.id,detail,selection,payload,analysis};renderCards();}});
+      await prepareInstall(payload.bytes,payload.filename,payload.source,updateId,false,{discovery:true,name:model(item).title,description:model(item).description,isCurrent:()=>dialogCurrent(revision),onAnalysis:analysis=>{checked={id:item.id,detail,selection,payload,analysis};const key=analysisKey({...detail,selectedEntry:selection});if(analysis.compatible)rejected.delete(key);else rejected.set(key,{compatible:false,offline:analysis.offline,reasons:analysis.reasons});renderCards();}});
     }catch(error){if(dialogCurrent(revision))renderDetails(item,detail,updateId,`Local installation could not be checked: ${error.message}`);}
   }
   function init(){
     renderBrowse();
     $('dialog').addEventListener('close',()=>{
-      if($('view-discover').hidden)return;
+      if($('view-discover').hidden){returnFocus=null;return;}
       renderCards();
-      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&[...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text);target?.focus();returnFocus=null;}
+      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));target?.focus();returnFocus=null;}
     });
   }
-  return { run, showDetails, init, start:()=>{if(!started)return run();} };
+  return { run, showDetails, init, start:()=>{if(!started)return run();renderCards();} };
 }

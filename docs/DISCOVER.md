@@ -26,6 +26,8 @@ Acquisition remains limited to supported static repository packages. HTML/ZIP re
 
 Online links use a separate tab with `noopener`, `noreferrer`, and no referrer. They never enter the isolated local runtime and never add an application record. Only the existing confirmed install flow retains original bytes, hashes, and an executable capsule. A changed source entry invalidates the previous check; a package checked for one entry is not reused for another.
 
+Rejected package checks retain their negative verdict and exact reasons for that inspected commit/entry even after another app is checked. Only one acquired payload is retained in the pending-install cache; keeping a rejection does not retain additional executable files or convert it into an installation.
+
 Metadata such as `android`, `mobile`, `phone`, or `touch` yields **Phone / touch indicated**, never verified. An offline topic/description can help filter results, but the offline state remains unknown until actual package analysis yields Candidate or Network. No discovery metadata creates Offline verified. Explicit recognized open licenses keep their ranking preference and the Open licenses only filter; unknown licenses remain unknown.
 
 Browse categories use small, explicit term rules over supplied descriptions/topics/titles. They are hints, not a compatibility taxonomy. Unknown is allowed. itch games-feed membership establishes a game listing, while the indexed catalog date and limited coverage remain visible through a compact status and About sources disclosure. GitHub rate limits, offline state, unavailable catalogs, and source failures receive visible error messages.

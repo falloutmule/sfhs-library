@@ -29,6 +29,12 @@ test('metadata phone/offline claims never become verified',()=>{
   assert.equal(discoveryModel(base,{analysis:{compatible:true,offline:'network'}}).offline.state,'network');
   assert.equal(discoveryModel(base,{analysis:{compatible:true,offline:'verified'}}).offline.state,'unknown');
 });
+test('an installed version remains separate from current upstream compatibility and keeps its own offline class',()=>{
+  const installed={activeVersionId:'v1',versions:[{id:'v1',offline:'candidate',source:{version:'older-commit'}}]};
+  const data={...item(CAT),inspected:true,installable:false,sourceNeedsBuild:true};
+  const model=discoveryModel(data,{installed});assert.equal(model.install.state,'source-build');assert.equal(model.capabilities.install,'no');assert.equal(model.localCopy,'installed');assert.equal(model.primary.type,'launch');assert.equal(model.offline.state,'candidate');
+  assert.equal(discoveryModel(data,{installed,analysis:{compatible:false,reasons:['Required unsupported API']}}).install.state,'incompatible');
+});
 test('static entry is only a candidate until actual analysis, and a negative result stays negative',async()=>withAPI(async()=>{
   const detail=await inspectGithub({repository:'owner/ready-game'});
   assert.equal(detail.installable,true);assert.equal(discoveryModel(detail).install.state,'needs-check');

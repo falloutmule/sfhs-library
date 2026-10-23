@@ -79,9 +79,12 @@ export function discoveryModel(item, { analysis = null, installed = null } = {})
   if (analysis) install = analysis.compatible
     ? { state: 'ready', title: 'Ready to install', summary: 'This version passed the local package checks. Install to retain its original file and a runnable copy.' }
     : { state: 'incompatible', title: 'Not compatible', summary: 'This version needs features SFHS Library cannot currently preserve or run safely.' };
-  if (installed) install = { state: 'installed', title: 'Installed locally', summary: 'The installed version’s software is retained on this device.' };
+  // A retained local version does not establish that the current upstream
+  // source representation can be installed. Keep both facts independently.
+  const installedVersion=installed?.versions?.find(version=>version.id===installed.activeVersionId);
   const phone = { state: signals.phone ? 'indicated' : 'unknown', label: signals.phone ? 'Phone / touch indicated' : 'Phone support unknown' };
-  const offlineState = analysis?.offline === 'network' ? 'network' : analysis?.offline === 'candidate' && analysis.compatible ? 'candidate' : 'unknown';
+  const offlineRecord=installedVersion||analysis;
+  const offlineState = offlineRecord?.offline === 'network' ? 'network' : offlineRecord?.offline === 'candidate' && (installedVersion||analysis?.compatible) ? 'candidate' : 'unknown';
   const offline = { state: offlineState, label: {network:'Uses network',candidate:'Offline candidate',unknown:'Offline not verified'}[offlineState], hint: signals.offlineHint };
   const license = item.license || { kind: 'unknown', spdx: null };
   const licenseLabel = license.spdx ? `${license.spdx}${license.kind === 'open' ? ' · open license' : ''}` : license.kind === 'proprietary' ? 'Proprietary / freeware' : license.kind === 'source-available' ? 'Source available license' : 'License unknown';
@@ -91,7 +94,7 @@ export function discoveryModel(item, { analysis = null, installed = null } = {})
       ? { type: 'download', label: 'Download & import', url: downloads[0].url } : { type: 'details', label: 'Details' }
       : { type: install.state === 'ready' ? 'install' : 'check', label: install.state === 'ready' ? 'Install' : 'Check install' };
   if (installed) primary = { type: 'launch', label: 'Launch local app' };
-  return { title: readableName(item.title), description, signals, online, downloads, install, phone, offline, licenseLabel, primary,
-    capabilities: { online: online ? 'yes' : 'unknown', install: install.state === 'ready' || installed ? 'yes' : ['source-build','unavailable','incompatible'].includes(install.state) ? 'no' : 'needs-check',
+  return { title: readableName(item.title), description, signals, online, downloads, install, phone, offline, licenseLabel, primary, localCopy:installed?'installed':'not-installed', analysisReasons:analysis?.reasons||[],
+    capabilities: { online: online ? 'yes' : 'unknown', install: install.state === 'ready' ? 'yes' : ['source-build','unavailable','incompatible'].includes(install.state) ? 'no' : 'needs-check',
       downloadImport: downloads.length ? 'yes' : 'unknown', source: item.source === 'github' ? 'yes' : 'unknown', openLicense: license.kind === 'open' ? 'yes' : license.kind === 'unknown' ? 'unknown' : 'no', phone: phone.state, offline: offline.state } };
 }

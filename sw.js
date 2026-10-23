@@ -1,4 +1,4 @@
-const CACHE='sfhs-1c3bab96cbd53345';
+const CACHE='sfhs-02b900cd58a9eaf7';
 const FILES=['./','./index.html','./manifest.webmanifest','./icon.svg','./catalog.json'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('sfhs-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
