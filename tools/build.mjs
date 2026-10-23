@@ -20,7 +20,9 @@ const buildId=`${manifest.buildId}-${sourceHash.slice(0,10)}`;
 const bundle = await build({ entryPoints: [manifest.entry], bundle: true, write: false, format: 'iife', target: ['chrome110','firefox115','safari16.4'], minify: true, legalComments: 'inline', define: { __BUILD_ID__: JSON.stringify(buildId) } });
 const css = await readFile('src/styles.css', 'utf8');
 const source = bundle.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
-let html = (await readFile('src/shell.html', 'utf8')).replace('<!--APP_CSS-->', css).replace('<!--APP_JS-->', source).replaceAll('<!--BUILD_ID-->', buildId);
+// Bundled source can contain replacement tokens such as $& and $'. Insert it
+// literally; String.replace's string-replacement expansion would corrupt JS.
+let html = (await readFile('src/shell.html', 'utf8')).replace('<!--APP_CSS-->', () => css).replace('<!--APP_JS-->', () => source).replaceAll('<!--BUILD_ID-->', buildId);
 const csp = "default-src 'none'; script-src 'unsafe-inline' data: blob: https: 'wasm-unsafe-eval'; style-src 'unsafe-inline' data: blob: https:; img-src data: blob: https:; media-src data: blob: https:; font-src data: blob: https:; connect-src 'self' https: wss: data: blob:; frame-src data: blob:; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'";
 const notices = [];
 for (const name of ['acorn','es-module-lexer','fflate','parse5','entities']) {

@@ -12,7 +12,9 @@
     "build:check": "node tools/build.mjs --check",
     "dev": "node tools/serve.mjs",
     "test": "node --test tests/*.test.mjs",
-    "test:browser": "node tests/browser.mjs",
+    "test:browser": "node tests/browser.mjs && node tests/discover-browser.mjs",
+    "test:discover": "node --test tests/discover-model.test.mjs tests/discovery.test.mjs tests/build.test.mjs",
+    "test:discover:browser": "node tests/discover-browser.mjs",
     "catalog": "node tools/update-catalog.mjs",
     "corpus:acquire": "node tools/acquire-corpus.mjs",
     "test:corpus": "node tests/corpus.mjs"

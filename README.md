@@ -9,8 +9,8 @@ This is an **engineering candidate**, not a claim that every requirement in [the
 ## Use it
 
 1. Open the HTTPS Pages launcher in Android Chrome, or run it locally using the commands below.
-2. Choose **Import app** for a local HTML/ZIP, or **Discover** to inspect a public GitHub repository. Try searching `gabrielecirulli/2048` and inspect its root `index.html`.
-3. Review the payload, license, runtime profile, and compatibility notes. Installation retains the original bytes and a separate deterministic executable capsule.
+2. Choose **Import app** for a local HTML/ZIP, or **Discover** to browse games, tools, creative apps, and other categories. Results lead with a description and the available action: **Play online**, **Check install**, or a creator download route.
+3. **Details** separates the project’s live website, source code, local-install checks, phone hints, license, and preservation status. **Check install** acquires a supported package and checks it before confirmation. Installation retains the original bytes and a separate deterministic executable capsule. Online use opens a separate tab and does not install or preserve the site.
 4. Use **Details** for organization, permissions, app backup, exact original export, and retained versions.
 5. Use **Backups → Export library** and keep the downloaded ZIP outside browser storage. Restore works into an empty library and validates every software checksum first.
 
@@ -55,3 +55,5 @@ Real application corpus acquisition and results are documented in [COMPATIBILITY
 Pages deployment runs checks and publishes `release.json` with the deployed repository commit and HTML SHA-256. The catalog workflow fetches only public itch RSS feeds, reports refresh timestamps, and retains the old catalog on failure. Browser discovery uses no scraping or CORS proxy.
 
 See [RELEASE-STATUS.md](docs/RELEASE-STATUS.md) for the exact unclosed gates and [PHONE-ACCEPTANCE.md](docs/PHONE-ACCEPTANCE.md) for the physical phone cycle.
+
+The [Discover model and phone regression protocol](docs/DISCOVER.md) explain project-versus-version capabilities, metadata-derived browse filters, and the Cat Paw online/source-build distinction.

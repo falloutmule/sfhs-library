@@ -2,14 +2,15 @@ import * as store from './store.js';
 import { exportArchive, readArchive, validSave, hashBytes, MAX_ARCHIVE } from './archive.js';
 import { analyzePayload } from './capsule.js';
 import { launchCapsule } from './runtime.js';
-import { searchDiscovery, inspectGithub, acquireGithub } from './discovery.js';
+import { inspectGithub } from './discovery.js';
+import { createDiscoverUI } from './discover-view.js';
 
 const $ = id => document.getElementById(id);
 const now = () => new Date().toISOString();
 const uid = () => crypto.randomUUID();
 let apps = [], settings = { collections: [] }, view = 'library', filter = 'all', collection = null;
 let runtime = null, runningApp = null, runningVersion = null, installPrompt = null;
-let modalResolver = null, toastTimer, searchGeneration = 0, pendingImportSource = null;
+let modalResolver = null, toastTimer, dialogRevision = 0, pendingImportSource = null;
 const formatSize = bytes => bytes < 1024 * 1024 ? `${(bytes/1024).toFixed(1)} KB` : `${(bytes/1024/1024).toFixed(1)} MB`;
 const date = value => value ? new Date(value).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : 'Never';
 const active = app => app.versions.find(v => v.id === app.activeVersionId);
@@ -43,14 +44,17 @@ function toast(message) {
 }
 function report(error) { console.error(error); toast(error?.message || String(error)); }
 function closeDialog(value = false) {
+  dialogRevision++;
   $('dialog').close(); const resolve = modalResolver; modalResolver = null; resolve?.(value);
 }
 function modal(title, body, actions = []) {
+  dialogRevision++;
   if (modalResolver) { modalResolver(false); modalResolver = null; }
   $('dialog-title').textContent = title;
   $('dialog-body').replaceChildren(body);
   $('dialog-actions').replaceChildren(...actions);
   if (!$('dialog').open) $('dialog').showModal();
+  return dialogRevision;
 }
 function confirm(title, message, confirmLabel = 'Continue', danger = false) {
   return new Promise(resolve => {
@@ -81,7 +85,7 @@ function switchView(next) {
   view = next;
   for (const section of document.querySelectorAll('[id^="view-"]')) section.hidden = section.id !== `view-${next}`;
   for (const node of document.querySelectorAll('[data-view]')) { const selected = node.dataset.view === next; node.classList.toggle('is-active',selected); node.setAttribute('aria-current',selected?'page':'false'); }
-  if (next === 'discover' && !$('discover-grid').children.length) runDiscovery();
+  if (next === 'discover') discover.start();
   if (next === 'settings' || next === 'backups') renderStorage();
   window.scrollTo({top:0});
 }
@@ -145,23 +149,30 @@ async function renderStorage() {
   $('backup-status').textContent = settings.lastExportAt ? `Last backup download prepared ${date(settings.lastExportAt)}. Keep the downloaded ZIP outside browser storage. Test a restore to confirm your copy.` : 'No library backup exported yet. Browser storage is not a backup.';
 }
 
-async function prepareInstall(bytes, name, source = {kind:'device',license:{kind:'unknown'}}, updateId = null, networkAllowed = false) {
-  toast('Inspecting payload and resolving local resources…');
+async function prepareInstall(bytes, name, source = {kind:'device',license:{kind:'unknown'}}, updateId = null, networkAllowed = false, options = {}) {
+  if(!options.discovery)toast('Inspecting payload and resolving local resources…');
   if (bytes.length > 40*1024*1024) throw new Error('This candidate supports app imports up to 40 MiB.');
   const result = await analyzePayload({bytes,filename:name,networkAllowed,entryPath:source.entry});
+  if(options.isCurrent && !options.isCurrent())return;
+  options.onAnalysis?.(result);
   const old = updateId ? await store.getApp(updateId) : null;
-  const nameInput = el('input',{value:old?.name || result.title || name.replace(/\.(html?|zip)$/i,''),maxlength:160,required:true});
+  if(options.isCurrent && !options.isCurrent())return;
+  const nameInput = el('input',{value:old?.name || options.name || result.title || name.replace(/\.(html?|zip)$/i,''),maxlength:160,required:true});
   const versionInput = el('input',{value:source.version?.slice(0,40) || `Version ${(old?.versions.length||0)+1}`,maxlength:100});
   const categoryInput = el('select',{},...['Utilities','Games','Creative','Learning','Development','Uncategorized'].map(x=>el('option',{value:x},x)));
   categoryInput.value = old?.category || 'Uncategorized';
-  const body = el('div',{class:'stack'},el('p',{class:'muted'},'The original file and a separate executable capsule will be retained on this device.'),
+  let body = el('div',{class:'stack'},el('p',{class:'muted'},'The original file and a separate executable capsule will be retained on this device.'),
     el('div',{class:'badge-row'},badge(result.compatible?'Ready to install':'Unsupported',result.compatible?'good':'bad'),badge(label(result.profile)),badge(licenseText(source.license))),
     field('Application name',nameInput),field('Version label',versionInput),field('Category',categoryInput),
     el('dl',{class:'detail-grid'},el('dt',{},'Payload'),el('dd',{},`${formatSize(bytes.length)} · ${result.fileCount||1} files`),el('dt',{},'Saves'),el('dd',{},label(result.saveSupport)),el('dt',{},'Offline'),el('dd',{},result.offline==='network'?'Uses network':'Candidate; a network-disabled launch has not been verified')),
     el('ul',{class:'inspection-notes'},...[...(result.reasons||[]),...(result.warnings||[])].map(x=>el('li',{},x))),
     el('details',{},el('summary',{},'Payload fingerprint'),el('code',{class:'hash'},result.originalHash)));
+  if(options.discovery)body=el('div',{class:'stack discover-detail'},el('section',{class:'discover-verdict'},el('h3',{},result.compatible?'Ready to install':'Not compatible'),el('p',{},result.compatible?'This browser package passed the local checks. Its original file and a separate runnable copy will be kept on this device.':'This version needs browser features SFHS Library cannot currently preserve or run safely.')),
+    result.compatible?field('Application name',nameInput):null,result.compatible?field('Version label',versionInput):null,result.compatible?field('Category',categoryInput):null,
+    el('p',{class:'muted'},`${licenseText(source.license)} · ${result.offline==='network'?'Uses network':result.compatible&&result.offline==='candidate'?'Offline candidate; offline use has not been verified':'Offline unknown'}.`),
+    el('details',{class:'discover-technical'},el('summary',{},'Technical details'),el('p',{},`${label(result.profile)} · ${result.fileCount||1} files · ${formatSize(bytes.length)}`),el('ul',{},...[...(result.reasons||[]),...(result.warnings||[])].map(reason=>el('li',{},reason))),el('p',{},'Original SHA-256'),el('code',{class:'hash'},result.originalHash)));
   if (!networkAllowed && result.networkOrigins?.length) {
-    body.append(el('p',{class:'muted'},`Detected network origins: ${result.networkOrigins.join(', ')}`),button('Review with network access enabled',()=>prepareInstall(bytes,name,source,updateId,true),'button button-quiet'));
+    body.append(el('p',{class:'muted'},`Detected network origins: ${result.networkOrigins.join(', ')}`),button('Review with network access enabled',()=>{const revision=dialogRevision;return prepareInstall(bytes,name,source,updateId,true,{...options,isCurrent:()=>revision===dialogRevision&&$('dialog').open});},'button button-quiet'));
   }
   const actions = [button('Cancel',()=>closeDialog(),'button button-quiet')];
   if (result.compatible) actions.push(button(old?'Preserve update & test':'Install application',async()=>{
@@ -171,11 +182,11 @@ async function prepareInstall(bytes, name, source = {kind:'device',license:{kind
       originalHash:result.originalHash,executableHash:result.executableHash,profile:result.profile,offline:result.offline==='network'?'network':'candidate',
       saveSupport:result.saveSupport,reasons:result.reasons||[],warnings:result.warnings||[],fileCount:result.fileCount||1,networkOrigins:result.networkOrigins||[],networkAllowed,
       source,save:{localStorage:{},bridge:null} };
-    const app = old ? await store.mutateApp(old.id,current=>({...current,versions:[...current.versions,{...version,save:structuredClone(active(current).save)}],updatedAt:now()})) : {id:uid(),name:nameInput.value.trim(),description:'',category:categoryInput.value,collections:[],favorite:false,createdAt:now(),updatedAt:now(),lastLaunchedAt:null,launchCount:0,activeVersionId:version.id,versions:[version],lastBackupAt:null};
+    const app = old ? await store.mutateApp(old.id,current=>({...current,versions:[...current.versions,{...version,save:structuredClone(active(current).save)}],updatedAt:now()})) : {id:uid(),name:nameInput.value.trim(),description:options.description||'',category:categoryInput.value,collections:[],favorite:false,createdAt:now(),updatedAt:now(),lastLaunchedAt:null,launchCount:0,activeVersionId:version.id,versions:[version],lastBackupAt:null};
     if(!old)await store.putApp(app); closeDialog(); await refresh(); switchView('library');
     if(old) await launch(app.id,version.id,true); else toast(`${app.name} installed. Original payload retained.`);
   },'button button-primary'));
-  modal(old?`Update ${old.name}`:'Inspect before installing',body,actions);
+  modal(old?`Update ${old.name}`:options.discovery?`${result.compatible?'Install':'Can’t install'} ${options.name}`:'Inspect before installing',body,actions);
 }
 
 async function importURL(updateId = null) {
@@ -295,46 +306,16 @@ async function restore(file) {
   }
 }
 
-async function runDiscovery() {
-  const generation=++searchGeneration;
-  $('discover-status').textContent='Searching public sources…';
-  try {
-    const result=await searchDiscovery({query:$('discover-query').value,source:$('discover-source').value,openOnly:$('discover-open').checked});
-    if(generation!==searchGeneration)return;
-    $('discover-status').textContent=result.status || `Found ${result.items.length} results.`;
-    $('discover-grid').replaceChildren(...result.items.map((item,index)=>el('article',{class:'app-card'},art(item.title,index),el('div',{class:'card-body'},
-      el('div',{class:'card-meta'},item.source==='itch'?'Indexed itch.io catalog':'GitHub'),el('h3',{class:'card-title'},item.title),
-      el('p',{class:'muted card-description'},item.description || 'Inspect the source and compatibility before installing.'),
-      el('div',{class:'badge-row'},badge(licenseText(item.license)),badge(item.source==='itch'?'Local import':'Inspect payload')),
-      el('div',{class:'card-actions'},button('Inspect',()=>showDiscoveryDetail(item),'button button-primary'),sourceLink(item.sourceUrl))))));
-    if(!result.items.length)$('discover-grid').append(el('div',{class:'empty-state'},el('h2',{},'No results for this search.'),el('p',{class:'muted'},'Try a broader term or turn off Open only. Indexed itch.io results cover the fetched feeds, not all of itch.io.')));
-  } catch(error) {if(generation===searchGeneration)$('discover-status').textContent=navigator.onLine?error.message:'You’re offline. Your installed library still works. Connect to search GitHub or refresh discovery.';}
-}
-async function showDiscoveryDetail(item, supplied, updateId) {
-  if(item.source==='itch') {
-    modal(item.title,el('div',{class:'stack'},el('p',{},item.description||''),badge('Indexed itch.io catalog'),el('p',{class:'muted'},'This listing is discovery metadata, not an installed app. Get an HTML or ZIP through the creator’s normal download flow, then import it here. Purchase requirements and download controls are respected.'),sourceLink(item.sourceUrl),button('Import downloaded file',()=>{pendingImportSource={kind:'itch',url:item.sourceUrl,license:item.license||{kind:'unknown'},acquisition:'User-selected file associated with this creator listing; origin not independently verified.'};closeDialog();$('import-file').click();},'button button-primary')),[button('Close',()=>closeDialog(),'button button-quiet')]);return;
-  }
-  toast('Inspecting repository, license, releases, and static entry points…');
-  const detail=supplied||await inspectGithub(item);
-  const selected=el('select',{},...detail.entryCandidates.map(entry=>el('option',{value:entry.path},`${entry.path} · ${entry.fileCount} files`)));
-  if(detail.recommendedEntry)selected.value=detail.recommendedEntry;
-  const body=el('div',{class:'stack'},el('p',{},detail.description||item.description||''),
-    el('div',{class:'badge-row'},badge(licenseText(detail.license)),badge(detail.installable?'Payload candidate':'External only')),
-    el('p',{class:'muted'},detail.installReason || 'Compatibility analysis will run on the downloaded bytes.'),
-    field('Static entry point',selected),el('p',{class:'muted'},'Downloads are pinned to the inspected commit. An entry point is preliminary evidence; the package must still pass capsule analysis.'),
-    sourceLink(detail.sourceUrl),el('details',{},el('summary',{},'README & source metadata'),el('pre',{class:'readme'},detail.readme||'README unavailable.'),el('code',{class:'hash'},detail.commit||'')),
-    el('p',{class:'muted'},`${detail.releases?.length||0} recent releases inspected. Repository license does not establish licenses for every dependency.`));
-  const actions=[button('Close',()=>closeDialog(),'button button-quiet')];
-  if(detail.installable)actions.push(button('Download & analyze',async()=>{
-    toast('Acquiring the selected static package…');
-    const payload=await acquireGithub(item,{...detail,selectedEntry:selected.value});
-    await prepareInstall(payload.bytes,payload.filename,payload.source,updateId);
-  },'button button-primary'));
-  modal(item.title,body,actions);
-}
+const discover = createDiscoverUI({el,button,field,modal,prepareInstall,
+  dialogCurrent:revision=>revision===dialogRevision && $('dialog').open,
+  importFile:source=>{pendingImportSource=source;closeDialog();$('import-file').click();},
+  getInstalled:item=>apps.find(app=>active(app)?.source?.repository?.toLowerCase()===item.repository?.toLowerCase() && !!item.repository),launch});
+function runDiscovery(){return discover.run();}
+function showDiscoveryDetail(...args){return discover.showDetails(...args);}
 
 function bind(id, event, handler) { $(id)?.addEventListener(event,e=>Promise.resolve(handler(e)).catch(report)); }
 async function boot() {
+  discover.init();
   $('build-id').textContent=__BUILD_ID__;
   document.querySelectorAll('[data-view]').forEach(node=>node.addEventListener('click',()=>switchView(node.dataset.view)));
   document.querySelectorAll('[data-filter]').forEach(node=>node.addEventListener('click',()=>{filter=node.dataset.filter;collection=null;renderLibrary();renderCollections();}));
@@ -357,7 +338,7 @@ async function boot() {
   bind('download-launcher','click',async()=>{if(location.protocol==='file:'){const a=el('a',{href:location.href,download:'SFHS-Library.html'});a.click();return;}const response=await fetch('./index.html');if(!response.ok)throw new Error('Launcher download unavailable.');download(await response.arrayBuffer(),'SFHS-Library.html','text/html');});
   bind('install-launcher','click',async()=>{if(installPrompt){await installPrompt.prompt();installPrompt=null;}else toast('In Chrome, open the browser menu and choose Add to Home screen or Install app.');});
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;$('install-launcher').hidden=false;});
-  document.addEventListener('keydown',event=>{if(event.key==='/' && !$('dialog').open && !runtime && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){event.preventDefault();$('global-search').focus();}});
+  document.addEventListener('keydown',event=>{if(event.key==='/' && !$('dialog').open && !runtime && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){event.preventDefault();$(view==='discover'?'discover-query':'global-search').focus();}});
   const connection=()=>{$('connection-status').textContent=navigator.onLine?'Online':'Offline';};connection();window.addEventListener('online',connection);window.addEventListener('offline',connection);
   document.addEventListener('visibilitychange',()=>{if(document.hidden)runtime?.flush().catch(()=>{});});
   await refresh();switchView('library');

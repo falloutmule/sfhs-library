@@ -43,6 +43,8 @@ The launcher service worker caches only its generated distribution shell and cat
 
 GitHub REST requests are direct, unauthenticated, and bounded. Rate-limit errors remain visible. Repository license detection is not dependency license proof. itch discovery is a public RSS-derived index with timestamps and creator links; it does not bypass downloads or represent the entire itch catalog as live search.
 
+Discover keeps project identity separate from usable representations: a public source tree, a listed live web build, candidate static packages, and release downloads can coexist. A source tree requiring a build does not disable a separate live homepage. A live website is external use; it does not become an installed, preserved, or offline-verified app. Static entry detection yields a candidate, and the existing package analysis must pass before the user can confirm installation. See [DISCOVER.md](DISCOVER.md).
+
 ## Primary references
 
 - [MDN iframe sandbox](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe)

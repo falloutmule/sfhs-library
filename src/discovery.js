@@ -1,5 +1,6 @@
 import bundledCatalog from '../public/catalog.json' with { type: 'json' };
 import { zipSync } from 'fflate';
+import { BROWSE_CATEGORIES, matchesBrowse, httpsURL, readmeSummary, onlineVersion } from './discover-model.js';
 
 const API = 'https://api.github.com';
 const MAX_FILES = 500;
@@ -90,7 +91,7 @@ async function github(path, { optional = false, ttl = 120000 } = {}) {
 
 function repositoryItem(repo) {
   const repository = repo.full_name;
-  return { id: `github:${repository}`, title: repo.name, description: repo.description || 'Public GitHub repository. Inspect its payload before installing.', source: 'github', sourceUrl: `https://github.com/${repository}`, repository, license: classifyLicense(repo.license, `https://github.com/${repository}`), installability: 'inspect', tags: repo.topics || [], updatedAt: repo.pushed_at || repo.updated_at, stars: repo.stargazers_count || 0, archived: !!repo.archived, homepage: /^https?:\/\//i.test(repo.homepage || '') ? repo.homepage : null, ...inspectedRepositories.get(repository) };
+  return { id: `github:${repository}`, title: repo.name, description: repo.description || '', source: 'github', sourceUrl: `https://github.com/${repository}`, repository, license: classifyLicense(repo.license, `https://github.com/${repository}`), installability: 'inspect', tags: repo.topics || [], updatedAt: repo.pushed_at || repo.updated_at, stars: repo.stargazers_count || 0, archived: !!repo.archived, homepage: httpsURL(repo.homepage), hasPages: !!repo.has_pages, ...inspectedRepositories.get(repository) };
 }
 
 export function rankItems(items, query = '') {
@@ -99,7 +100,7 @@ export function rankItems(items, query = '') {
     const title = (item.title || '').toLowerCase();
     const text = `${title} ${item.description || ''} ${(item.tags || []).join(' ')}`.toLowerCase();
     const relevant = words.reduce((n, word) => n + (title.includes(word) ? 35 : text.includes(word) ? 20 : -20), 0);
-    const compatibility = item.installable === false ? -70 : item.installable === true ? 30 : 0;
+    const compatibility = item.installable === false ? onlineVersion(item) ? 8 : -70 : item.installable === true ? 30 : 0;
     const licensing = { open: 12, 'source-available': 7, proprietary: 3, unknown: 0 }[item.license?.kind] || 0;
     const mobile = /mobile|touch/.test(text) ? 4 : 0;
     const offline = /offline/.test(text) ? 3 : 0;
@@ -123,10 +124,11 @@ async function refreshCatalog() {
   } catch { /* The bundled index remains usable offline. */ }
 }
 
-export async function searchDiscovery({ query = '', source = 'all', openOnly = false } = {}) {
+export async function searchDiscovery({ query = '', source = 'all', openOnly = false, category = 'all' } = {}) {
   query = String(query).trim().slice(0, 200);
   const items = [];
   const messages = [];
+  const errors = [];
   if (source !== 'github') {
     await refreshCatalog();
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -138,16 +140,23 @@ export async function searchDiscovery({ query = '', source = 'all', openOnly = f
       const direct = parseGithubRepository(query);
       if (direct) { items.push(repositoryItem(await github(`/repos/${apiPath(direct)}`))); messages.push('GitHub public repository found. Inspect its current payload before installation.'); }
       else {
-        const q = query ? `${query} in:name,description archived:false` : 'topic:html5-game archived:false';
+        const browseQuery = BROWSE_CATEGORIES.find(item => item.id === category)?.query || BROWSE_CATEGORIES[0].query;
+        const q = query ? `${query} in:name,description archived:false` : `${browseQuery} archived:false`;
         const results = await github(`/search/repositories?q=${encodeURIComponent(q)}&per_page=30&sort=stars&order=desc`);
         items.push(...(results.items || []).map(repositoryItem));
         messages.push(`GitHub: ${Math.min(results.total_count || 0, 30)} of ${Number(results.total_count || 0).toLocaleString()} matching repositories; inspect compatibility before installation.`);
       }
-    } catch (error) { messages.push(error.message || 'GitHub search failed.'); }
+    } catch (error) { const message = error.message || 'GitHub search failed.'; messages.push(message); errors.push({ source: 'GitHub', message, code: error.code || 'network' }); }
   }
-  const filtered = openOnly ? items.filter(item => item.license?.kind === 'open') : items;
+  const filtered = items.filter(item => (!openOnly || item.license?.kind === 'open') && matchesBrowse(item, category));
   if (openOnly) messages.push('Open only includes recognized explicit open licenses; unknown licenses are excluded.');
-  return { items: rankItems(filtered, query), status: messages.join(' '), updatedAt: catalog.updatedAt, rateLimit };
+  const githubCount = filtered.filter(item => item.source === 'github').length;
+  const itchCount = filtered.filter(item => item.source === 'itch').length;
+  const summary = [];
+  if (source !== 'itch') summary.push(errors.some(error=>error.source==='GitHub') ? 'GitHub search unavailable' : `${githubCount} GitHub ${githubCount === 1 ? 'result' : 'results'} · live search`);
+  if (source !== 'github') summary.push(`${itchCount} itch.io ${itchCount === 1 ? 'result' : 'results'} · indexed ${catalog.updatedAt ? new Date(catalog.updatedAt).toLocaleDateString(undefined,{month:'short',day:'numeric'}) : 'date unavailable'}`);
+  if (source !== 'github' && !catalog.items.length) errors.push({source:'itch.io',code:'catalog',message:'The indexed itch.io catalog is unavailable. You can still visit creator pages and import their downloads.'});
+  return { items: rankItems(filtered, query), status: messages.join(' '), summary, errors, updatedAt: catalog.updatedAt, rateLimit };
 }
 
 function packageFiles(tree, root) {
@@ -198,26 +207,45 @@ export async function inspectGithub(item) {
   const licenseData = licenseResult.status === 'fulfilled' ? licenseResult.value : null;
   const license = classifyLicense(licenseData?.license || metadata.license, licenseData?.html_url || null);
   const entries = entryCandidates(tree);
-  const recommended = entries.find(entry => !entry.reason);
-  let installReason = recommended ? 'Static entry HTML found. The full package still needs compatibility analysis before it can be installed.' : entries[0]?.reason || 'No ready-to-run entry HTML found. This repository may need a build or server; download a browser release and import its HTML/ZIP.';
-  let installable = !!recommended && !treeResult.value.truncated;
-  if (treeResult.value.truncated) installReason = 'GitHub truncated this repository tree. A complete payload cannot be acquired reliably; download a browser release and import it.';
+  let recommended;
+  const checkedEntries = entries.filter(entry => !entry.reason).slice(0, 6);
+  for (const entry of entries) entry.status = entry.reason ? 'unavailable' : 'not-checked';
+  let installReason;
   let entryPreview = '';
   let readme = '';
   const readmeEntry = tree.find(file => file.type === 'blob' && /^readme(?:\.md|\.txt|\.rst)?$/i.test(file.path));
   const textResults = await Promise.allSettled([
-    recommended ? rawText(repository, commit, recommended.path, MAX_BYTES) : Promise.resolve(''),
+    ...checkedEntries.map(entry => rawText(repository, commit, entry.path, MAX_BYTES)),
     readmeEntry && readmeEntry.size <= 512000 ? rawText(repository, commit, readmeEntry.path) : Promise.resolve('')
   ]);
-  if (textResults[0].status === 'fulfilled') entryPreview = textResults[0].value;
-  else { installable = false; installReason = textResults[0].reason.message; }
-  if (textResults[1].status === 'fulfilled') readme = textResults[1].value.slice(0, 16000);
-  if (/<script\b[^>]*\bsrc\s*=\s*["'][^"']*\.(?:tsx?|jsx|vue)(?:[?"'])|<%|\{\%/.test(entryPreview)) {
-    installable = false; installReason = 'The entry HTML references source that needs a build or server-side templates. Obtain a built browser release and import it.';
+  for (let index = 0; index < checkedEntries.length; index++) {
+    const entry = checkedEntries[index], response = textResults[index];
+    if (response.status !== 'fulfilled') { entry.status = 'unavailable'; entry.reason = response.reason.message; continue; }
+    const source = response.value;
+    if (/<script\b[^>]*\bsrc\s*=\s*["'][^"']*\.(?:tsx?|jsx|vue)(?:[?"'])|<%|\{\%/.test(source)) {
+      entry.status = 'needs-build';
+      entry.reason = 'The entry HTML references source that needs a build or server-side templates. Obtain a built browser release and import it.';
+    } else {
+      entry.status = 'candidate';
+      if (!recommended) { recommended = entry; entryPreview = source; }
+    }
   }
+  const readmeResult = textResults.at(-1);
+  if (readmeResult.status === 'fulfilled') readme = readmeResult.value.slice(0, 16000);
+  const sourceNeedsBuild = !recommended && entries.some(entry => entry.status === 'needs-build');
+  const installable = !!recommended && !treeResult.value.truncated;
+  installReason = treeResult.value.truncated ? 'GitHub truncated this repository tree. A complete payload cannot be acquired reliably; download a browser release and import it.'
+    : recommended ? 'Static entry HTML found. The full package still needs compatibility analysis before it can be installed.'
+    : entries.find(entry => entry.reason)?.reason || 'No ready-to-run entry HTML found. This repository may need a build or server; download a browser release and import its HTML/ZIP.';
   const releases = releaseResult.status === 'fulfilled' ? (releaseResult.value || []).map(release => ({ tag: release.tag_name, name: release.name, url: release.html_url, publishedAt: release.published_at, assets: (release.assets || []).map(asset => ({ name: asset.name, url: asset.browser_download_url, size: asset.size })) })) : [];
-  inspectedRepositories.set(repository, { installable, installReason });
-  return { ...repositoryItem(metadata), repository, license, commit, branch: metadata.default_branch, entryCandidates: entries, recommendedEntry: recommended?.path || null, installable, installReason, tree, releases, readme, notes, hasPages: !!metadata.has_pages, entryPreview: entryPreview.slice(0, 4000), licenseCaveat: 'Repository license detection does not verify the licenses of every bundled dependency.' };
+  let pagesURL = null;
+  if (metadata.has_pages && !httpsURL(metadata.homepage)) {
+    try { const pages = await github(`${base}/pages`, { optional:true }); pagesURL = httpsURL(pages?.html_url); }
+    catch (error) { notes.push(`Pages details: ${error.message}`); }
+  }
+  const inspected = { inspected:true, installable, installReason, sourceNeedsBuild, releases, pagesURL, license, description:metadata.description || readmeSummary(readme) };
+  inspectedRepositories.set(repository, inspected);
+  return { ...repositoryItem(metadata), ...inspected, repository, license, commit, branch: metadata.default_branch, entryCandidates: entries, recommendedEntry: recommended?.path || null, tree, readme, notes, entryPreview: entryPreview.slice(0, 4000), licenseCaveat: 'Repository license detection does not verify the licenses of every bundled dependency.' };
 }
 
 export async function acquireGithub(item, detail = undefined) {
@@ -226,7 +254,7 @@ export async function acquireGithub(item, detail = undefined) {
   if (inspected.repository !== repository || !/^[a-f0-9]{40}$/i.test(inspected.commit)) throw new DiscoveryError('Repository inspection does not match this download. Inspect it again.', 'inspection');
   if (!inspected.installable) throw new DiscoveryError(inspected.installReason || 'No complete static browser package is available.', 'external-only');
   const entry = inspected.entryCandidates.find(candidate => candidate.path === (inspected.selectedEntry || inspected.recommendedEntry));
-  if (!entry || entry.reason) throw new DiscoveryError(entry?.reason || 'No supported HTML entry was selected.', 'external-only');
+  if (!entry || entry.reason || (entry.status && entry.status !== 'candidate')) throw new DiscoveryError(entry?.reason || 'This HTML entry has not passed source/build inspection.', 'external-only');
   const files = packageFiles(inspected.tree, entry.root);
   if (!files.length || files.length > MAX_FILES || files.reduce((n, file) => n + (file.size || 0), 0) > MAX_BYTES) throw new DiscoveryError('This package exceeds the 500 file / 40 MiB download limit.', 'size-limit');
   const archive = Object.create(null);
