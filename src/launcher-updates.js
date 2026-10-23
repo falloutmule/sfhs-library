@@ -21,9 +21,10 @@ export function initLauncherUpdates(buildId) {
   }
   $('check-launcher-update').addEventListener('click',()=>check(true));
   $('launcher-update').querySelector('a').addEventListener('click',event=>{
-    // A link to the exact current URL can be treated as an in-page jump.
-    // An update must request a document even on start.html#discover itself.
-    if(event.currentTarget.href===location.href){event.preventDefault();location.reload();}
+    // Both identical URLs and a change from #settings to #discover can be
+    // in-page jumps. An explicit update must always request a document.
+    const target=new URL(event.currentTarget.href);
+    if(target.origin===location.origin && target.pathname===location.pathname && target.search===location.search && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey){event.preventDefault();history.replaceState(null,'',target.href);location.reload();}
   });
   if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(registration=>registration.update()).catch(()=>{});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
