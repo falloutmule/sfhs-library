@@ -49,7 +49,7 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     }));
   }
   function setMode(next){mode=next;category='all';$('discover-find').open=next==='web';$('discover-options').open=next==='checked';renderBrowse();return run();}
-  function browseChecked(){document.getElementById('dialog-close').click();$('discover-query').value='';$('discover-open').checked=false;setMode('checked');window.scrollTo({top:0});}
+  function browseChecked(){returnFocus=null;document.getElementById('dialog-close').click();$('discover-query').value='';$('discover-open').checked=false;return setMode('checked').then(()=>{$('discover-grid').querySelector('.discover-actions .button-primary')?.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});});}
   async function run() {
     started=true;
     const request=++generation;
@@ -153,6 +153,7 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     for(const node of $('discover-modes').querySelectorAll('button'))node.addEventListener('click',()=>setMode(node.dataset.mode));
     $('dialog').addEventListener('close',()=>{
       if($('view-discover').hidden){returnFocus=null;return;}
+      if(!returnFocus)return;
       renderCards();
       if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));target?.focus();returnFocus=null;}
     });
