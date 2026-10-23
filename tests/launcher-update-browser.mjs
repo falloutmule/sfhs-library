@@ -13,7 +13,7 @@ const html=await readFile(resolve(root,'index.html'),'utf8');
 const info=JSON.parse(await readFile(resolve(root,'build-info.json'),'utf8'));
 const proof={...info,physicalPhoneAcceptance:false,checks:[],screenshots:[],pageErrors:[]};
 const prefix='/sfhs-library/';
-let mode='current',next=false,releaseUnavailable=false;
+let mode='current',next=false,third=false,releaseUnavailable=false;
 const oldCache='sfhs-0123456789abcdef';
 // The original deployed worker's cache-first + ignoreSearch behavior. Keep the
 // regression independent of Git history and shallow CI checkout depth.
@@ -31,11 +31,11 @@ const server=createServer(async(req,res)=>{
     res.setHeader('Content-Type',({'.html':'text/html; charset=utf-8','.js':'text/javascript','.json':'application/json','.svg':'image/svg+xml','.webmanifest':'application/manifest+json'})[extname(name)]);
     if(name==='release.json') {
       if(releaseUnavailable){res.writeHead(503);res.end();return;}
-      res.end(JSON.stringify({...info,buildId:next?'fixture-next-release':info.buildId,commit:'a'.repeat(40)}));return;
+      res.end(JSON.stringify({...info,buildId:third?'fixture-third-release':next?'fixture-next-release':info.buildId,commit:'a'.repeat(40)}));return;
     }
     if(mode==='legacy' && name==='sw.js'){res.end(oldWorker);return;}
     if(mode==='legacy' && name==='index.html'){res.end('<!doctype html><title>Old cached Library</title><h1>Inspect payload · External only</h1>');return;}
-    if(name==='index.html'||name==='start.html'){res.end(next?html.replaceAll(info.buildId,'fixture-next-release'):html);return;}
+    if(name==='index.html'||name==='start.html'){res.end(next?html.replaceAll(info.buildId,third?'fixture-third-release':'fixture-next-release'):html);return;}
     res.end(await readFile(resolve(root,name)));
   } catch {res.writeHead(404);res.end();}
 });
@@ -122,6 +122,13 @@ try {
   assert.equal(new URL(page.url()).pathname,prefix+'start.html');
   assert.equal(await page.locator('#launcher-update').isVisible(),false);
   check('network-first worker serves a later shell on user navigation without forcing a running tab to reload');
+  third=true;
+  await page.locator('.mobile-nav [data-view="settings"]').click();assert.equal(new URL(page.url()).hash,'#settings');
+  await page.locator('#check-launcher-update').click();await page.locator('#launcher-update').waitFor();
+  await page.locator('.mobile-nav [data-view="discover"]').click();assert.equal(page.url(),base+'start.html#discover');
+  await page.locator('#launcher-update a').click();
+  await page.waitForFunction(()=>document.getElementById('build-id').textContent.startsWith('fixture-third-release'));
+  check('navigation hash tracks the view and an update reloads even when its link equals the current URL');
   assert.equal(proof.pageErrors.length,0);check('no launcher exceptions');proof.result='PASS';
 } catch(error){proof.result='FAIL';proof.error=error.stack;await shot('failure.png').catch(()=>{});throw error;}
 finally{await writeFile(resolve(output,'proof.json'),JSON.stringify(proof,null,2));await browser.close();await new Promise(resolve=>server.close(resolve));}

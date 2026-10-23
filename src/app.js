@@ -84,6 +84,7 @@ async function refresh() {
 }
 function switchView(next) {
   view = next;
+  if(location.hash!==`#${next}`)history.replaceState(null,'',`#${next}`);
   for (const section of document.querySelectorAll('[id^="view-"]')) section.hidden = section.id !== `view-${next}`;
   for (const node of document.querySelectorAll('[data-view]')) { const selected = node.dataset.view === next; node.classList.toggle('is-active',selected); node.setAttribute('aria-current',selected?'page':'false'); }
   if (next === 'discover') discover.start();
