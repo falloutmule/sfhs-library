@@ -58,7 +58,7 @@ async function launch(){await page.locator('.mobile-nav [data-view="library"]').
 try {
   await page.goto(base);
   await page.getByRole('heading',{name:'Your collection starts here.'}).waitFor();
-  await page.getByRole('button',{name:'Find an app',exact:true}).click();
+  await page.getByRole('button',{name:'Find an app',exact:true}).click();await selectDiscoverSource(page,'checked');
   await page.locator('[data-project="github:gabrielecirulli/2048"]').getByRole('button',{name:'Install',exact:true}).waitFor();
   check('empty Library leads to checked install choices instead of requiring a file import');
   const counter='<!doctype html><title>Kept Counter</title><button id="add">Add</button><output id="count"></output><script>let n=Number(localStorage.getItem("n")||0);const out=document.getElementById("count");out.textContent=n;document.getElementById("add").addEventListener("click",()=>{out.textContent=++n;localStorage.setItem("n",n)})</script>';
@@ -81,13 +81,13 @@ try {
   mode='current';
   await page.goto(base+'?new-build=1');await page.getByRole('heading',{name:'Inspect payload · External only'}).waitFor();
   check('regression reproduces old shell remaining stale even after deployment and query changes');
-  await page.goto(base+'start.html#discover');
+  await page.goto(base+'start.html#discover');await selectDiscoverSource(page,'checked');
   const cat=page.locator(`[data-project="github:${CAT.full_name}"]`);
   const play=cat.getByRole('link',{name:'Play online (opens in a new tab)'});
   await play.waitFor();assert.equal(await play.getAttribute('href'),CAT.homepage);
   assert.deepEqual(await snapshot(),before);
   check('distinct start path reaches the new launcher under the old worker with exact app records, original bytes, and saves intact');
-  const box=await page.locator('[data-project="github:gabrielecirulli/2048"]').getByRole('button',{name:'Install',exact:true}).boundingBox(),nav=await page.locator('.mobile-nav').boundingBox();
+  await page.locator('[data-project="github:gabrielecirulli/2048"]').scrollIntoViewIfNeeded();const box=await page.locator('[data-project="github:gabrielecirulli/2048"]').getByRole('button',{name:'Install',exact:true}).boundingBox(),nav=await page.locator('.mobile-nav').boundingBox();
   assert.ok(box.height>=44 && box.y+box.height<nav.y);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await shot('updated-first-step-phone.png');
   check('phone first step has a visible touch-sized Install button and explains online versus kept copies');

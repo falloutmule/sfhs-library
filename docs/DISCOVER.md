@@ -1,82 +1,48 @@
-# Discover: software first, evidence available
+# Discover: browse software worth keeping
 
-Discover answers what a project does and which actions are available. Descriptions come from repository/catalog metadata or a bounded README summary. Missing descriptions are explicitly identified. Compact category glyphs replace decorative monogram artwork in discovery results; installed Library cards retain their existing design.
+Discover opens with ranked shelves, without typing or making GitHub API requests. Four previews per shelf scroll horizontally on a phone; **See all** opens the full indexed selection, rendering 36 cards at a time. Shelves with fewer than two suitable entries disappear. Checked apps appear alongside other software, with an explicit badge and a source filter.
 
-## Checked apps before untested search
+## Browse, filter and sort
 
-Physical phone feedback rejected the previous UX: a homepage led to a Netlify 404, and an incompatible install ended with only Cancel. Discover now starts with a small checked shelf. Two packages, 2048 and Timekeeper, have pinned source commits and per-file SHA-256 hashes in `public/checked-apps.json`. Clicking Install acquires the original files directly from immutable GitHub raw URLs, checks every hash and existing size/path limit, then performs normal capsule analysis and user confirmation. No app code is bundled into the trusted launcher, hosted as an installed app on Pages, or installed merely because a catalog entry exists. The checked shelf works without a GitHub API lookup; acquisition still requires a connection until the app is installed.
+**Filters** has independent dimensions: type (any selected type), Phone / Touch, Offline candidates, Open source, and source. Results must match every selected dimension. Games + Phone + Open source is a real intersection. The compact summary shows selections even when the panel is closed. Clear resets the query, filters, sort and shelf; Discover home returns to shelves.
 
-The default phone view shows both install choices and their descriptions without expanding a form. Search and filters are disclosed on demand. Search the web explicitly selects the broader, untested GitHub/itch results and their existing category/filter controls. Card descriptions, touch targets, licensing, and compatibility distinctions remain readable while owner/source mechanics move into Details.
+Search retains filters and combines matching indexed/checked software with live public GitHub results (up to 30 per request). An exact `owner/repository` or GitHub URL still finds that repository directly. Duplicates merge by project identity. One source failure leaves other indexed results usable. Details returns to the current list, sort, focus and scroll position; horizontal shelf positions also survive card updates.
 
-Website evidence is independent. A relevant homepage alone stays unverified and cannot create a Play online action. Explicit HTTP observations are labeled with their check time; a known failure is shown as unavailable. A responding check expires after seven days and falls back to unverified. `tools/check-discover.mjs --websites-only` updates the three bounded URLs through the existing weekly catalog workflow. These checks establish that a website responded, not safety, complete functionality, local preservation, offline operation, source correspondence, or physical phone support.
+Sorting is within the available indexed/search selection, not a claim to rank every app on a platform:
 
-`falloutmule/pete-hegseths-drunken-space-force` has a checked published Pages route even when GitHub's unauthenticated Pages metadata endpoint is unavailable and the repository has no homepage. Its pinned source still fails the dynamic-code policy. Details states the specific reason and offers Play online and browsing installable apps. A rejected package from web search uses that same detail screen rather than a Cancel-only modal. Runtime restrictions are unchanged. `boona13/mykonos-island-voxels` returned HTTP 404 at the recorded check; it is not advertised with a Play button.
+- **Recommended** favors relevant end-user software, checked evidence, source-native prominence, requested phone support, explicit open licenses, usable web versions and activity. Developer frameworks/libraries receive a strong penalty; they remain findable through explicit search.
+- **Top rated · itch.io** and **New & popular · itch.io** preserve the relevant source-feed order. Items without that evidence follow source-ranked entries. A shelf’s See all keeps its exact feed until the source/type/phone scope changes.
+- **Popular** preserves itch Popular order and GitHub star order within each source. Mixed lists group itch before GitHub rather than presenting a fabricated shared popularity measurement.
+- **Newest** uses creation dates; **Recently updated** uses source update/push dates. A sort appears only when the current data supplies the necessary evidence.
 
-`npm run test:checked` downloads the real pinned files and tests the product's actual install flow with original raw URLs and CORS. It exercises both real apps, saved state, exact originals in a portable backup, and empty-library restoration with networking disabled. A separate fixture changes a source byte without changing its size and verifies refusal before installation. Playwright itself aborts intercepted `/favicon.ico` fetches; only that tampering fixture uses a query on the same immutable favicon URL to avoid a harness artifact. Positive installs have no request interception.
+GitHub stars measure interest, **not user ratings**. Numeric itch ratings/counts render only if explicit source review data supplies them; the current RSS feeds supply none. The UI instead identifies itch’s native ordering. No common five-star score is synthesized.
 
-## Projects and representations
+## Indexed sources and bounds
 
-These are separate facts:
+`tools/update-catalog.mjs` indexes eight public itch HTML5 RSS slices: Popular, Top Rated, New & Popular, Newest, mobile Top Rated, mobile Popular, touchscreen Popular, and creator-tagged open source. Each currently returns up to 36 listings. The cap is therefore 288 before deduplication: enough for four-card previews and useful See all lists without copying thousands of projects into the standalone HTML. The October 23 refresh has 235 unique projects. Provenance retains each feed URL, native rank, ordering context, phone-tag evidence, source creation/update dates, and per-feed refresh times. Explicit adult listings are omitted while remaining original rank numbers are retained. Feed tags never establish a license.
 
-| Representation | What it establishes | What it does not establish |
-| --- | --- | --- |
-| Project | Name, description, topic/category hints | Compatibility or preservation |
-| Public source tree | Repository and source information can be viewed | An explicit open license, a ready browser build, or a local installation |
-| Listed live web build | A relevant HTTPS homepage/Pages route can be opened separately | Local app bytes, safe import, supported saves, offline use, or correspondence to source |
-| Static browser package candidate | A bounded HTML entry and its directory can be acquired at a specific commit | Successful package analysis or runtime compatibility |
-| Checked browser package | The acquired bytes passed the existing package checks | Installation until confirmed, phone verification, or offline verification |
-| HTML/ZIP release download | A normal creator download route exists for that file | A browser-compatible release merely because its filename ends in ZIP |
-| External-only representation | That representation cannot be acquired/run safely by the local runtime | That every other form of the project is unusable |
+The generator uses sequential bounded requests, atomic output, per-slice last-good fallback, and preserves the existing file if every feed fails. The successful phone Top Rated RSS acquisition used for this release was retained during a later HTTP 429; it was parsed by the same generator, without inventing or reordering entries.
 
-GitHub inspection considers repository metadata, a relevant HTTPS homepage, Pages information when available, published releases/assets, conventional built directories (`dist`, `build`, `docs`, `public`), root HTML, source HTML, and README/use instructions. Up to six bounded eligible HTML entries are inspected; uninspected alternatives cannot be selected for acquisition. Development-source detection remains conservative. No build is attempted and no hosted site is crawled into an installation.
+`tools/update-github-catalog.mjs` refreshes a bounded selection of 15 known browser applications (editors, games, tools, music and maker software). Repository API metadata supplies descriptions, explicit SPDX licenses, topics, stars and activity dates. The small reviewed seed list establishes end-user/browser intent, **not installation compatibility**. Relevant HTTPS homepages receive bounded HTTP availability checks; failures do not become Play buttons. Partial failures retain each project’s older metadata; total metadata failure preserves the previous index. Ordinary browsing requires no account/token and no runtime GitHub lookup. The existing weekly workflow refreshes both catalogs; the latest bundle remains available offline.
 
-Acquisition remains limited to supported static repository packages. HTML/ZIP release assets are offered as normal external downloads followed by local import; format and compatibility are checked on the acquired file. They are never labeled ready solely from release metadata. CORS failures remain visible and do not trigger a proxy or unsafe runtime fallback.
+Classification uses application context, categories, description and topic evidence. Framework7 and F2 are developer libraries/frameworks rather than default storefront apps. A library management application is not rejected just for the word “library.” Broad categories remain hints; unknown is acceptable. Itch game-feed membership establishes Games, not Tools/CAD merely because a game mentions making things.
 
-## Independent user-facing states
+The generated launcher is approximately 670 KiB, versus 535 KiB before this storefront. Data remains bundled for standalone/offline browsing. This is an indexed selection, **not live search of all itch.io**, and may miss software outside the retained feeds/projects. Freshness is shown compactly; source mechanics stay under About sources.
 
-`discover-model.js` derives online-use, local-install, download/import, source, license, phone, and offline states independently. A card has one visually primary action based on the available representation, plus Details. Source code is secondary. Details starts with the description, usable actions, an installation verdict, local preservation, and license. Technical details is collapsed by default and retains exact reasons, entries, counts, commit, branch, release metadata, README, and license caveats.
+## Projects and usable representations
 
-Online links use a separate tab with `noopener`, `noreferrer`, and no referrer. They never enter the isolated local runtime and never add an application record. Only the existing confirmed install flow retains original bytes, hashes, and an executable capsule. A changed source entry invalidates the previous check; a package checked for one entry is not reused for another.
+A project, public source tree, live web build and local browser package are separate things. Public source is not automatically open licensed. A release ZIP is not automatically a browser app. A homepage is not an acquired payload.
 
-Rejected package checks retain their negative verdict and exact reasons for that inspected commit/entry even after another app is checked. Only one acquired payload is retained in the pending-install cache; keeping a rejection does not retain additional executable files or convert it into an installation.
+Details leads with what the app does, usable actions, local install verdict, local preservation and license. Technical details stays collapsed and retains exact reasons, entries/counts, commits, branch, releases, README and license caveats. GitHub inspection considers metadata, relevant HTTPS homepage, Pages where available, releases/assets, conventional built directories, root/source HTML and README. It attempts no speculative build.
 
-Metadata such as `android`, `mobile`, `phone`, or `touch` yields **Phone / touch indicated**, never verified. An offline topic/description can help filter results, but the offline state remains unknown until actual package analysis yields Candidate or Network. No discovery metadata creates Offline verified. Explicit recognized open licenses keep their ranking preference and the Open licenses only filter; unknown licenses remain unknown.
+Online links open separately with `noopener`, `noreferrer`, and no referrer. A responding website observation expires after seven days and establishes availability at that time, not safety, functionality, phone testing, offline use or source/build correspondence. Only confirmed installation retains original bytes, hashes and the separate executable capsule. Normal CORS, acquisition bounds, sandboxing, save rules and archive integrity remain unchanged. Unsupported packages remain refused, with specific explanations and usable alternatives.
 
-Browse categories use small, explicit term rules over supplied descriptions/topics/titles. They are hints, not a compatibility taxonomy. Unknown is allowed. itch games-feed membership establishes a game listing, while the indexed catalog date and limited coverage remain visible through a compact status and About sources disclosure. GitHub rate limits, offline state, unavailable catalogs, and source failures receive visible error messages.
+Phone/touch metadata means **indicated**, never physically verified. Offline filtering requires a compatible analyzed candidate or explicit blocked-network test evidence; merely mentioning “offline” does not qualify. Open source requires a recognized explicit license. Checked by SFHS establishes the recorded source/package/website evidence, not blanket phone, safety, offline or save verification.
 
-## Cat Paw regression
+Cat Paw Air Hockey remains a phone-indicated two-player game with a separately checked Pages action, unknown license, and source that needs a build. It is not summarized as External only. Pete’s actual source still fails dynamic-code policy while its checked online version is offered separately. The recorded Mykonos 404 is not advertised as playable.
 
-Cat Paw remains on the checked shelf as an online option. Its website opens separately and is never added to Library by that action. Details still performs normal source inspection and exposes the negative build verdict. Open licenses only excludes it because the license is unknown. Empty Library leads with Find an app and retains file import as a secondary choice.
+## Verification and physical acceptance
 
-`falloutmule/cat-paw-air-hockey` is described by its repository as “Local two-player cat-paw air hockey for one shared phone.” Its Pages homepage is a separate **Play online** action. Android/two-player metadata yields phone indication and a two-player tag. Its unknown license stays unknown.
+Run `npm run test:storefront`, `npm run test:storefront:browser`, the main `npm test` and `npm run test:browser`, build parity, and the real corpus. Tests cover actual catalogs, combined filters, native ranking, rating honesty, real Framework7/F2 metadata, source failures, mobile shelves/navigation, Cat Paw, strict install refusals, real pinned installs and recovery. Proofs are ignored under `test-results/`. Deployment publishes the actual commit/build/hash in `release.json`; verify live HTML bytes against that release.
 
-The inspected `src/index.html` requires a browser build, so the repository representation receives **Source needs a build**. Its entry path, count, exact refusal reason, and commit are available under Technical details. The project is not summarized as External only. Opening the online version does not create local software or save protection.
-
-## Verification and phone acceptance
-
-```powershell
-npm.cmd run build
-npm.cmd run build:check
-npm.cmd run test:discover
-npm.cmd run test:discover:browser
-npm.cmd test
-npm.cmd run test:browser
-npm.cmd run test:corpus
-npm.cmd run test:updates
-```
-
-The normal Pages workflow already runs `npm test` and `test:browser`; the latter includes the focused Discover browser suite. Existing runtime, archive, save, and standalone checks remain in that path. Discovery UI fixtures supplement live repository inspection and the existing real-app corpus.
-
-Phone-oriented Chromium evidence covers 412×915, 390px, and 320px portraits plus desktop, long content, source-build/online-only/ready/refused cases, release import, itch, no results, errors, keyboard focus, and touch targets. In the controlled Cat Paw comparison, the result card fell from about 358px to 278px while its description uses 14px text, actions remain at least 44px high, and the first Play action is clear of the bottom navigation. Proofs and screenshots are under ignored `test-results/discover-ux/` with the tested `build-info.json` identity.
-
-**Physical phone acceptance remains outstanding.** On the production Pages URL:
-
-The new revision responds to the user's physical rejection of the previous result list and dead-end failure screen. Automated success is not a physical acceptance verdict. First try installing 2048 or Timekeeper from Checked apps, launching it, and reopening saved state. Then open Pete's Details and the broader web search. The reported dead website must not be presented as playable.
-
-The reported phone screenshots still showed the pre-redesign cached shell. Use `https://falloutmule.github.io/sfhs-library/start.html#discover` to reach the new opening screen without clearing local data. The upgrade browser regression first installs an actual app and saves progress, recreates the original cache-first behavior (including ineffective query changes), then verifies the new route, byte-for-byte retained app records, managed save recovery offline, sibling-cache preservation, and subsequent visible updates. Automated phone-sized checks do not close physical acceptance.
-
-1. Open Discover and search `cat paw air hockey`; the description and Play online action should be understandable immediately.
-2. Open Details. Confirm that online use, source needing a build, unknown license, and unverified phone/offline status remain distinct. Expand Technical details and return without losing your place.
-3. Browse Games, Tools, Phone / Touch, and an itch listing. Read descriptions and check that buttons remain visible above the navigation bar.
-4. Check/install a compatible static app, then confirm that online use of a different project does not add it to Library.
-5. Report whether the result density and wording now explain what each app does on the actual Galaxy phone. Desktop and emulation success do not close this gate.
+Physical Galaxy acceptance remains outstanding. Open the deployed `start.html#discover`, browse Top phone games without typing, use See all, then combine Games + Phone / Touch + Open source. Check clear/reset, Details return, scroll/touch targets and source-aware sorts. Automated 320/390/412px and desktop checks are engineering evidence only.

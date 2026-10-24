@@ -1,28 +1,25 @@
-# Release status — October 3, 2026
+# Release status — October 23, 2026
 
-**PASS: engineering candidate. Final product acceptance remains pending.**
+**PASS: storefront engineering checks. Physical Galaxy acceptance remains pending.**
 
-The launcher is implemented as a reproducible standalone HTML with optional GitHub Pages offline infrastructure. The authoritative local artifact fingerprint is `build-info.json`; deployment adds `release.json` with the actual checked-out Git commit. The runtime only attributes that commit to its loaded build when the source-derived build identity matches.
+The launcher remains a generated standalone HTML with GitHub Pages distribution and offline shell recovery. `build-info.json` identifies the tested artifact; deployment adds `release.json` with its actual commit and SHA-256. A release is verified against the live bytes, not a query-string cache change.
 
-## Verified
+## Storefront evidence
 
-- Build parity from canonical source.
-- 25 focused automated tests, including archive integrity and hostile runtime behavior.
-- 18 complete Chromium UI checks: HTML installation, explicit network permissions, exit/relaunch saves, organization, update and rollback, isolation, refusal, destructive full recovery, corruption rejection, offline operation, phone-width layout, indexed itch discovery, and standalone `file://` use.
-- Opaque sandbox isolation, source-bound MessagePort broker, cross-app save protection, blocked parent storage/DOM access, and blocked unauthenticated messages.
-- Actual application-level recovery from a portable ZIP after the browser library was removed, not just storage key detection.
-- Six genuinely acquired apps installed and exercised in the real corpus, including an itch.io free demo downloaded using its normal visible Download link. One incompatible real WASM/module application is refused. See [the corpus evidence](COMPATIBILITY-CORPUS.md) for exact coverage and hashes.
-- Separate supplemental runtime proofs cover static ES modules, local JSON, WASM, SVG images, WAV audio, and the formal native save bridge.
-- Responsive visual inspection at 320, 390, 768, and 1440 pixels. Emulation does not count as physical phone acceptance.
+- Ranked shelves open from bounded indexed data without typing or GitHub API requests. Independent type/device/offline/license/source filters genuinely intersect.
+- Native itch Top Rated/Popular/New & Popular order is retained. No numeric reviews are fabricated. GitHub stars remain labeled as GitHub interest, not app ratings.
+- End-user app selection and contextual classification keep Framework7/F2 out of default recommendations while preserving explicit search.
+- 23 focused storefront model/catalog checks, within 67 unit/runtime checks; 19 focused storefront browser checks, within the full browser suite (81 local checks, 80 when the optional ignored historical baseline is absent).
+- Automated portraits at 320, 390 and 412 px plus desktop cover shelves, combined filters, sorting, source errors, long text, Details return and navigation clearance.
+- Full browser checks retain real installation, unsupported refusals, exact originals/hashes, opaque runtime isolation, supported saves, update/rollback, portable backup, destructive empty-library recovery, offline operation, standalone HTML and launcher cache migration.
+- Seven real corpus cases: six apps acquired/installed/restored offline; the known incompatible WASM/module app remains refused. Real 2048 and Timekeeper also receive a separate source-hash/install/save/backup/restore proof. Cat Paw keeps online availability separate from source needing a build and an unknown license; Pete remains refused locally and the recorded Mykonos 404 remains unavailable.
 
-## Limits and unclosed gates
+## Remaining limits
 
-- Physical Android Chrome acceptance has not occurred. Follow [the phone protocol](PHONE-ACCEPTANCE.md) using the final deployed build.
-- The real WASM/module project in the corpus is correctly refused; successful WASM/module and native Save Bridge proofs currently use controlled fixtures. These are not represented as successful compatibility with every real WASM framework.
-- Save protection is limited to the demonstrated managed localStorage and Save Bridge behavior. IndexedDB/OPFS-heavy, worker/service-worker, server-authentication, and unsupported dynamic resource apps remain refused or unsupported.
-- Per-app UI stays at **Offline candidate** and **Supported/Unknown** unless there is per-app proof. No batch classification silently promotes installed apps to verified.
-- Restored archives reset network and optional capability permissions for review. Remote saves are not present in the backup merely because the software is.
-- Large imports/backups are bounded and processed in memory. Physical phone responsiveness near the documented size limits is not accepted.
-- The first Pages deployment and immutable live-byte check must complete before giving the production URL to the user as deployed.
+Physical phone acceptance is outstanding. Follow the storefront steps in [PHONE-ACCEPTANCE.md](PHONE-ACCEPTANCE.md) on the exact deployed build. Desktop and emulation success do not establish physical phone usability or performance.
 
-The product constraints' strict final-release gate remains open until these relevant coverage and physical phone checks are satisfied. A green GitHub Actions run alone will not change that status.
+The indexed storefront is bounded, not a complete platform index or live itch search. Source metadata may be missing or stale. HTTP website observations expire after seven days and do not establish full functionality, safety or physical phone support. Public source does not establish an open license. Creator-tagged open source still has unknown licensing until an explicit recognized license is recorded.
+
+Storefront prominence does not grant compatibility or preservation. Required unsupported APIs, dynamic resource behavior, workers, server authentication and unsupported persistent stores remain refused/limited. Save support remains limited to the demonstrated managed localStorage and Save Bridge behavior. Original payloads and executable capsules remain separate, with exact hashes and the existing archive/restore rules.
+
+The strict final product release gate remains open; a green workflow does not close physical acceptance.

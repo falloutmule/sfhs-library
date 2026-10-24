@@ -19,3 +19,7 @@ Use the deployed HTTPS Pages build. Record the build ID and commit displayed in 
 Report PASS/FAIL for each step and the exact failing action. Network-dependent apps are not expected to work offline. Save support is limited to managed localStorage and the documented bridge; remote/unsupported state is not backed up.
 
 Final release remains blocked until this physical cycle and all required real-corpus categories have evidence. This document is a protocol, not a recorded pass.
+
+## Storefront phone acceptance (pending)
+
+On the deployed build, enter Discover without typing. Browse Top phone games, swipe its previews and open See all. Combine Games + Phone / Touch, then add Open source; all three must remain selected. Check sorting, clear/reset, search with filters and returning from Details to the same list/position. GitHub stars must be labeled as GitHub interest, while itch ordering must retain its source meaning. Unknown licenses and unsupported installs must remain honest. Record the exact build and physical Galaxy verdict; automated responsive tests do not complete this step.

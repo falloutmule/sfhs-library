@@ -1,0 +1,581 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-24T00:38:01.774Z",
+  "description": "Selected end-user browser projects; public GitHub metadata, not app ratings or compatibility verification.",
+  "errors": [],
+  "items": [
+    {
+      "id": "github:excalidraw/excalidraw",
+      "repository": "excalidraw/excalidraw",
+      "title": "excalidraw",
+      "description": "Virtual whiteboard for sketching hand-drawn like diagrams",
+      "source": "github",
+      "sourceUrl": "https://github.com/excalidraw/excalidraw",
+      "homepage": "https://excalidraw.com",
+      "hasPages": false,
+      "tags": [
+        "canvas",
+        "collaboration",
+        "diagrams",
+        "drawing",
+        "hacktoberfest",
+        "productivity",
+        "whiteboard"
+      ],
+      "categories": [
+        "creative",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/excalidraw/excalidraw"
+      },
+      "stars": 134438,
+      "archived": false,
+      "createdAt": "2020-01-02T01:04:43Z",
+      "updatedAt": "2026-10-23T15:10:12Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/excalidraw/excalidraw",
+      "websiteCheck": {
+        "url": "https://excalidraw.com/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "Excalidraw Whiteboard",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:jgraph/drawio",
+      "repository": "jgraph/drawio",
+      "title": "drawio",
+      "description": "draw.io is a JavaScript, client-side editor for general diagramming.",
+      "source": "github",
+      "sourceUrl": "https://github.com/jgraph/drawio",
+      "homepage": "https://www.drawio.com",
+      "hasPages": true,
+      "tags": [
+        "diagram",
+        "javascript",
+        "whiteboard"
+      ],
+      "categories": [
+        "creative",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "Apache-2.0",
+        "kind": "open",
+        "sourceUrl": "https://github.com/jgraph/drawio"
+      },
+      "stars": 8951,
+      "archived": false,
+      "createdAt": "2016-09-06T12:59:15Z",
+      "updatedAt": "2026-10-23T17:44:10Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/jgraph/drawio",
+      "websiteCheck": {
+        "url": "https://www.drawio.com/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "Security-first diagramming for teams | draw.io",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:viliusle/miniPaint",
+      "repository": "viliusle/miniPaint",
+      "title": "miniPaint",
+      "description": "online image editor",
+      "source": "github",
+      "sourceUrl": "https://github.com/viliusle/miniPaint",
+      "homepage": "http://viliusle.github.io/miniPaint/",
+      "hasPages": true,
+      "tags": [
+        "browser",
+        "canvas",
+        "drawing",
+        "effects",
+        "html5",
+        "layers",
+        "paint",
+        "photoshop"
+      ],
+      "categories": [
+        "creative",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": null,
+        "kind": "unknown",
+        "sourceUrl": "https://github.com/viliusle/miniPaint"
+      },
+      "stars": 3482,
+      "archived": false,
+      "createdAt": "2013-07-30T14:11:26Z",
+      "updatedAt": "2026-04-20T18:43:28Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/viliusle/miniPaint"
+    },
+    {
+      "id": "github:SVG-Edit/svgedit",
+      "repository": "SVG-Edit/svgedit",
+      "title": "svgedit",
+      "description": "Powerful SVG-Editor for your browser",
+      "source": "github",
+      "sourceUrl": "https://github.com/SVG-Edit/svgedit",
+      "homepage": null,
+      "hasPages": true,
+      "tags": [
+        "javascript",
+        "svg",
+        "svg-edit",
+        "svg-editor"
+      ],
+      "categories": [
+        "creative",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/SVG-Edit/svgedit"
+      },
+      "stars": 7885,
+      "archived": false,
+      "createdAt": "2014-07-08T12:22:05Z",
+      "updatedAt": "2026-08-05T17:53:30Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/SVG-Edit/svgedit"
+    },
+    {
+      "id": "github:gchq/CyberChef",
+      "repository": "gchq/CyberChef",
+      "title": "CyberChef",
+      "description": "The Cyber Swiss Army Knife - a web app for encryption, encoding, compression and data analysis",
+      "source": "github",
+      "sourceUrl": "https://github.com/gchq/CyberChef",
+      "homepage": "https://gchq.github.io/CyberChef",
+      "hasPages": true,
+      "tags": [
+        "compression",
+        "data-analysis",
+        "data-manipulation",
+        "encoding",
+        "encryption",
+        "hashing",
+        "parsing"
+      ],
+      "categories": [
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "Apache-2.0",
+        "kind": "open",
+        "sourceUrl": "https://github.com/gchq/CyberChef"
+      },
+      "stars": 36189,
+      "archived": false,
+      "createdAt": "2016-11-28T10:34:07Z",
+      "updatedAt": "2026-10-23T11:01:21Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/gchq/CyberChef",
+      "websiteCheck": {
+        "url": "https://gchq.github.io/CyberChef",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "CyberChef",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:jscad/OpenJSCAD.org",
+      "repository": "jscad/OpenJSCAD.org",
+      "title": "OpenJSCAD.org",
+      "description": "JSCAD is an open source set of modular, browser and command line tools for creating parametric 2D and 3D designs with JavaScript code. It provides a quick, precise and reproducible method for generating 3D models, and is especially useful for creating ready-to-print 3D designs.",
+      "source": "github",
+      "sourceUrl": "https://github.com/jscad/OpenJSCAD.org",
+      "homepage": "https://openjscad.xyz/",
+      "hasPages": false,
+      "tags": [
+        "2d-design",
+        "3d-design",
+        "3mf",
+        "amf",
+        "csg",
+        "dxf",
+        "hacktoberfest",
+        "javascript",
+        "jscad",
+        "modular",
+        "monorepo",
+        "obj",
+        "openjscad",
+        "stl",
+        "svg",
+        "x3d"
+      ],
+      "categories": [
+        "maker",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/jscad/OpenJSCAD.org"
+      },
+      "stars": 3260,
+      "archived": false,
+      "createdAt": "2013-03-10T12:20:55Z",
+      "updatedAt": "2026-10-21T00:39:28Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/jscad/OpenJSCAD.org",
+      "websiteCheck": {
+        "url": "https://openjscad.xyz/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "JSCAD - Create 3D designs using Javascript",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:GridSpace/grid-apps",
+      "repository": "GridSpace/grid-apps",
+      "title": "grid-apps",
+      "description": "Browser-based Slicer for 3D Printing, CAM, Laser (Kiri:Moto) and mesh editor (Mesh:Tool)",
+      "source": "github",
+      "sourceUrl": "https://github.com/GridSpace/grid-apps",
+      "homepage": "https://grid.space/",
+      "hasPages": true,
+      "tags": [
+        "3d-printing",
+        "cam",
+        "cnc",
+        "fdm",
+        "laser",
+        "slicer",
+        "slicing"
+      ],
+      "categories": [
+        "maker",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/GridSpace/grid-apps"
+      },
+      "stars": 923,
+      "archived": false,
+      "createdAt": "2017-04-18T21:08:43Z",
+      "updatedAt": "2026-10-22T10:21:08Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/GridSpace/grid-apps",
+      "websiteCheck": {
+        "url": "https://grid.space/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "Grid.Space",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:johnnesky/beepbox",
+      "repository": "johnnesky/beepbox",
+      "title": "beepbox",
+      "description": "An online tool for sketching and sharing instrumental melodies.",
+      "source": "github",
+      "sourceUrl": "https://github.com/johnnesky/beepbox",
+      "homepage": "https://beepbox.co",
+      "hasPages": false,
+      "tags": [],
+      "categories": [
+        "music",
+        "creative"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/johnnesky/beepbox"
+      },
+      "stars": 1199,
+      "archived": false,
+      "createdAt": "2019-08-30T06:00:11Z",
+      "updatedAt": "2026-08-07T07:26:31Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/johnnesky/beepbox",
+      "websiteCheck": {
+        "url": "https://beepbox.co/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "BeepBox",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:jummbus/jummbox",
+      "repository": "jummbus/jummbox",
+      "title": "jummbox",
+      "description": "An online tool for sketching and sharing instrumental melodies.",
+      "source": "github",
+      "sourceUrl": "https://github.com/jummbus/jummbox",
+      "homepage": "https://jummbus.bitbucket.io/",
+      "hasPages": false,
+      "tags": [],
+      "categories": [
+        "music",
+        "creative"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/jummbus/jummbox"
+      },
+      "stars": 190,
+      "archived": false,
+      "createdAt": "2019-10-13T20:33:12Z",
+      "updatedAt": "2025-09-05T22:53:03Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/jummbus/jummbox",
+      "websiteCheck": {
+        "url": "https://jummbus.bitbucket.io/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:MaxBittker/sandspiel",
+      "repository": "MaxBittker/sandspiel",
+      "title": "sandspiel",
+      "description": "Creative cellular automata browser game ",
+      "source": "github",
+      "sourceUrl": "https://github.com/MaxBittker/sandspiel",
+      "homepage": "https://sandspiel.club",
+      "hasPages": true,
+      "tags": [
+        "game",
+        "rust",
+        "wasm",
+        "webassembly",
+        "webgl"
+      ],
+      "categories": [
+        "games",
+        "creative"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/MaxBittker/sandspiel"
+      },
+      "stars": 3211,
+      "archived": false,
+      "createdAt": "2018-10-20T18:48:17Z",
+      "updatedAt": "2026-09-10T19:59:08Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/maxbittker/sandspiel",
+      "websiteCheck": {
+        "url": "https://sandspiel.club/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "sandspiel",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:ncase/trust",
+      "repository": "ncase/trust",
+      "title": "trust",
+      "description": "An interactive guide to the game theory of cooperation",
+      "source": "github",
+      "sourceUrl": "https://github.com/ncase/trust",
+      "homepage": null,
+      "hasPages": true,
+      "tags": [],
+      "categories": [
+        "games"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "CC0-1.0",
+        "kind": "open",
+        "sourceUrl": "https://github.com/ncase/trust"
+      },
+      "stars": 6321,
+      "archived": false,
+      "createdAt": "2017-07-24T17:41:51Z",
+      "updatedAt": "2025-12-29T01:00:39Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/ncase/trust"
+    },
+    {
+      "id": "github:doublespeakgames/adarkroom",
+      "repository": "doublespeakgames/adarkroom",
+      "title": "adarkroom",
+      "description": "A Dark Room - A Minimalist Text Adventure",
+      "source": "github",
+      "sourceUrl": "https://github.com/doublespeakgames/adarkroom",
+      "homepage": null,
+      "hasPages": true,
+      "tags": [],
+      "categories": [
+        "games"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MPL-2.0",
+        "kind": "open",
+        "sourceUrl": "https://github.com/doublespeakgames/adarkroom"
+      },
+      "stars": 8349,
+      "archived": false,
+      "createdAt": "2013-07-03T14:30:59Z",
+      "updatedAt": "2025-05-23T15:33:06Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/doublespeakgames/adarkroom"
+    },
+    {
+      "id": "github:gabrielecirulli/2048",
+      "repository": "gabrielecirulli/2048",
+      "title": "2048",
+      "description": "The source code for 2048 ",
+      "source": "github",
+      "sourceUrl": "https://github.com/gabrielecirulli/2048",
+      "homepage": "https://play2048.co",
+      "hasPages": true,
+      "tags": [
+        "2048",
+        "2048-game",
+        "game",
+        "javascript",
+        "online-game",
+        "puzzle-game"
+      ],
+      "categories": [
+        "games"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/gabrielecirulli/2048"
+      },
+      "stars": 13445,
+      "archived": false,
+      "createdAt": "2014-03-05T16:03:26Z",
+      "updatedAt": "2024-10-24T13:06:19Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/gabrielecirulli/2048",
+      "websiteCheck": {
+        "url": "https://play2048.co/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "2048 • Play the Free Online Game",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:wayou/t-rex-runner",
+      "repository": "wayou/t-rex-runner",
+      "title": "t-rex-runner",
+      "description": "the t-rex runner game extracted from chromium",
+      "source": "github",
+      "sourceUrl": "https://github.com/wayou/t-rex-runner",
+      "homepage": "https://chromedino.com",
+      "hasPages": true,
+      "tags": [
+        "chrome",
+        "easter-egg",
+        "google",
+        "javascript",
+        "t-rex-runner"
+      ],
+      "categories": [
+        "games"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "BSD-3-Clause",
+        "kind": "open",
+        "sourceUrl": "https://github.com/wayou/t-rex-runner"
+      },
+      "stars": 2195,
+      "archived": false,
+      "createdAt": "2014-11-29T10:04:04Z",
+      "updatedAt": "2024-07-28T08:43:00Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/wayou/t-rex-runner",
+      "websiteCheck": {
+        "url": "https://chromedino.com/",
+        "status": "responding",
+        "httpStatus": 200,
+        "title": "Dinosaur Game — Chrome Dino T-Rex Run Online",
+        "checkedAt": "2026-10-24T00:38:01.774Z"
+      }
+    },
+    {
+      "id": "github:williamjussiau/timekeeper",
+      "repository": "williamjussiau/timekeeper",
+      "title": "timekeeper",
+      "description": "Minimal, local-only time tracker — projects & tasks, live timer, charts, JSON/CSV backup. Single HTML file, no accounts, no cloud, no dependencies.",
+      "source": "github",
+      "sourceUrl": "https://github.com/williamjussiau/timekeeper",
+      "homepage": null,
+      "hasPages": false,
+      "tags": [
+        "clockify-alternative",
+        "localstorage",
+        "no-dependencies",
+        "offline",
+        "productivity",
+        "single-file",
+        "time-tracker",
+        "time-tracking",
+        "vanilla-js"
+      ],
+      "categories": [
+        "productivity",
+        "tools"
+      ],
+      "applicationKind": "application",
+      "classificationEvidence": "Selected browser application; repository metadata linked below. Runtime compatibility remains unchecked.",
+      "license": {
+        "spdx": "MIT",
+        "kind": "open",
+        "sourceUrl": "https://github.com/williamjussiau/timekeeper"
+      },
+      "stars": 1,
+      "archived": false,
+      "createdAt": "2026-07-13T16:04:10Z",
+      "updatedAt": "2026-09-11T12:16:09Z",
+      "indexedAt": "2026-10-24T00:38:01.774Z",
+      "indexedFrom": "https://api.github.com/repos/williamjussiau/timekeeper"
+    }
+  ]
+}

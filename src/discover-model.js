@@ -35,7 +35,7 @@ export function readmeSummary(readme = '') {
 }
 export function projectSignals(item) {
   const text = `${item.title || ''} ${item.description || ''} ${(item.tags || []).join(' ')}`;
-  const categories = RULES.filter(([, , , rule]) => rule.test(text));
+  const categories = RULES.filter(([id, , , rule]) => item.source==='itch'?id==='games':item.categories?.includes(id) || rule.test(text));
   if (item.source === 'itch' && !categories.some(([id]) => id === 'games')) categories.unshift(RULES[0]); // Catalog comes from itch's HTML5 games feeds.
   const phone = /\b(mobile|android|ios|iphone|ipad|phone|touch|touchscreen)\b/i.test(text) && !/\b(?:not|no) (?:for |on |compatible with )?(?:mobile|phones?|touch)\b/i.test(text);
   const offlineHint = /\boffline\b/i.test(text) && !/\b(?:not|no) offline\b/i.test(text);
@@ -58,7 +58,7 @@ export function onlineVersion(item) {
   const signals = projectSignals(item);
   const looksLikeApp = signals.categories.length || /\b(browser|web app|application)\b/i.test(`${item.description || ''} ${(item.tags || []).join(' ')}`);
   if (!(item.hasPages || item.has_pages || item.pagesURL || looksLikeApp) || /\/(?:docs|documentation|reference)(?:\/|$)/i.test(parsed.pathname)) return null;
-  const check=websiteCheck(url);
+  const check=websiteCheck(url) || (httpsURL(item.websiteCheck?.url)===url?item.websiteCheck:null);
   const fresh=check && Date.now()-Date.parse(check.checkedAt)<7*86400000 && Date.now()>=Date.parse(check.checkedAt)-86400000;
   const state=fresh?(check.status==='responding'?'checked':check.status==='unavailable'?'unavailable':'unverified'):'unverified';
   return {url,state,check:fresh?check:null,evidence:item.hasPages||item.has_pages||item.pagesURL?'GitHub Pages / repository homepage':'Repository-declared app homepage'};
@@ -101,7 +101,7 @@ export function discoveryModel(item, { analysis = null, installed = null } = {})
   const offline = { state: offlineState, label: {network:'Uses network',candidate:'Offline candidate',unknown:'Offline not verified'}[offlineState], hint: signals.offlineHint };
   const license = item.license || { kind: 'unknown', spdx: null };
   const licenseLabel = license.spdx ? `${license.spdx}${license.kind === 'open' ? ' · open license' : ''}` : license.kind === 'proprietary' ? 'Proprietary / freeware' : license.kind === 'source-available' ? 'Source available license' : 'License unknown';
-  let primary = online?.state==='checked' ? { type: 'online', label: signals.categories.includes('games') ? 'Play online' : 'Use online', url: online.url }
+  let primary = install.state==='ready' ? {type:'install',label:'Install'} : online?.state==='checked' ? { type: 'online', label: signals.categories.includes('games') ? 'Play online' : 'Use online', url: online.url }
     : item.source === 'itch' ? { type: 'creator', label: 'View on itch.io', url: httpsURL(item.sourceUrl) }
     : ['source-build','unavailable','incompatible'].includes(install.state) ? downloads.length
       ? { type: 'download', label: 'Download & import', url: downloads[0].url } : { type: 'details', label: 'Details' }

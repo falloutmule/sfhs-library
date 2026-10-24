@@ -2,7 +2,7 @@
 
 This is bounded engineering evidence, not a claim of universal browser compatibility or physical-phone acceptance. The corpus uses unmodified third-party payload bytes and a read-only copy of the existing SNC artifact. Third-party software remains under ignored `test-results/`; it is not redistributed with the launcher repository or Pages site.
 
-Latest final-artifact run: **PASS**, `sfhs-library-20261003-r1-130b323839`, launcher SHA-256 `eb0973a9e3644b0ef13bd3f76f062318e023affdf4d246d7ac8c74c4eb29f4b8`. The seven real cases and six-application empty-context recovery completed on 2026-10-03 (America/Denver); the timestamped UTC proof directory is `test-results/corpus-proof-2026-10-04T02-48-39-163Z/`.
+Latest final-artifact run: **PASS**, `sfhs-library-storefront-20261023-7712ad02c0`, launcher SHA-256 `b25ef5cfdffa0b54fdabca6b6ae32f580c4579b8f9c97bfeaaba7f3c34bd5cfc`. Seven real cases and six-application empty-context recovery completed on 2026-10-23 (America/Denver); UTC proof directory: `test-results/corpus-proof-2026-10-24T00-46-25-077Z/`.
 
 The runner imports files through the real launcher's UI at a 412 × 915 Chromium viewport, disables browser networking, uses each application, exports a full library ZIP, closes that browser context, opens a separate empty context, restores without networking, and observes restored application state. Installed frames must have exactly `sandbox="allow-scripts"`. The served launcher bytes are frozen for the entire test and checked against `build-info.json`.
 

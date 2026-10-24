@@ -1,0 +1,60 @@
+[
+  {
+    "repository": "framework7io/framework7",
+    "title": "framework7",
+    "description": "Full featured HTML framework for building iOS & Android apps",
+    "tags": [
+      "android",
+      "components",
+      "cordova",
+      "framework",
+      "ios",
+      "library",
+      "material",
+      "material-design",
+      "mobile",
+      "phonegap",
+      "touch"
+    ],
+    "stars": 18774,
+    "source": "github",
+    "id": "github:framework7io/framework7",
+    "sourceUrl": "https://github.com/framework7io/framework7",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "observedAt": "2026-10-24T00:40:13.939Z"
+  },
+  {
+    "repository": "antvis/F2",
+    "title": "F2",
+    "description": "📱📈An elegant, interactive and flexible charting library for mobile.",
+    "tags": [
+      "antv",
+      "charts",
+      "data-visualisation",
+      "data-visualization",
+      "f2",
+      "grammar",
+      "html5-canvas",
+      "mobile",
+      "visualization"
+    ],
+    "stars": 7994,
+    "source": "github",
+    "id": "github:antvis/F2",
+    "sourceUrl": "https://github.com/antvis/F2",
+    "license": {
+      "key": "mit",
+      "name": "MIT License",
+      "spdx_id": "MIT",
+      "url": "https://api.github.com/licenses/mit",
+      "node_id": "MDc6TGljZW5zZTEz"
+    },
+    "observedAt": "2026-10-24T00:40:14.147Z"
+  }
+]

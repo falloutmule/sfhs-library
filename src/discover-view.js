@@ -1,82 +1,62 @@
-import { searchDiscovery, inspectGithub, acquireGithub,rankItems } from './discovery.js';
-import { BROWSE_CATEGORIES, discoveryModel, httpsURL,matchesBrowse } from './discover-model.js';
-import {CHECKED_APPS,CHECKED_AT,checkedPackageDetail} from './checked-catalog.js';
+import {searchDiscovery,inspectGithub,acquireGithub,parseGithubRepository} from './discovery.js';
+import {discoveryModel,httpsURL} from './discover-model.js';
+import {checkedPackageDetail} from './checked-catalog.js';
+import {DEFAULT_FILTERS,TYPES,storeItems,filterItems,filterLabels,sortItems,shelves,popularityLabel,availableSorts,isChecked,ITCH_UPDATED,SOURCE_INFO,feedRank} from './storefront.js';
 
-export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prepareInstall, importFile, getInstalled, launch }) {
-  const $ = id => document.getElementById(id);
-  let category = 'all',mode='checked', generation = 0, items = [], checked = null, started = false, returnFocus = null, searchFailed = false;
-  const details = new Map();
-  const rejected = new Map();
-  const analysisKey = data => `${data.repository}@${data.commit}:${data.selectedEntry||data.recommendedEntry}`;
-  const model = item => {
-    const data={...item,...details.get(item.id)};
-    const matches=checked?.id===item.id && checked.detail.commit===data.commit && checked.selection===(data.selectedEntry||data.recommendedEntry);
-    return discoveryModel(data,{analysis:matches?checked.analysis:rejected.get(analysisKey(data)),installed:getInstalled(item)});
-  };
-  const external = (url, text, style = 'button button-quiet') => {
-    const link = el('a',{href:httpsURL(url),target:'_blank',rel:'noopener noreferrer',referrerpolicy:'no-referrer',class:style},text,el('span',{'aria-hidden':'true'},' ↗'));
-    link.setAttribute('aria-label',`${text} (opens in a new tab)`);
-    return link;
-  };
-  function action(item, current, style = 'button button-primary', supplied, updateId) {
-    const primary = current.primary;
-    if (primary.url) return external(primary.url, primary.label, style);
-    if (primary.type === 'launch') return button(primary.label,()=>launch(getInstalled(item).id),style);
-    if (primary.type === 'details') return button('Details',()=>showDetails(item,supplied,updateId),style);
-    return button(primary.label,()=>checkInstall(item,supplied,updateId),style);
+export function createDiscoverUI({el,button,field,modal,dialogCurrent,prepareInstall,importFile,getInstalled,launch}){
+ const $=id=>document.getElementById(id);
+ let filters=DEFAULT_FILTERS(),sort='recommended',shelf=null,generation=0,items=[],checked=null,started=false,returnFocus=null,searchFailed=false,home=true,visibleLimit=36,lastQuery='';
+ const details=new Map(),rejected=new Map();
+ const analysisKey=data=>`${data.repository}@${data.commit}:${data.selectedEntry||data.recommendedEntry}`;
+ const model=item=>{const data={...item,...details.get(item.id)};const matches=checked?.id===item.id&&checked.detail.commit===data.commit&&checked.selection===(data.selectedEntry||data.recommendedEntry);return discoveryModel(data,{analysis:matches?checked.analysis:rejected.get(analysisKey(data)),installed:getInstalled(item)});};
+ const external=(url,text,style='button button-quiet')=>{const link=el('a',{href:httpsURL(url),target:'_blank',rel:'noopener noreferrer',referrerpolicy:'no-referrer',class:style},text,el('span',{'aria-hidden':'true'},' ↗'));link.setAttribute('aria-label',`${text} (opens in a new tab)`);return link;};
+ function action(item,current,style='button button-primary',supplied,updateId){const p=current.primary;if(p.url)return external(p.url,p.label,style);if(p.type==='launch')return button(p.label,()=>launch(getInstalled(item).id),style);if(p.type==='details')return button('Details',()=>showDetails(item,supplied,updateId),style);return button(p.label,()=>checkInstall(item,supplied,updateId),style);}
+ function card(item,order=sort){
+  const current=model(item),name=el('h3',{class:'discover-title'},current.title);
+  const title=el('div',{class:'discover-card-heading'},el('span',{class:'discover-glyph','aria-hidden':'true'},current.signals.glyph),el('div',{},name));
+  const signals=el('ul',{class:'discover-signals','aria-label':'Project information'},...current.signals.tags.map(t=>el('li',{},t)),isChecked(item)?el('li',{class:'checked-label'},'Checked by SFHS'):null);
+  const local=current.install.state==='needs-check'?'Install not checked':current.install.title;
+  const capability=current.online?.state==='unavailable'?`Website unavailable · HTTP ${current.online.check.httpStatus}`:current.primary.type==='online'?(['incompatible','source-build','unavailable'].includes(current.install.state)?'Play online · This source can’t install':'Website link checked'):local;
+  const actions=el('div',{class:'discover-actions'},action(item,current));if(current.primary.type!=='details')actions.append(button('Details',()=>showDetails(item),'button button-quiet'));else if(item.source==='github')actions.append(external(item.sourceUrl,'Source code'));
+  return el('article',{class:'app-card discover-card','data-project':item.id},title,el('p',{class:'discover-description'},current.description),signals,el('p',{class:'discover-popularity'},popularityLabel(item,order)),el('div',{class:'discover-card-facts'},el('span',{},capability),el('span',{},current.licenseLabel)),actions);
+ }
+ function renderCards(){
+  const positions=[...$('discover-grid').querySelectorAll('[data-shelf-scroll]')].map(n=>[n.dataset.shelfScroll,n.scrollLeft]);
+  if(home){$('discover-grid').classList.add('storefront-home');$('discover-grid').replaceChildren(...shelves().map(s=>el('section',{class:'storefront-shelf','aria-labelledby':`shelf-${s.id}`,'data-shelf':s.id},el('div',{class:'shelf-heading'},el('div',{},el('h2',{id:`shelf-${s.id}`},s.title),el('p',{},s.note)),button('See all',()=>openShelf(s),'button button-quiet',)),el('div',{class:'shelf-track','data-shelf-scroll':s.id},...s.items.slice(0,4).map(i=>card(i,s.sort))))));for(const[id,x]of positions){const node=$('discover-grid').querySelector(`[data-shelf-scroll="${id}"]`);if(node)node.scrollLeft=x;}return;}
+  $('discover-grid').classList.remove('storefront-home');$('discover-grid').replaceChildren(...items.slice(0,visibleLimit).map(i=>card(i)));
+  if(items.length>visibleLimit)$('discover-grid').append(button(`Show more (${items.length-visibleLimit} remaining)`,()=>{visibleLimit+=36;renderCards();},'button button-secondary discover-more'));
+  if(!items.length){const label=filterLabels(filters).join(' · ');$('discover-grid').append(el('div',{class:'discover-empty'},el('h2',{},searchFailed?'No results from the available sources.':`No ${label?label.toLowerCase()+' ':''}apps found${lastQuery?' for “'+lastQuery+'”':''}.`),el('p',{class:'muted'},'This index is limited. Try removing a filter or searching another source.'),el('div',{class:'discover-actions'},filters.open?button('Remove Open source',()=>{filters.open=false;syncControls();return run();},'button button-secondary'):null,filters.phone?button('Remove Phone',()=>{filters.phone=false;syncControls();return run();},'button button-secondary'):null,button('Clear all',clearAll,'button button-quiet'))));}
+ }
+ function syncControls(){ $('discover-source').value=filters.source;$('discover-open').checked=filters.open;$('discover-phone').checked=filters.phone;$('discover-offline').checked=filters.offline;for(const n of $('discover-browse').querySelectorAll('button'))n.setAttribute('aria-pressed',String(n.dataset.type==='all'?!filters.types.length:filters.types.includes(n.dataset.type))); }
+ function renderBrowse(){ $('discover-browse').replaceChildren(...[['all','All software'],...TYPES].map(([id,label])=>{const b=button(label,()=>{shelf=null;filters.types=id==='all'?[]:filters.types.includes(id)?filters.types.filter(t=>t!==id):[...filters.types,id];syncControls();return run();},'browse-chip');b.dataset.type=id;return b;}));syncControls(); }
+ function clearAll(){filters=DEFAULT_FILTERS();sort='recommended';shelf=null;$('discover-query').value='';$('discover-options').open=false;syncControls();return run();}
+ function openShelf(s){filters={...DEFAULT_FILTERS(),...s.filters};sort=s.sort;shelf=s;$('discover-query').value='';syncControls();return run().then(()=>{$('discover-results-title').focus({preventScroll:true});$('discover-results-title').scrollIntoView({block:'start'});});}
+ function browseChecked(){returnFocus=null;$('dialog-close').click();filters={...DEFAULT_FILTERS(),source:'checked'};sort='recommended';shelf=null;$('discover-query').value='';syncControls();return run().then(()=>{$('discover-grid').querySelector('.discover-actions .button-primary')?.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});});}
+ async function run(){
+  started=true;const request=++generation;visibleLimit=36;
+  filters.source=$('discover-source').value;filters.open=$('discover-open').checked;filters.phone=$('discover-phone').checked;filters.offline=$('discover-offline').checked;
+  if(shelf&&(filters.source!==shelf.filters.source||(shelf.filters.phone&&!filters.phone)))shelf=null;
+  const query=$('discover-query').value.trim();if(query!==lastQuery)shelf=null;lastQuery=query;
+  home=!query&&!filterLabels(filters).length&&!shelf;
+  $('discover-results-title').hidden=home;$('discover-results-title').textContent=home?'Browse software':query?'Search results':shelf?.title||'Browse results';
+  $('discover-home').hidden=home;$('discover-sort-field').hidden=home;
+  $('discover-active').textContent=filterLabels(filters).join(' · ')||'All software';$('discover-clear').hidden=home;
+  $('discover-status').textContent=home?`itch.io index updated ${new Date(ITCH_UPDATED).toLocaleDateString(undefined,{month:'short',day:'numeric'})}`:'Finding software…';$('discover-grid').setAttribute('aria-busy','true');$('discover-errors').replaceChildren();
+  let candidates=filterItems(storeItems(),DEFAULT_FILTERS(),query),errors=[];
+  if(query&&filters.source!=='checked'&&filters.source!=='itch'){
+   try{const result=await searchDiscovery({query,source:filters.source==='github'?'github':'all'});const combined=new Map();for(const i of [...result.items,...candidates]){const key=i.repository?'github:'+i.repository.toLowerCase():i.id;if(!combined.has(key))combined.set(key,i);else combined.set(key,{...i,...combined.get(key)});}candidates=[...combined.values()];errors=result.errors||[];}catch(e){errors=[{source:'GitHub',message:e.message}];}
   }
-  function renderCards() {
-    $('discover-grid').replaceChildren(...items.map(item => {
-      const current = model(item);
-      const name = el('h3',{class:'discover-title'},current.title);
-      const title = el('div',{class:'discover-card-heading'},el('span',{class:'discover-glyph','aria-hidden':'true'},current.signals.glyph),el('div',{},name));
-      const signals = el('ul',{class:'discover-signals','aria-label':'Project information'},...(current.signals.tags.length?current.signals.tags:['Category unknown']).map(tag=>el('li',{},tag)));
-      const localLabel = current.install.state === 'needs-check' ? 'Install not checked' : current.install.title;
-      const capability=current.online?.state==='unavailable'?`Website unavailable · HTTP ${current.online.check.httpStatus}`:current.primary.type==='online'?(['incompatible','source-build','unavailable'].includes(current.install.state)?'Play online · This source can’t install':'Website link checked'):localLabel;
-      const capabilities=el('div',{class:'discover-card-facts'},el('span',{},capability),el('span',{},current.licenseLabel));
-      const actions = el('div',{class:'discover-actions'},action(item,current));
-      if(current.primary.type!=='details') actions.append(button('Details',()=>showDetails(item),'button button-quiet'));
-      else if(item.source==='github') actions.append(external(item.sourceUrl,'Source code'));
-      return el('article',{class:'app-card discover-card','data-project':item.id},title,el('p',{class:'discover-description'},current.description),signals,capabilities,actions);
-    }));
-    if(!items.length) $('discover-grid').append(el('div',{class:'discover-empty'},el('h2',{},searchFailed?'Search is unavailable for this source.':mode==='checked'?'No checked apps match.':'No software matches these filters.'),el('p',{class:'muted'},searchFailed?'See the source error above. Try another source, or retry once the connection or rate limit allows it.':mode==='checked'?'The checked shelf is small. You can search more GitHub and itch.io projects; those results still need checking.':'Try another search or category. Open licenses only excludes projects whose license is unknown.'),mode==='checked'?button('Search more projects',()=>setMode('web'),'button button-primary'):null,button('Clear filters',()=>{category='all';$('discover-query').value='';$('discover-open').checked=false;renderBrowse();return run();},'button button-quiet')));
-  }
-  function renderBrowse() {
-    $('discover-browse').replaceChildren(...BROWSE_CATEGORIES.filter(item=>mode==='web'||['all','games','tools'].includes(item.id)).map(item=>{
-      const node=button(item.label,()=>{category=item.id;renderBrowse();return run();},'browse-chip');
-      node.setAttribute('aria-pressed',String(category===item.id));
-      return node;
-    }));
-  }
-  function setMode(next){mode=next;category='all';$('discover-find').open=next==='web';$('discover-options').open=next==='checked';renderBrowse();return run();}
-  function browseChecked(){returnFocus=null;document.getElementById('dialog-close').click();$('discover-query').value='';$('discover-open').checked=false;return setMode('checked').then(()=>{$('discover-grid').querySelector('.discover-actions .button-primary')?.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});});}
-  async function run() {
-    started=true;
-    const request=++generation;
-    $('discover-status').textContent='Finding software…';$('discover-grid').setAttribute('aria-busy','true');$('discover-errors').replaceChildren();
-    for(const node of $('discover-modes').querySelectorAll('button'))node.setAttribute('aria-pressed',String(node.dataset.mode===mode));
-    $('discover-mode-hint').textContent=mode==='checked'?'Install keeps a copy on this device. Play opens the creator’s website.':'Web results are not checked apps. A homepage alone does not prove a working game or a local install.';
-    $('discover-source-field').hidden=mode==='checked';
-    $('view-discover').dataset.discoverMode=mode;
-    $('discover-query').placeholder=mode==='checked'?'Search checked apps':'Search GitHub and itch.io';
-    $('discover-about').textContent=mode==='checked'?'About checks':'About sources';
-    try {
-      const words=$('discover-query').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-      const filtered=CHECKED_APPS.filter(item=>matchesBrowse(item,category)&&(!$('discover-open').checked||item.license.kind==='open')&&words.every(word=>`${item.title} ${item.description} ${item.repository} ${item.tags.join(' ')}`.toLowerCase().includes(word)));
-      const result=mode==='checked'?{items:rankItems(filtered,$('discover-query').value),summary:[`${filtered.length} checked apps · ${new Date(CHECKED_AT).toLocaleDateString(undefined,{month:'short',day:'numeric'})}`],status:'Checked apps use pinned source versions, package analysis, and explicit website checks. Files are verified and analyzed again before installation. These checks do not establish physical phone acceptance, complete safety, or blanket save/offline support.',errors:[]}:await searchDiscovery({query:$('discover-query').value,source:$('discover-source').value,openOnly:$('discover-open').checked,category});
-      if(request!==generation)return;
-      items=result.items;
-      $('discover-status').replaceChildren(...(result.summary||[`${items.length} results`]).map(text=>el('span',{},text)));
-      $('discover-source-info').textContent=result.status;
-      const errors=result.errors||[];
-      searchFailed=errors.length>0;
-      if(!navigator.onLine)errors.unshift({source:'Connection',message:'You’re offline. The indexed catalog is available; reconnect for live GitHub search and online apps.'});
-      $('discover-errors').replaceChildren(...errors.map(error=>el('p',{},el('strong',{},`${error.source}: `),error.message)));
-      renderCards();
-    } catch(error) {
-      if(request===generation) { $('discover-status').textContent='Search unavailable';$('discover-errors').replaceChildren(el('p',{},error.message)); }
-    } finally { if(request===generation)$('discover-grid').setAttribute('aria-busy','false'); }
-  }
+  if(request!==generation)return;
+  const direct=parseGithubRepository(query);items=filterItems(candidates,filters,'');if(direct)items=items.filter(i=>i.repository?.toLowerCase()===direct.toLowerCase());
+  if(shelf?.feed)items=items.filter(i=>Number.isFinite(feedRank(i,null,{feed:shelf.feed})));
+  const sorts=availableSorts(items);if(!sorts.some(([id])=>id===sort))sort='recommended';$('discover-sort').replaceChildren(...sorts.map(([id,label])=>el('option',{value:id},label)));$('discover-sort').value=sort;
+  items=sortItems(items,sort,{query,phone:filters.phone,feed:shelf?.feed});searchFailed=errors.length>0;
+  if(!home)$('discover-status').textContent=`${items.length} ${items.length===1?'result':'results'}${query&&filters.source!=='itch'&&filters.source!=='checked'?' · includes live GitHub search':''}${filters.source==='itch'?' · itch.io indexed':''}`;
+  if(!navigator.onLine)errors.unshift({source:'Offline',message:'Showing indexed software. Reconnect to search GitHub or use online apps.'});
+  $('discover-errors').replaceChildren(...errors.map(e=>el('p',{},el('strong',{},`${e.source}: `),e.code==='rate-limit'?'GitHub search temporarily limited (rate limit reached). Showing indexed results.':e.message)));
+  $('discover-source-info').textContent=SOURCE_INFO+(errors.length?' Source details: '+errors.map(e=>e.message).join(' '):'');
+  renderCards();$('discover-grid').setAttribute('aria-busy','false');
+ }
   function importFor(item) {
     importFile({kind:item.source==='itch'?'itch':'github',url:item.sourceUrl,repository:item.repository,license:item.license||{kind:'unknown'},acquisition:'User-selected download associated with this project; origin and release correspondence not independently verified.'});
   }
@@ -88,7 +68,7 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
     const primary=action(item,current,'button button-primary',detail,updateId);
     const body=el('div',{class:'stack discover-detail'},el('p',{class:'discover-detail-description'},current.description),
       el('ul',{class:'discover-signals','aria-label':'Project information'},...current.signals.tags.map(tag=>el('li',{},tag))),
-      el('section',{class:'discover-options'},el('h3',{},'What you can do'),el('div',{class:'discover-actions'},current.primary.type==='details'?button('Browse checked apps',browseChecked,'button button-primary'):primary,...secondary,current.online?.state==='unverified'&&current.primary.type!=='website'?external(current.online.url,'Visit website (not checked)'):null,external(item.sourceUrl,item.source==='itch'?'Creator page':'Source code')),
+      el('section',{class:'discover-options'},el('h3',{},'What you can do'),el('div',{class:'discover-actions'},current.primary.type==='details'?button('Browse checked apps',browseChecked,'button button-primary'):primary,...secondary,current.online?.state==='checked'&&current.primary.type!=='online'?external(current.online.url,current.signals.categories.includes('games')?'Play online':'Use online'):null,current.online?.state==='unverified'&&current.primary.type!=='website'?external(current.online.url,'Visit website (not checked)'):null,external(item.sourceUrl,item.source==='itch'?'Creator page':'Source code')),
         current.online?.state==='unavailable'?el('p',{class:'discover-error'},`The listed website returned HTTP ${current.online.check.httpStatus} when checked. It is not offered as playable.`):current.online?el('p',{class:'muted'},`${current.online.state==='checked'?'Website responded when checked '+new Date(current.online.check.checkedAt).toLocaleDateString()+'.':'The creator’s website has not been checked.'} Online use opens a separate tab; it does not keep a local copy.`):el('p',{class:'muted'},'No checked online version is listed.')),
       error?el('p',{class:'discover-error',role:'alert'},error):null,
       el('section',{class:'discover-verdict'},el('h3',{},current.install.title),el('p',{},current.install.summary),
@@ -103,6 +83,11 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
       el('section',{},el('h3',{},'License'),el('p',{},current.licenseLabel)));
     if(current.downloads.length)body.append(el('section',{class:'stack'},el('h3',{},'Downloads from the project'),el('p',{class:'muted'},'HTML / ZIP downloads are listed below. Their format and compatibility still need checking after import.'),...current.downloads.map(download=>external(download.url,download.name,'button button-secondary'))));
     const technical=el('details',{class:'discover-technical'},el('summary',{},'Technical details'));
+    if(Number.isFinite(item.stars))technical.append(el('p',{},item.stars.toLocaleString()+' stars on GitHub (interest, not app reviews).'));
+    if(item.indexedAt)technical.append(el('p',{},'GitHub metadata indexed '+new Date(item.indexedAt).toLocaleString()));
+    if(item.classificationEvidence)technical.append(el('p',{},item.classificationEvidence));
+    for(const feed of item.feeds||[])technical.append(el('p',{},'Source position '+feed.rank+' · '+feed.label+' · ',external(feed.url,'Browse source','button button-quiet')));
+
     if(detail){
       const entries=detail.entryCandidates||[];
       selected=el('select',{'aria-label':'Browser package entry'},...entries.map(entry=>el('option',{value:entry.path,disabled:entry.status!=='candidate'},`${entry.path} · ${entry.fileCount} files · ${entry.status}`)));
@@ -147,16 +132,13 @@ export function createDiscoverUI({ el, button, field, modal, dialogCurrent, prep
       await prepareInstall(payload.bytes,payload.filename,payload.source,updateId,false,{discovery:true,name:model(item).title,description:model(item).description,category:model(item).signals.categories.includes('games')?'Games':'Utilities',isCurrent:()=>dialogCurrent(revision),onIncompatible:()=>renderDetails(item,detail,updateId),onAnalysis:analysis=>{checked={id:item.id,detail,selection,payload,analysis};const key=analysisKey({...detail,selectedEntry:selection});if(analysis.compatible)rejected.delete(key);else rejected.set(key,{compatible:false,offline:analysis.offline,reasons:analysis.reasons});renderCards();}});
     }catch(error){if(dialogCurrent(revision))renderDetails(item,detail,updateId,`Local installation could not be checked: ${error.message}`);}
   }
-  function init(){
-    renderBrowse();
-    $('discover-options').open=true;
-    for(const node of $('discover-modes').querySelectorAll('button'))node.addEventListener('click',()=>setMode(node.dataset.mode));
-    $('dialog').addEventListener('close',()=>{
-      if($('view-discover').hidden){returnFocus=null;return;}
-      if(!returnFocus)return;
-      renderCards();
-      if(returnFocus){const card=[...$('discover-grid').children].find(node=>node.dataset.project===returnFocus.id);const target=card&&([...card.querySelectorAll('button,a')].find(node=>node.textContent.trim()===returnFocus.text)||card.querySelector('button,a'));target?.focus();returnFocus=null;}
-    });
-  }
-  return { run, showDetails, init, start:()=>{if(!started)return run();renderCards();} };
+
+ function init(){
+  renderBrowse();$('discover-source-info').textContent=SOURCE_INFO;
+  $('discover-home').addEventListener('click',clearAll);$('discover-clear').addEventListener('click',clearAll);
+  $('discover-phone').addEventListener('change',run);$('discover-offline').addEventListener('change',run);
+  $('discover-sort').addEventListener('change',()=>{sort=$('discover-sort').value;return run();});
+  $('dialog').addEventListener('close',()=>{if($('view-discover').hidden){returnFocus=null;return;}if(!returnFocus)return;const y=scrollY;renderCards();const c=[...$('discover-grid').querySelectorAll('[data-project]')].find(n=>n.dataset.project===returnFocus.id);const target=c&&([...c.querySelectorAll('button,a')].find(n=>n.textContent.trim()===returnFocus.text)||c.querySelector('button,a'));target?.focus({preventScroll:true});window.scrollTo({top:y,behavior:'instant'});returnFocus=null;});
+ }
+ return {run,showDetails,init,start:()=>{if(!started)return run();renderCards();}};
 }

@@ -57,14 +57,14 @@ async function open(p,name){await p.locator('.mobile-nav [data-view="library"]')
 async function install(item){await page.locator('.mobile-nav [data-view="discover"]').click();await card(page,item.repository).getByRole('button',{name:'Install',exact:true}).click();await page.locator('#dialog').getByRole('heading',{name:'Ready to install',exact:true}).waitFor();assert.equal(await page.locator('#dialog-body input').first().isVisible(),false);await page.getByRole('button',{name:'Install application',exact:true}).click();await page.waitForFunction(()=>!document.getElementById('dialog').open);}
 async function appCount(p){return p.evaluate(()=>new Promise(resolve=>{const req=indexedDB.open('sfhs-library-v1',1);req.onsuccess=()=>{const db=req.result,r=db.transaction('apps').objectStore('apps').count();r.onsuccess=()=>{db.close();resolve(r.result);};};}));}
 try{
-  await page.goto(base+'/#discover');
+  await page.goto(base+'/#discover');await selectDiscoverSource(page,'checked');
   const installButton=card(page,'gabrielecirulli/2048').getByRole('button',{name:'Install',exact:true});await installButton.waitFor();
-  assert.equal(await page.locator('#discover-modes [data-mode="checked"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await page.locator('#discover-grid article').count(),4);assert.equal(await page.locator('#discover-find').getAttribute('open'),null);
-  const buttonBox=await installButton.boundingBox(),nav=await page.locator('.mobile-nav').boundingBox();assert.ok(buttonBox.height>=44&&buttonBox.y+buttonBox.height<nav.y);
-  const second=await card(page,'williamjussiau/timekeeper').boundingBox();assert.ok(second.y<nav.y);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  assert.equal(await page.locator('#discover-source').inputValue(),'checked');
+  assert.equal(await page.locator('#discover-grid article').count(),4);assert.equal(await page.locator('#discover-options').getAttribute('open'),null);
+  const buttonBox=await installButton.boundingBox(),nav=await page.locator('.mobile-nav').boundingBox();assert.ok(buttonBox.height>=44);await installButton.scrollIntoViewIfNeeded();
+  const second=await card(page,'williamjussiau/timekeeper').boundingBox();assert.ok(second.height<340);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   proof.cardHeights=await page.locator('#discover-grid article').evaluateAll(nodes=>nodes.map(node=>({id:node.dataset.project,height:node.getBoundingClientRect().height})));
-  await shot('checked-first-screen.png');check('phone opens to two real installable choices, compact cards and collapsed filters without GitHub API dependence');
+  await shot('checked-first-screen.png');check('checked filter exposes two real installable choices, compact cards and collapsed filters without GitHub API dependence');
   await install(CHECKED_APPS[0]);let frame=await open(page,'2048');await frame.locator('.tile').first().waitFor();await frame.locator('.game-container').click();for(const key of ['ArrowLeft','ArrowUp','ArrowRight','ArrowDown','ArrowLeft'])await page.keyboard.press(key);
   const board=await frame.evaluate(()=>JSON.parse(localStorage.getItem('gameState')));assert.ok(board.grid.cells.flat().filter(Boolean).length>=2);assert.equal(await page.locator('#runtime-container iframe').getAttribute('sandbox'),'allow-scripts');await page.locator('#runtime-close').click();
   check('real 2048 downloads checked immutable files, passes fresh analysis, installs, plays and saves in opaque isolation');
@@ -88,7 +88,7 @@ try{
   check('both newly installed real apps reopen with their saved state when all browser networking is disabled');
   const recovery=await newContext(),restored=await recovery.newPage();await restored.goto(base);await restored.waitForFunction(()=>navigator.serviceWorker.controller);await recovery.setOffline(true);await restored.locator('#restore-file').setInputFiles(backupPath);await restored.getByRole('button',{name:'Restore library',exact:true}).click();await restored.waitForFunction(()=>!document.getElementById('dialog').open);frame=await open(restored,'Timekeeper');await frame.getByText('My first kept app',{exact:true}).first().waitFor();await restored.locator('#runtime-close').click();frame=await open(restored,'2048');await frame.locator('.tile').first().waitFor();assert.deepEqual(await frame.evaluate(()=>JSON.parse(localStorage.getItem('gameState'))),board);await recovery.close();
   check('the checked-app backup restores into an empty library and both real apps recover their state offline');
-  const corrupt=await newContext(true),bad=await corrupt.newPage();await bad.goto(base+'/#discover');await card(bad,'gabrielecirulli/2048').getByRole('button',{name:'Install',exact:true}).click();await bad.locator('#dialog-body').getByRole('alert').filter({hasText:'checked file changed'}).waitFor();assert.equal(await appCount(bad),0);await corrupt.close();check('a same-size modified source file is rejected before any local installation');
+  const corrupt=await newContext(true),bad=await corrupt.newPage();await bad.goto(base+'/#discover');await selectDiscoverSource(bad,'checked');await card(bad,'gabrielecirulli/2048').getByRole('button',{name:'Install',exact:true}).click();await bad.locator('#dialog-body').getByRole('alert').filter({hasText:'checked file changed'}).waitFor();assert.equal(await appCount(bad),0);await corrupt.close();check('a same-size modified source file is rejected before any local installation');
   assert.deepEqual(proof.pageErrors,[]);proof.result='PASS';
 }catch(error){proof.result='FAIL';proof.error=error.stack;await shot('failure.png').catch(()=>{});throw error;}
 finally{await writeFile(resolve(output,'proof.json'),JSON.stringify(proof,null,2));await browser.close();await new Promise(resolve=>server.close(resolve));}

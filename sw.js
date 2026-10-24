@@ -1,5 +1,5 @@
 // Updates touch only this launcher's shell cache. Apps and saves stay in IndexedDB.
-const HASH = 'b3ddca0edab27bb8f687304c963530c94c2ead018e73b78cbfd433981cc53bf1';
+const HASH = 'b25ef5cfdffa0b54fdabca6b6ae32f580c4579b8f9c97bfeaaba7f3c34bd5cfc';
 const PREFIX = 'sfhs-launcher:' + new URL(self.registration.scope).pathname + ':';
 const CACHE = PREFIX + HASH.slice(0,16);
 const SHELL = new URL('./index.html',self.registration.scope).href;

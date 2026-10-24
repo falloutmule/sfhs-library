@@ -2,15 +2,15 @@
 
 **Your software. Your collection. Yours to keep.**
 
-A phone-first, local-first library for compatible browser software. Import HTML or ZIP packages, inspect GitHub projects, explore an indexed itch.io catalog, launch isolated applications, retain versions, and export a portable archive containing the actual software and supported saves.
+A phone-first, local-first library for compatible browser software. Browse ranked browser-software shelves, combine filters, search GitHub and indexed itch.io, import HTML or ZIP packages, launch isolated applications, retain versions, and export a portable archive containing the actual software and supported saves.
 
 This is an **engineering candidate**, not a claim that every requirement in [the product constraints](docs/PRODUCT-CONSTRAINTS.md) has passed final acceptance. Android phone acceptance remains a release gate.
 
 ## Use it
 
 1. Open the HTTPS Pages launcher in Android Chrome, or run it locally using the commands below.
-2. Open **Discover → Checked apps**. **Install** on 2048 or Timekeeper downloads a pinned package, verifies every source file, and checks it again before confirmation. After installation, tap **Launch** in Library. **Play online** on a checked website opens a separate browser tab.
-3. **Search the web** expands to GitHub and the indexed itch.io catalog. Those results are untested projects. An unverified homepage is not advertised as playable. **Details** shows what you can do and the specific reason a local install is refused, with alternative actions. Installation keeps original bytes and a separate executable capsule; an external website is not installed or preserved.
+2. Open **Discover**. Browse **Top phone games**, **Top rated games**, **Popular open-source apps**, tools, creative apps, and maker software. **See all** opens a ranked list. **Filters** combines type, Phone / Touch, Offline candidates, Open source, and source. Selections remain visible; **Clear filters** returns home.
+3. Search for something specific, including a GitHub `owner/repository`. Sorting uses each source’s own evidence: itch browse order or actual GitHub stars. GitHub stars are interest, not review ratings; itch RSS supplies no numeric ratings. **Checked by SFHS** apps appear throughout the storefront and have their own source filter. Install on 2048 or Timekeeper acquires pinned, hashed files and checks them again before confirmation; then launch from Library. Online actions open the creator’s website separately and do not keep a local copy. **Details** explains each representation and any refusal.
 4. Use **Details** for organization, permissions, app backup, exact original export, and retained versions.
 5. Use **Backups → Export library** and keep the downloaded ZIP outside browser storage. Restore works into an empty library and validates every software checksum first.
 
@@ -52,7 +52,7 @@ Original payload and executable hashes are separate. Public source is not automa
 
 Real application corpus acquisition and results are documented in [COMPATIBILITY-CORPUS.md](docs/COMPATIBILITY-CORPUS.md). Purpose-built fixtures supplement real applications and are not represented as the whole compatibility corpus.
 
-Pages deployment runs checks and publishes `release.json` with the deployed repository commit and HTML SHA-256. The catalog workflow fetches only public itch RSS feeds, reports refresh timestamps, and retains the old catalog on failure. Browser discovery uses no scraping or CORS proxy.
+Pages deployment runs checks and publishes `release.json` with the deployed repository commit and HTML SHA-256. The catalog workflow refreshes bounded public itch RSS slices and selected GitHub application metadata, reports provenance/timestamps, and retains last good data on source failures. Browser discovery uses no scraping or CORS proxy.
 
 If the phone still shows the original **Inspect / External only** interface, open [the updated Discover entry](https://falloutmule.github.io/sfhs-library/start.html#discover). This distinct path bypasses the original worker's old shell cache; it uses the same local library and does not clear apps or saves. Future online navigations fetch the current shell, with a verified cached shell as the offline fallback. Settings also offers **Check for Library update**; an available release has an explicit **Open updated Library** action. Running tabs are never reloaded automatically.
 

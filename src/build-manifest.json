@@ -1,5 +1,5 @@
 {
-  "buildId": "sfhs-library-discover-20261023",
+  "buildId": "sfhs-library-storefront-20261023",
   "version": "0.1.0",
   "entry": "src/app.js",
   "artifact": "index.html",
