@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "checkedAt": "2026-10-23T19:11:47.122Z",
+  "checkedAt": "2026-10-26T16:10:43.646Z",
   "scope": "Package analysis and website HTTP checks. No physical phone acceptance or blanket safety/offline guarantee.",
   "items": [
     {
@@ -368,7 +368,7 @@
   "websites": [
     {
       "url": "https://falloutmule.github.io/pete-hegseths-drunken-space-force/",
-      "checkedAt": "2026-10-23T19:11:47.122Z",
+      "checkedAt": "2026-10-26T16:10:43.646Z",
       "status": "responding",
       "httpStatus": 200,
       "finalURL": "https://falloutmule.github.io/pete-hegseths-drunken-space-force/",
@@ -376,7 +376,7 @@
     },
     {
       "url": "https://falloutmule.github.io/cat-paw-air-hockey/",
-      "checkedAt": "2026-10-23T19:11:47.122Z",
+      "checkedAt": "2026-10-26T16:10:43.646Z",
       "status": "responding",
       "httpStatus": 200,
       "finalURL": "https://falloutmule.github.io/cat-paw-air-hockey/",
@@ -384,7 +384,7 @@
     },
     {
       "url": "https://mykonos-island-voxels.netlify.app/",
-      "checkedAt": "2026-10-23T19:11:47.122Z",
+      "checkedAt": "2026-10-26T16:10:43.646Z",
       "status": "unavailable",
       "httpStatus": 404,
       "finalURL": "https://mykonos-island-voxels.netlify.app/",
