@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-02T19:33:29.480Z",
+  "updatedAt": "2026-11-09T19:53:35.642Z",
   "description": "Selected end-user browser projects; public GitHub metadata, not app ratings or compatibility verification.",
   "errors": [],
   "items": [
@@ -33,18 +33,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/excalidraw/excalidraw"
       },
-      "stars": 135049,
+      "stars": 135398,
       "archived": false,
       "createdAt": "2020-01-02T01:04:43Z",
-      "updatedAt": "2026-11-02T16:26:43Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "updatedAt": "2026-11-09T17:32:03Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/excalidraw/excalidraw",
       "websiteCheck": {
         "url": "https://excalidraw.com/",
         "status": "responding",
         "httpStatus": 200,
         "title": "Excalidraw Whiteboard",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -72,18 +72,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/jgraph/drawio"
       },
-      "stars": 9137,
+      "stars": 9272,
       "archived": false,
       "createdAt": "2016-09-06T12:59:15Z",
-      "updatedAt": "2026-10-30T21:28:34Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "updatedAt": "2026-11-04T18:20:39Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/jgraph/drawio",
       "websiteCheck": {
         "url": "https://www.drawio.com/",
         "status": "responding",
         "httpStatus": 200,
         "title": "Security-first diagramming for teams | draw.io",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -116,11 +116,11 @@
         "kind": "unknown",
         "sourceUrl": "https://github.com/viliusle/miniPaint"
       },
-      "stars": 3489,
+      "stars": 3493,
       "archived": false,
       "createdAt": "2013-07-30T14:11:26Z",
-      "updatedAt": "2026-04-20T18:43:28Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "updatedAt": "2026-11-09T18:19:35Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/viliusle/miniPaint"
     },
     {
@@ -149,11 +149,11 @@
         "kind": "open",
         "sourceUrl": "https://github.com/SVG-Edit/svgedit"
       },
-      "stars": 7893,
+      "stars": 7894,
       "archived": false,
       "createdAt": "2014-07-08T12:22:05Z",
       "updatedAt": "2026-08-05T17:53:30Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/SVG-Edit/svgedit"
     },
     {
@@ -184,18 +184,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/gchq/CyberChef"
       },
-      "stars": 36297,
+      "stars": 36354,
       "archived": false,
       "createdAt": "2016-11-28T10:34:07Z",
-      "updatedAt": "2026-11-02T14:31:04Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "updatedAt": "2026-11-07T12:52:50Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/gchq/CyberChef",
       "websiteCheck": {
         "url": "https://gchq.github.io/CyberChef",
         "status": "responding",
         "httpStatus": 200,
         "title": "CyberChef",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -236,18 +236,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/jscad/OpenJSCAD.org"
       },
-      "stars": 3265,
+      "stars": 3270,
       "archived": false,
       "createdAt": "2013-03-10T12:20:55Z",
-      "updatedAt": "2026-11-01T03:58:26Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "updatedAt": "2026-11-07T05:57:55Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/jscad/OpenJSCAD.org",
       "websiteCheck": {
         "url": "https://openjscad.xyz/",
         "status": "responding",
         "httpStatus": 200,
         "title": "JSCAD - Create 3D designs using Javascript",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -279,18 +279,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/GridSpace/grid-apps"
       },
-      "stars": 929,
+      "stars": 933,
       "archived": false,
       "createdAt": "2017-04-18T21:08:43Z",
       "updatedAt": "2026-10-22T10:21:08Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/GridSpace/grid-apps",
       "websiteCheck": {
         "url": "https://grid.space/",
         "status": "responding",
         "httpStatus": 200,
         "title": "Grid.Space",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -314,18 +314,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/johnnesky/beepbox"
       },
-      "stars": 1208,
+      "stars": 1222,
       "archived": false,
       "createdAt": "2019-08-30T06:00:11Z",
       "updatedAt": "2026-08-07T07:26:31Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/johnnesky/beepbox",
       "websiteCheck": {
         "url": "https://beepbox.co/",
         "status": "responding",
         "httpStatus": 200,
         "title": "BeepBox",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -349,18 +349,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/jummbus/jummbox"
       },
-      "stars": 190,
+      "stars": 191,
       "archived": false,
       "createdAt": "2019-10-13T20:33:12Z",
       "updatedAt": "2025-09-05T22:53:03Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/jummbus/jummbox",
       "websiteCheck": {
         "url": "https://jummbus.bitbucket.io/",
         "status": "responding",
         "httpStatus": 200,
         "title": "",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -390,18 +390,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/MaxBittker/sandspiel"
       },
-      "stars": 3219,
+      "stars": 3222,
       "archived": false,
       "createdAt": "2018-10-20T18:48:17Z",
       "updatedAt": "2026-09-10T19:59:08Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/maxbittker/sandspiel",
       "websiteCheck": {
         "url": "https://sandspiel.club/",
         "status": "responding",
         "httpStatus": 200,
         "title": "sandspiel",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -424,11 +424,11 @@
         "kind": "open",
         "sourceUrl": "https://github.com/ncase/trust"
       },
-      "stars": 6336,
+      "stars": 6342,
       "archived": false,
       "createdAt": "2017-07-24T17:41:51Z",
       "updatedAt": "2025-12-29T01:00:39Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/ncase/trust"
     },
     {
@@ -451,11 +451,11 @@
         "kind": "open",
         "sourceUrl": "https://github.com/doublespeakgames/adarkroom"
       },
-      "stars": 8375,
+      "stars": 8387,
       "archived": false,
       "createdAt": "2013-07-03T14:30:59Z",
       "updatedAt": "2025-05-23T15:33:06Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/doublespeakgames/adarkroom"
     },
     {
@@ -485,18 +485,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/gabrielecirulli/2048"
       },
-      "stars": 13458,
+      "stars": 13469,
       "archived": false,
       "createdAt": "2014-03-05T16:03:26Z",
       "updatedAt": "2024-10-24T13:06:19Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/gabrielecirulli/2048",
       "websiteCheck": {
         "url": "https://play2048.co/",
         "status": "responding",
         "httpStatus": 200,
         "title": "2048 • Play the Free Online Game",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -525,18 +525,18 @@
         "kind": "open",
         "sourceUrl": "https://github.com/wayou/t-rex-runner"
       },
-      "stars": 2199,
+      "stars": 2200,
       "archived": false,
       "createdAt": "2014-11-29T10:04:04Z",
       "updatedAt": "2024-07-28T08:43:00Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/wayou/t-rex-runner",
       "websiteCheck": {
         "url": "https://chromedino.com/",
         "status": "responding",
         "httpStatus": 200,
         "title": "Dinosaur Game — Chrome Dino T-Rex Run Online",
-        "checkedAt": "2026-11-02T19:33:29.480Z"
+        "checkedAt": "2026-11-09T19:53:35.642Z"
       }
     },
     {
@@ -574,7 +574,7 @@
       "archived": false,
       "createdAt": "2026-07-13T16:04:10Z",
       "updatedAt": "2026-10-26T11:20:54Z",
-      "indexedAt": "2026-11-02T19:33:29.480Z",
+      "indexedAt": "2026-11-09T19:53:35.642Z",
       "indexedFrom": "https://api.github.com/repos/williamjussiau/timekeeper"
     }
   ]
